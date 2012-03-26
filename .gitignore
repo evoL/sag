@@ -12,6 +12,7 @@ install_manifest.txt
 .project
 
 # Xcode
+*.build/
 *.xcodeproj
 
 # Binaries
