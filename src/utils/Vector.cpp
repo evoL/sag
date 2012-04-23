@@ -20,5 +20,14 @@ namespace sag {
 
         return oss.str();
     }
+    
+    /////////////////////////////////////////////
+    
+    Vector& Vector::add(float x, float y) {
+        this->x += x;
+        this->y += y;
+        
+        return *this;
+    }
 
 }

@@ -10,5 +10,9 @@ int main() {
     Particle p(1,2);
 
     cout << (string) p << endl;
+    
+    p.position.add(-5, 5);
+    cout << "With added [-5, 5]: " << (string) p << endl;
+    
     return 0;
 }

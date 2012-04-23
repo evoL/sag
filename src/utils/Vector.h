@@ -35,6 +35,16 @@ namespace sag {
         ~Vector() {} ///< Destructor.
 
         operator std::string(); ///< String conversion operator.
+        
+        ///////////////////////////////////////////// OPERATIONS
+        
+        /**
+         * @brief Adds a vector described by passed coordinates to current vector.
+         *
+         * @param x The horizontal coordinate.
+         * @param y The vertical coordinate.
+         */
+        Vector& add(float x, float y);
     };
 
 }
