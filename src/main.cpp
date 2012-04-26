@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 #include "generation/Particle.h"
 
@@ -7,7 +9,11 @@ using namespace std;
 using namespace sag;
 
 int main() {
-    Particle p(1,2);
+    srand(time(NULL));
+    
+    Bounds b(-10,10, -10, 10);
+    
+    Particle p = Particle::getRandom(b);
 
     cout << (string) p << endl;
     

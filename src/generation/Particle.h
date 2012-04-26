@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../utils/Vector.h"
+#include "../utils/Bounds.h"
 
 namespace sag {
 
@@ -27,6 +28,13 @@ namespace sag {
         ~Particle() {} ///< Destructor.
 
         operator std::string(); ///< String conversion operator.
+        
+        /**
+         * @brief Creates a particle fitting in the specified bounds. The position is randomized.
+         *
+         * @param bounds The bounds the particle must fit.
+         */
+        static Particle getRandom(Bounds &b);
     };
 
 }
