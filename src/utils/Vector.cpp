@@ -23,7 +23,7 @@ namespace sag {
     
     /////////////////////////////////////////////
     
-    Vector& Vector::add(float x, float y) {
+    Vector& Vector::add(number x, number y) {
         this->x += x;
         this->y += y;
         

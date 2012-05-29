@@ -2,6 +2,7 @@
 #define SAG_VECTOR_H
 
 #include <string>
+#include "types.h"
 
 namespace sag {
 
@@ -12,7 +13,7 @@ namespace sag {
      */
     class Vector {
     public:
-        float x, y;
+        number x, y;
 
         /**
          * @brief Default constructor.
@@ -25,7 +26,7 @@ namespace sag {
          * @param x The horizontal coordinate.
          * @param y The vertical coordinate.
          */
-        Vector(float x, float y): x(x), y(y) {}
+        Vector(number x, number y): x(x), y(y) {}
 
         /**
          * @brief Copy constructor
@@ -44,7 +45,7 @@ namespace sag {
          * @param x The horizontal coordinate.
          * @param y The vertical coordinate.
          */
-        Vector& add(float x, float y);
+        Vector& add(number x, number y);
     };
 
 }

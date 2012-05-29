@@ -16,8 +16,6 @@ namespace sag {
     }
     
     Particle Particle::getRandom(Bounds &b) {
-//        Particle p( randRange(b.xmin, b.xmax), randRange(b.ymin, b.ymax) );
-//        return p;
         return Particle( randRange(b.xmin, b.xmax), randRange(b.ymin, b.ymax) );
     }
 }

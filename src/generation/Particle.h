@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../utils/types.h"
 #include "../utils/Vector.h"
 #include "../utils/Bounds.h"
 
@@ -23,7 +24,7 @@ namespace sag {
          * @param x The horizontal coordinate.
          * @param y The vertical coordinate.
          */
-        Particle(float x, float y): position(x,y) {}
+        Particle(number x, number y): position(x,y) {}
 
         ~Particle() {} ///< Destructor.
 
