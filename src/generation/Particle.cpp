@@ -1,7 +1,7 @@
 #include "Particle.h"
 
 #include <sstream>
-#include "../utils/utils.h"
+#include "utils/Random.h"
 
 namespace sag {
 
@@ -16,6 +16,6 @@ namespace sag {
     }
     
     Particle Particle::getRandom(Bounds &b) {
-        return Particle( randRange(b.xmin, b.xmax), randRange(b.ymin, b.ymax) );
+        return Particle( Random::get().inRange(b.xmin, b.xmax), Random::get().inRange(b.ymin, b.ymax) );
     }
 }

@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "Formula.h"
-#include "../utils/types.h"
-#include "../utils/Vector.h"
+#include "utils/types.h"
+#include "utils/Vector.h"
 
 namespace sag {
     

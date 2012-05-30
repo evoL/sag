@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "../utils/types.h"
-#include "../utils/Vector.h"
-#include "../utils/Bounds.h"
+#include "utils/types.h"
+#include "utils/Vector.h"
+#include "utils/Bounds.h"
 
 namespace sag {
 

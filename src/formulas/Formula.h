@@ -2,8 +2,8 @@
 #define SAG_FORMULA_H
 
 #include <vector>
-#include "../utils/Vector.h"
-#include "../utils/types.h"
+#include "utils/Vector.h"
+#include "utils/types.h"
 
 namespace sag {
     
