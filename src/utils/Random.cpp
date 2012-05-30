@@ -1,7 +1,11 @@
 #include "Random.h"
 
+#include <ctime>
+
 namespace sag {
-    Random::Random() {}
+    Random::Random() {
+        engine.seed(time(NULL));
+    }
     
     Random& Random::get() {
         static Random instance;
