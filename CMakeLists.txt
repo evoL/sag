@@ -22,11 +22,12 @@ include_directories (
     ${INCLUDES}
 )
 
-file (GLOB_RECURSE SRCS "src/*.cpp")
+file (GLOB_RECURSE SRCS "src/*/*.cpp")
 file (GLOB_RECURSE HDRS "src/*.h")
 
 add_executable (
     sag
+    src/main.cpp
     ${SRCS}
     ${HDRS}
 )
