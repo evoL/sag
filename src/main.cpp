@@ -10,8 +10,6 @@ using namespace std;
 using namespace sag;
 
 int main() {
-    srand(time(NULL));
-    
     Bounds b(-2, 2, -2, 2);
     
     Particle p = Particle::getRandom(b);
@@ -41,6 +39,6 @@ int main() {
         pos = f.step(pos);
         cout << "Step " << i << ": " << (string) pos << endl;
     }
-        
+
     return 0;
 }
