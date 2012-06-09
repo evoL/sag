@@ -4,13 +4,13 @@ project (sag)
 set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
-#find_package(GTK2 2.20 REQUIRED gtk gtkmm)
+find_package(GTK2 2.20 REQUIRED gtk gtkmm)
 
 set (INCLUDES
-    #${GTK2_INCLUDE_DIRS}
+    ${GTK2_INCLUDE_DIRS}
 )
 set (LIBRARIES
-    #${GTK2_LIBRARIES}
+    ${GTK2_LIBRARIES}
 )
 
 add_definitions("-std=c++11")

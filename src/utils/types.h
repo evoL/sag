@@ -13,6 +13,11 @@ namespace sag {
     public:
         ParameterLengthException(const char msg[]): std::length_error(msg) {}
     };
+    
+    class FileIOException : public std::runtime_error {
+    public:
+        FileIOException(const char msg[]): std::runtime_error(msg) {}
+    };
 }
 
 #endif

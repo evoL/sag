@@ -3,13 +3,20 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <gtk/gtk.h>
+
 #include "generation/SimpleGenerator.h"
 #include "formulas/Quadratic.h"
+#include "imaging/PixbufImage.h"
 
 using namespace std;
 using namespace sag;
 
-int main() {
+int main(int argc, char *argv[]) {
+    gtk_init(&argc, &argv);
+    
+    ///////////////////////////////
+    
     Bounds b(-2, 2, -2, 2);
     
     number params[] = {
@@ -39,6 +46,11 @@ int main() {
         gen.step();
         cout << "Step " << i << ": " << (string) const_cast<Vector&>((gen.getParticles())[0].position) << endl;
     }
+    
+    // Image saving test
+    
+    PixbufImage img(256, 256);
+    img.toFile("test.png");
 
     return 0;
 }
