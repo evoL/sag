@@ -5,10 +5,11 @@
 #include "Image.h"
 
 namespace sag {
-    class PixbufImage : public Image {
-        GdkPixbuf *pixbuf;
+    class PixbufImage : public Image {        
+        unsigned char *buffer;
     public:
         PixbufImage(unsigned int width, unsigned int height);
+        ~PixbufImage();
         
         virtual void toFile(std::string filename);
     };
