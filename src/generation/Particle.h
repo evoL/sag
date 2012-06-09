@@ -18,6 +18,8 @@ namespace sag {
     public:
         Vector position;
 
+        Particle(): position(0,0) {}
+        
         /**
          * @brief Constructs a particle at the position specified by passed coordinates.
          *

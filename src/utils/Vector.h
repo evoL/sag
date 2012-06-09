@@ -3,6 +3,7 @@
 
 #include <string>
 #include "types.h"
+#include "Bounds.h"
 
 namespace sag {
 
@@ -46,6 +47,13 @@ namespace sag {
          * @param y The vertical coordinate.
          */
         Vector& add(number x, number y);
+        
+        /**
+         * @brief Randomizes the vector in specified bounds.
+         *
+         * @param b Bounds.
+         */
+        Vector& randomize(Bounds &b);
     };
 
 }

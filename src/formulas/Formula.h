@@ -24,7 +24,7 @@ namespace sag {
          * @param count Number of parameters
          * @param params An array of parameters
          */
-//        F/ormula(int count, number params[]);
+//        Formula(int count, number params[]);
         
         /**
          * @brief Initializes a Formula using a parameter vector.

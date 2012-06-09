@@ -1,6 +1,7 @@
 #include "Vector.h"
 
 #include <sstream>
+#include "Random.h"
 
 namespace sag {
 
@@ -26,6 +27,13 @@ namespace sag {
     Vector& Vector::add(number x, number y) {
         this->x += x;
         this->y += y;
+        
+        return *this;
+    }
+    
+    Vector& Vector::randomize(Bounds &b) {
+        x = Random::get().inRange(b.xmin, b.xmax);
+        y = Random::get().inRange(b.ymin, b.ymax);
         
         return *this;
     }

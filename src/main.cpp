@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "generation/Particle.h"
+#include "generation/SimpleGenerator.h"
 #include "formulas/Quadratic.h"
 
 using namespace std;
@@ -11,10 +11,6 @@ using namespace sag;
 
 int main() {
     Bounds b(-2, 2, -2, 2);
-    
-    Particle p = Particle::getRandom(b);
-    cout << "Initial " << (string) p << endl;
-    Vector pos = p.position;
     
     number params[] = {
         -0.8453104826115183,
@@ -34,10 +30,14 @@ int main() {
     Quadratic f;
     f.setParameters(12, params);
     
-    cout << "Applying Quadratic 5 times:" << endl;
+    SimpleGenerator gen;
+    gen.setFormula(f);
+    gen.setBounds(b);
+    
+    cout << "Applying Quadratic 5 times to 1 particle:" << endl;
     for (int i=1; i<=5; i++) {
-        pos = f.step(pos);
-        cout << "Step " << i << ": " << (string) pos << endl;
+        gen.step();
+        cout << "Step " << i << ": " << (string) const_cast<Vector&>((gen.getParticles())[0].position) << endl;
     }
 
     return 0;

@@ -1,13 +1,14 @@
 #ifndef SAG_BOUNDS_H
 #define SAG_BOUNDS_H
 
-#include "Vector.h"
 #include "types.h"
 
 namespace sag {
     class Bounds {
     public:
         number xmin, xmax, ymin, ymax;
+        
+        Bounds(): xmin(0), xmax(0), ymin(0), ymax(0) {}
         
         Bounds(number xmin, number xmax, number ymin, number ymax): xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax) {}
         
@@ -24,7 +25,7 @@ namespace sag {
          *
          * @param v A Vector representing the point.
          */
-        bool contains(Vector v);
+        //bool contains(sag::Vector v);
     };
 }
 
