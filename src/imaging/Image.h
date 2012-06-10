@@ -11,6 +11,8 @@ namespace sag {
         Image(unsigned int width, unsigned int height): width(width), height(height) {}
         
         virtual void toFile(std::string filename) = 0;
+        
+        virtual void setPixel(unsigned int x, unsigned int y, char r, char g, char b) = 0;
     };
 }
 

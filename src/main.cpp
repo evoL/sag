@@ -50,6 +50,11 @@ int main(int argc, char *argv[]) {
     // Image saving test
     
     PixbufImage img(256, 256);
+    
+    for (int i=0; i<192; i++) {
+        img.setPixel(i, i, 255, 255-i, 255-i);
+    }
+    
     img.toFile("test.png");
 
     return 0;
