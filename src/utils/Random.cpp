@@ -21,6 +21,11 @@ namespace sag {
         return u(engine);
     }
     
+    Random<int>& Random<int>::get() {
+        static Random<int> instance;
+        return instance;
+    }
+    
     int Random<int>::inRange(int from, int to) {
         std::uniform_int_distribution<int> u(from, to);
         return u(engine);

@@ -31,8 +31,15 @@ namespace sag {
     
     template <>
     class Random <int> {
+        Random() {};
+        
         std::default_random_engine engine;
     public:
+        /**
+         * @brief Returns an instance of the generator
+         */
+        static Random& get();
+        
         /**
          * @brief Returns a random integer within the provided range.
          *

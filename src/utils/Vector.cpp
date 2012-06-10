@@ -31,4 +31,7 @@ namespace sag {
     
     template Vector<number>::operator std::string();
     template Vector<int>::operator std::string();
+    
+    template Vector<number>& Vector<number>::add(number x, number y);
+    template Vector<int>& Vector<int>::add(int x, int y);
 }

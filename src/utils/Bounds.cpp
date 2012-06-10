@@ -40,5 +40,8 @@ namespace sag {
     ///////// BECAUSE OF LINKER ERRORS
     
     template Vector<number> Bounds<number>::getRandomVector();
+    template Vector<int> Bounds<int>::getRandomVector();
+    
     template Vector<int> Bounds<number>::convert(Vector<number> &v, Bounds<int> &b);
+    template Vector<number> Bounds<number>::convert(Vector<number> &v, Bounds<number> &b);
 }
