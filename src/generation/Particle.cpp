@@ -15,7 +15,8 @@ namespace sag {
         return oss.str();
     }
     
-    Particle Particle::getRandom(Bounds &b) {
-        return Particle( Random::get().inRange(b.xmin, b.xmax), Random::get().inRange(b.ymin, b.ymax) );
+    Particle Particle::getRandom(Bounds<number> &b) {
+        return Particle(Random<number>::get().inRange(b.xmin, b.xmax), 
+                        Random<number>::get().inRange(b.ymin, b.ymax));
     }
 }

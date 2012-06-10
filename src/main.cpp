@@ -17,7 +17,18 @@ int main(int argc, char *argv[]) {
     
     ///////////////////////////////
     
-    Bounds b(-2, 2, -2, 2);
+    Bounds<number> b(-2, 2, -2, 2);
+    Bounds<int> b2(0, 512, 0, 512);
+    
+    Vector<number> v1 = b.getRandomVector();
+    cout << "Random vector from bounds b1: " << (string) v1 << endl;
+    
+    Vector<int> v2 = b.convert(v1, b2);
+    cout << "Converted to bounds b2: " << (string) v2 << endl;
+    
+    cout << endl;
+    
+    ///////////////////////////////
     
     number params[] = {
         -0.8453104826115183,
@@ -44,7 +55,7 @@ int main(int argc, char *argv[]) {
     cout << "Applying Quadratic 5 times to 1 particle:" << endl;
     for (int i=1; i<=5; i++) {
         gen.step();
-        cout << "Step " << i << ": " << (string) const_cast<Vector&>((gen.getParticles())[0].position) << endl;
+        cout << "Step " << i << ": " << (string) const_cast<Vector<number>&>((gen.getParticles())[0].position) << endl;
     }
     
     // Image saving test

@@ -15,7 +15,7 @@ namespace sag {
     public:
         Quadratic() { paramCount = 12; }
         
-        virtual Vector step(Vector& src);
+        virtual Vector<number> step(Vector<number>& src);
     };
 }
 

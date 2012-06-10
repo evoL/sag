@@ -46,7 +46,7 @@ namespace sag {
          *
          * @params v The starting vector.
          */
-        virtual Vector step(Vector& src) = 0;
+        virtual Vector<number> step(Vector<number>& src) = 0;
         
         /**
          * @brief Sets up the parameters using an array

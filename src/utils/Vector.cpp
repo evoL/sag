@@ -1,16 +1,11 @@
 #include "Vector.h"
 
 #include <sstream>
-#include "Random.h"
+#include "types.h"
 
 namespace sag {
-
-    Vector::Vector(Vector const &v) {
-        x = v.x;
-        y = v.y;
-    }
-
-    Vector::operator std::string() {
+    template <typename T>
+    Vector<T>::operator std::string() {
         std::ostringstream oss;
 
         oss << "Vector [";
@@ -24,18 +19,16 @@ namespace sag {
     
     /////////////////////////////////////////////
     
-    Vector& Vector::add(number x, number y) {
+    template <typename T>
+    Vector<T>& Vector<T>::add(T x, T y) {
         this->x += x;
         this->y += y;
         
         return *this;
     }
-    
-    Vector& Vector::randomize(Bounds &b) {
-        x = Random::get().inRange(b.xmin, b.xmax);
-        y = Random::get().inRange(b.ymin, b.ymax);
-        
-        return *this;
-    }
 
+    ///////// BECAUSE OF LINKER ERRORS
+    
+    template Vector<number>::operator std::string();
+    template Vector<int>::operator std::string();
 }

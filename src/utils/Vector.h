@@ -2,8 +2,6 @@
 #define SAG_VECTOR_H
 
 #include <string>
-#include "types.h"
-#include "Bounds.h"
 
 namespace sag {
 
@@ -12,9 +10,10 @@ namespace sag {
      *
      * @author Rafał Hirsz
      */
+    template <typename T>
     class Vector {
     public:
-        number x, y;
+        T x, y;
 
         /**
          * @brief Default constructor.
@@ -27,15 +26,25 @@ namespace sag {
          * @param x The horizontal coordinate.
          * @param y The vertical coordinate.
          */
-        Vector(number x, number y): x(x), y(y) {}
+        Vector(T x, T y): x(x), y(y) {}
 
         /**
          * @brief Copy constructor
          */
-        Vector(Vector const &v);
+        Vector(Vector<T> const &v): x(v.x), y(v.y) {}
 
         ~Vector() {} ///< Destructor.
 
+        /**
+         * @brief Assignment operator.
+         */
+        Vector<T>& operator=(const Vector<T>& v) {
+            x = v.x;
+            y = v.y;
+            
+            return *this;
+        }
+        
         operator std::string(); ///< String conversion operator.
         
         ///////////////////////////////////////////// OPERATIONS
@@ -46,14 +55,7 @@ namespace sag {
          * @param x The horizontal coordinate.
          * @param y The vertical coordinate.
          */
-        Vector& add(number x, number y);
-        
-        /**
-         * @brief Randomizes the vector in specified bounds.
-         *
-         * @param b Bounds.
-         */
-        Vector& randomize(Bounds &b);
+        Vector<T>& add(T x, T y);
     };
 
 }

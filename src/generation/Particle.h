@@ -16,7 +16,7 @@ namespace sag {
      */
     class Particle {
     public:
-        Vector position;
+        Vector<number> position;
 
         Particle(): position(0,0) {}
         
@@ -37,7 +37,7 @@ namespace sag {
          *
          * @param bounds The bounds the particle must fit.
          */
-        static Particle getRandom(Bounds &b);
+        static Particle getRandom(Bounds<number> &b);
     };
 
 }

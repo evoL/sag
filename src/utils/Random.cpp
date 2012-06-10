@@ -1,19 +1,33 @@
 #include "Random.h"
 
 #include <ctime>
+#include "types.h"
 
 namespace sag {
-    Random::Random() {
+    template <typename T>
+    Random<T>::Random() {
         engine.seed(time(NULL));
     }
     
-    Random& Random::get() {
-        static Random instance;
+    template <typename T>
+    Random<T>& Random<T>::get() {
+        static Random<T> instance;
         return instance;
     }
     
-    number Random::inRange(number from, number to) {
-        std::uniform_real_distribution<number> u(from, to);
+    template <typename T>
+    T Random<T>::inRange(T from, T to) {
+        std::uniform_real_distribution<T> u(from, to);
         return u(engine);
     }
+    
+    int Random<int>::inRange(int from, int to) {
+        std::uniform_int_distribution<int> u(from, to);
+        return u(engine);
+    }
+    
+    ///////// BECAUSE OF LINKER ERRORS
+    
+    template Random<number>& Random<number>::get();
+    template number Random<number>::inRange(number from, number to);
 }

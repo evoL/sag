@@ -5,7 +5,7 @@ namespace sag {
         formula = &f;
     }
     
-    void Generator::setBounds(Bounds &b) {
+    void Generator::setBounds(Bounds<number> &b) {
         bounds = b;
     }
     
@@ -23,7 +23,7 @@ namespace sag {
         // Prepare the particles
         particles.resize(particleCount);
         for (auto p = particles.begin(); p < particles.end(); p++) {
-            p->position.randomize(bounds);
+            p->position = bounds.getRandomVector();
         }
         
         // Prepare the formula

@@ -11,7 +11,7 @@ namespace sag {
         bool initialized;
         std::vector<Particle> particles;
         Formula *formula;
-        Bounds bounds;
+        Bounds<number> bounds;
         
         void initialize();
     public:
@@ -20,7 +20,7 @@ namespace sag {
         unsigned int particleCount;
         
         void setFormula(Formula& f);
-        void setBounds(Bounds& b);
+        void setBounds(Bounds<number>& b);
         
         const std::vector<Particle>& getParticles() const;
         
