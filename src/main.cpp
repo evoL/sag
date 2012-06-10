@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
         cout << "Step " << i << ": " << (string) const_cast<Vector<number>&>((gen.getParticles())[0].position) << endl;
     }
     
-    // Image saving test
+    /////////////////////////////////////
     
     PixbufImage img(256, 256);
     
@@ -67,6 +67,8 @@ int main(int argc, char *argv[]) {
     }
     
     img.toFile("test.png");
+    
+    cout << endl << "Expect an image in test.png..." << endl;
 
     return 0;
 }
