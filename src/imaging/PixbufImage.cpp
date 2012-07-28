@@ -1,6 +1,8 @@
 #include "PixbufImage.h"
 #include "utils/types.h"
 
+#include <vector>
+
 namespace sag {
     PixbufImage::PixbufImage(unsigned int width, unsigned int height): Image(width, height) {
         // Create the image buffer
@@ -24,6 +26,19 @@ namespace sag {
         
         if (!gdk_pixbuf_save(pixbuf, filename.c_str(), "png", &error, NULL)) {
             throw FileIOException(error->message);
+        }
+    }
+    
+    void PixbufImage::drawGrid(Grid& g) {
+        std::vector<int> values = g.map();
+        
+        int idx = 0;
+        for (auto it = values.begin(); it < values.end(); it++) {
+            buffer[idx]   = *it;
+            buffer[idx+1] = *it;
+            buffer[idx+2] = *it;
+            
+            idx += 3;
         }
     }
     

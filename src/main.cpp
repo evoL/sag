@@ -6,6 +6,7 @@
 #include <gtk/gtk.h>
 
 #include "generation/SimpleGenerator.h"
+#include "generation/Grid.h"
 #include "formulas/Quadratic.h"
 #include "imaging/PixbufImage.h"
 
@@ -52,20 +53,18 @@ int main(int argc, char *argv[]) {
     gen.setFormula(f);
     gen.setBounds(b);
     
-    cout << "Applying Quadratic 5 times to 1 particle:" << endl;
-    for (int i=1; i<=5; i++) {
+    Grid grid(256, 256);
+        
+    for (int i=0; i<10000; i++) {
         gen.step();
-        cout << "Step " << i << ": " << (string) const_cast<Vector<number>&>((gen.getParticles())[0].position) << endl;
+        Vector<int> cnv = b.convert(const_cast<Vector<number>&>(gen.getParticles()[0].position), grid.size);
+        grid.add(cnv.x, cnv.y, 2);
     }
     
     /////////////////////////////////////
     
     PixbufImage img(256, 256);
-    
-    for (int i=0; i<192; i++) {
-        img.setPixel(i, i, 255, 255-i, 255-i);
-    }
-    
+    img.drawGrid(grid);
     img.toFile("test.png");
     
     cout << endl << "Expect an image in test.png..." << endl;

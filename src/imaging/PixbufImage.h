@@ -3,6 +3,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "Image.h"
+#include "generation/Grid.h"
 
 namespace sag {
     class PixbufImage : public Image {        
@@ -15,6 +16,8 @@ namespace sag {
         ~PixbufImage();
         
         virtual void toFile(std::string filename);
+        
+        virtual void drawGrid(Grid& g);
         
         virtual void setPixel(unsigned int x, unsigned int y, char r, char g, char b);
     };

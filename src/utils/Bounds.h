@@ -16,6 +16,9 @@ namespace sag {
         template <typename U>
         Bounds<T>& operator=(const Bounds<U>& b);
         
+        inline T width();
+        inline T height();
+        
         /**
          * @brief Checks whether the bounds contain a point specified by the arguments.
          *

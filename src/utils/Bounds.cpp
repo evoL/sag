@@ -15,6 +15,16 @@ namespace sag {
     }
     
     template <typename T>
+    T Bounds<T>::width() {
+        return xmax-xmin;
+    }
+    
+    template <typename T>
+    T Bounds<T>::height() {
+        return ymax-ymin;
+    }
+    
+    template <typename T>
     bool Bounds<T>::contains(T x, T y) {
         return (x >= xmin) && (x <= xmax) && (y >= ymin) && (y <= ymax);
     }
@@ -38,6 +48,15 @@ namespace sag {
     }
     
     ///////// BECAUSE OF LINKER ERRORS
+ 
+    template number Bounds<number>::width();
+    template int Bounds<int>::width();
+    
+    template number Bounds<number>::height();
+    template int Bounds<int>::height();
+    
+    template bool Bounds<number>::contains(number x, number y);
+    template bool Bounds<int>::contains(int x, int y);
     
     template Vector<number> Bounds<number>::getRandomVector();
     template Vector<int> Bounds<int>::getRandomVector();
