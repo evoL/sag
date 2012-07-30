@@ -13,7 +13,7 @@ namespace sag {
         
     public:
         PixbufImage(unsigned int width, unsigned int height);
-        ~PixbufImage();
+        virtual ~PixbufImage();
         
         virtual void toFile(std::string filename);
         

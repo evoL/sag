@@ -13,7 +13,7 @@ set (LIBRARIES
     ${GTK2_LIBRARIES}
 )
 
-add_definitions("-std=c++11")
+add_definitions("-std=c++0x")
 
 ###############################################################
 
