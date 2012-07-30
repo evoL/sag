@@ -19,6 +19,9 @@ install_manifest.txt
 # Binaries
 bin/
 
+# Image
+*.png
+
 # Visual Studio
 *.sln
 *.vcxproj
@@ -39,7 +42,6 @@ build/
 [Tt]est[Rr]esult
 [Bb]uild[Ll]og.*
 
-*.png
 *_i.c
 *_p.c
 *.ilk

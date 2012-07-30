@@ -14,6 +14,7 @@ set (LIBRARIES
 )
 
 add_definitions("-std=c++0x")
+add_definitions("-Wall" "-pedantic")
 
 ###############################################################
 
