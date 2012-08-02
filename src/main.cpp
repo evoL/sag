@@ -50,20 +50,16 @@ int main(int argc, char *argv[]) {
     f.setParameters(12, params);
     
     SimpleGenerator gen;
-    gen.setFormula(f);
-    gen.setBounds(b);
-    
-    Grid grid(256, 256);
-        
-    for (int i=0; i<10000; i++) {
+    gen.setFormul    Grid grid(256, 256);
+(512, 512)    for (int i=0; i<10000; i++) {
+000; i++) {
         gen.step();
-        Vector<int> cnv = b.convert(const_cast<Vector<number>&>(gen.getParticles()[0].position), grid.size);
-        grid.add(cnv.x, cnv.y, 2);
+        Vector<int> cnv = b.convert(const_cast<Vector<number>&>(gen.getParticles()[0].position),         grid.add(cnv.x, cnv.y, 2);
+ cnv.y, 3);
     }
     
-    /////////////////////////////////////
-    
-    PixbufImage img(256, 256);
+    ////////////////////////////////    PixbufImage img(256, 256);
+(512, 512);
     img.drawGrid(grid);
     img.toFile("test.png");
     

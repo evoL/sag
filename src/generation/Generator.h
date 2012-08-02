@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "formulas/Formula.h"
+#include "utils/Bounds.h"
 #include "Particle.h"
 
 namespace sag {
@@ -14,13 +15,26 @@ namespace sag {
         Bounds<number> bounds;
         
         void initialize();
+        
+        /**
+         * @brief Performs the "precalc" phase of generation.
+         *
+         * The "precalc" phase is needed to calculate the visible bounds of the
+         * attractor.
+         */
+        void precalc();
+        
     public:
-        Generator(): initialized(false), particleCount(1) {}
+        /**
+         * @brief The iteration count used in the "precalc" phase of generation.
+         */
+        const int PRECALC_ITERATIONS = 5000;
         
         unsigned int particleCount;
         
+        Generator(): initialized(false), bounds(1e32, -1e32, 1e32, -1e32), particleCount(1) {}
+        
         void setFormula(Formula& f);
-        void setBounds(Bounds<number>& b);
         
         const std::vector<Particle>& getParticles() const;
         
