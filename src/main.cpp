@@ -32,34 +32,37 @@ int main(int argc, char *argv[]) {
     ///////////////////////////////
     
     number params[] = {
-        -0.8453104826115183,
-        -0.9475605238386438,
-        -0.4382520433507433,
-        0.4106006668573623,
-        -0.28562839597833234,
-        1.5965588703719562,
-        0.6026147275565434,
-        0.8036958156097804,
-        -1.4690112404625988,
-        -1.1582145880802814,
-        -0.1819068407177551,
-        1.205723356744108
+        0.205589,
+        -0.02852,
+        -0.686951,
+        0.20502,
+        0.537249,
+        1.549,
+        -0.244359,
+        0.540024,
+        -0.513432,
+        0.147886,
+        -1.39347, 
+        -0.15918
     };
     
     Quadratic f;
     f.setParameters(12, params);
     
     SimpleGenerator gen;
-    gen.setFormul    Grid grid(256, 256);
-(512, 512)    for (int i=0; i<10000; i++) {
-000; i++) {
+    gen.setFormula(f);
+    
+    Grid grid(512, 512);
+        
+    for (int i=0; i<200000; i++) {
         gen.step();
-        Vector<int> cnv = b.convert(const_cast<Vector<number>&>(gen.getParticles()[0].position),         grid.add(cnv.x, cnv.y, 2);
- cnv.y, 3);
+        Vector<int> cnv = b.convert(const_cast<Vector<number>&>(gen.getParticles()[0].position), grid.size);
+        grid.add(cnv.x, cnv.y, 3);
     }
     
-    ////////////////////////////////    PixbufImage img(256, 256);
-(512, 512);
+    /////////////////////////////////////
+    
+    PixbufImage img(512, 512);
     img.drawGrid(grid);
     img.toFile("test.png");
     
