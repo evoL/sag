@@ -1,14 +1,14 @@
 #ifndef SAG_PIXBUF_IMAGE_H
 #define SAG_PIXBUF_IMAGE_H
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdkmm/pixbuf.h>
 #include "Image.h"
 #include "utils/Grid.h"
 
 namespace sag {
     class PixbufImage : public Image {        
         unsigned char *buffer;
-        GdkPixbuf *pixbuf;
+        Glib::RefPtr<Gdk::Pixbuf> pixbuf;
         int stride;
         
     public:
@@ -20,6 +20,8 @@ namespace sag {
         virtual void drawGrid(Grid& g);
         
         virtual void setPixel(unsigned int x, unsigned int y, char r, char g, char b);
+        
+        const Glib::RefPtr<Gdk::Pixbuf> getPixbuf() { return pixbuf; }
     };
 }
 

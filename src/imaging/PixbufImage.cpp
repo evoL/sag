@@ -11,22 +11,17 @@ namespace sag {
         stride = width * 3 * sizeof(unsigned char);
         
         // Create the pixbuf
-        pixbuf = gdk_pixbuf_new_from_data(const_cast<const unsigned char*>(buffer), GDK_COLORSPACE_RGB, FALSE, 8, width, height, stride, NULL, NULL);
+        pixbuf = Gdk::Pixbuf::create_from_data(const_cast<const unsigned char*>(buffer), Gdk::COLORSPACE_RGB, false, 8, width, height, stride);
     }
     
     PixbufImage::~PixbufImage() {
-        g_object_unref(pixbuf);
         delete[] buffer;
     }
     
     void PixbufImage::toFile(std::string filename) {
         // TODO: implement support for other image formats
         
-        GError *error = NULL;
-        
-        if (!gdk_pixbuf_save(pixbuf, filename.c_str(), "png", &error, NULL)) {
-            throw FileIOException(error->message);
-        }
+        pixbuf->save(filename, "png");
     }
     
     void PixbufImage::drawGrid(Grid& g) {
