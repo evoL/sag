@@ -23,21 +23,23 @@ namespace sag {
     }
     
     Grid& Grid::add(double x, double y, double value) {
-        if (!size.contains((int)x, (int)y)) return *this;
+        int ix = (int) x;
+        int iy = (int) y;
         
         // linear filtering
-        
-        double xfrac = x - (int)x;
-        double yfrac = y - (int)y;
+        double xfrac = x - ix;
+        double yfrac = y - iy;
         double ixfrac = 1 - xfrac;
         double iyfrac = 1 - yfrac;
         
-        int idx = index((int)x, (int)y);
-        
-        values[idx]             += ixfrac * iyfrac * value;
-        values[idx+1]           +=  xfrac * iyfrac * value;
-        values[idx+size.xmax]   += ixfrac *  yfrac * value;
-        values[idx+size.xmax+1] +=  xfrac *  yfrac * value;
+        if (size.contains(ix, iy))
+            values[index(ix, iy)]     += ixfrac * iyfrac * value;
+        if (size.contains(ix+1, iy))
+            values[index(ix+1, iy)]   +=  xfrac * iyfrac * value;
+        if (size.contains(ix, iy+1))
+            values[index(ix, iy+1)]   += ixfrac *  yfrac * value;
+        if (size.contains(ix+1, iy+1))
+            values[index(ix+1, iy+1)] +=  xfrac *  yfrac * value;
         
         calculated = false;
         return *this;
@@ -56,8 +58,8 @@ namespace sag {
         
         for (int i = s-1; i>=0; i--) {
             // TODO: result[i] = lambda(values[i]);
-            result[i] = (int)(values[i] / maxValue * 255);
-//            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
+//            result[i] = (int)(values[i] / maxValue * 255);
+            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
         }
         
         return result;
