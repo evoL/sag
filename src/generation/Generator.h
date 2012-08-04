@@ -1,32 +1,21 @@
 #ifndef SAG_GENERATOR_H
 #define SAG_GENERATOR_H
 
-#include <vector>
+#include "utils/types.h"
 #include "formulas/Formula.h"
-#include "Particle.h"
+#include "rendering/Renderer.h"
+#include "utils/Bounds.h"
 
 namespace sag {
-    class Generator {
-    protected:        
-        bool initialized;
-        std::vector<Particle> particles;
-        Formula *formula;
-        Bounds<number> bounds;
-        
-        void initialize();
-    public:
-        Generator(): initialized(false), particleCount(1) {}
-        
-        unsigned int particleCount;
-        
-        void setFormula(Formula& f);
-        void setBounds(Bounds<number>& b);
-        
-        const std::vector<Particle>& getParticles() const;
-        
-        virtual void step() = 0; 
-        void reset();
-    };
+	class Generator {
+	public:
+		virtual ~Generator();
+		virtual void run();
+	protected:
+		Formula *formula;
+		Renderer *renderer;
+		Bounds<number> *bounds;
+	};
 }
 
 #endif

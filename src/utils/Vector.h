@@ -1,63 +1,36 @@
-#ifndef SAG_VECTOR_H
-#define SAG_VECTOR_H
-
-#include <string>
+#ifndef VECTOR_H
+#define VECTOR_H
 
 namespace sag {
+	template <typename T>
+	class Vector {
+	public:
+		T x, y, z;
 
-    /**
-     * @brief Represents a single vector.
-     *
-     * @author Rafał Hirsz
-     */
-    template <typename T>
-    class Vector {
-    public:
-        T x, y;
+		Vector(): x(0), y(0), z(0) {}
 
-        /**
-         * @brief Default constructor.
-         */
-        Vector(): x(0), y(0) {}
+		Vector(T x, T y, T z=0): x(x), y(y), z(z) {}
 
-        /**
-         * @brief Constructs a vector using specified coordinates.
-         *
-         * @param x The horizontal coordinate.
-         * @param y The vertical coordinate.
-         */
-        Vector(T x, T y): x(x), y(y) {}
+		Vector(Vector<T> const &v): x(v.x), y(v.y), z(v.z) {}
 
-        /**
-         * @brief Copy constructor
-         */
-        Vector(Vector<T> const &v): x(v.x), y(v.y) {}
+		~Vector() {}
 
-        ~Vector() {} ///< Destructor.
+		inline Vector<T>& operator=(const Vector<T>& v) {
+			x = v.x;
+			y = v.y;
+			z = v.z;
 
-        /**
-         * @brief Assignment operator.
-         */
-        Vector<T>& operator=(const Vector<T>& v) {
-            x = v.x;
-            y = v.y;
-            
-            return *this;
-        }
-        
-        operator std::string(); ///< String conversion operator.
-        
-        ///////////////////////////////////////////// OPERATIONS
-        
-        /**
-         * @brief Adds a vector described by passed coordinates to current vector.
-         *
-         * @param x The horizontal coordinate.
-         * @param y The vertical coordinate.
-         */
-        Vector<T>& add(T x, T y);
-    };
+			return *this;
+		}
 
+		inline Vector<T>& operator+=(const Vector<T>& v) {
+			x += v.x;
+			y += v.y;
+			z += v.z;
+
+			return *this;
+		}
+	};
 }
 
 #endif

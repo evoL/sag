@@ -1,13 +1,12 @@
-#ifndef SAG_SIMPLE_GENERATOR_H
+#ifndef SAG _SIMPLE_GENERATOR_H
 #define SAG_SIMPLE_GENERATOR_H
 
-#include "Generator.h"
+#include "generation/Generator.h"
 
 namespace sag {
-    class SimpleGenerator : public Generator {
-    public:
-        virtual void step();
-    };
+	class SimpleGenerator : public Generator {
+
+	};
 }
 
 #endif
