@@ -2,7 +2,7 @@
 #define SAG_IMAGE
 
 #include <string>
-#include "generation/Grid.h"
+#include "utils/Grid.h"
 
 namespace sag {
     class Image {

@@ -2,7 +2,7 @@
 
 namespace sag {
     Grid::Grid(int width, int height):
-        size(0, width, 0, height),
+        size(width, height),
         calculated(false),
         maxValue(0)
     {
@@ -51,7 +51,7 @@ namespace sag {
         // Pre-calculate things like maximum value
         calculate();
         
-        int s = size.xmax * size.ymax;
+        int s = size.width * size.height;
         
         std::vector<int> result;
         result.resize(s);
@@ -66,13 +66,13 @@ namespace sag {
     }
     
     int Grid::index(int x, int y) {
-        return y * size.xmax + x;
+        return y * size.width + x;
      }
     
     void Grid::calculate() {
         if (calculated) return;
         
-        int s = size.xmax * size.ymax;
+        int s = size.width * size.height;
         for (int i = s - 1; i >= 0; i--) {
             if (maxValue < values[i]) maxValue = values[i];
         }

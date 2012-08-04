@@ -3,7 +3,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "Image.h"
-#include "generation/Grid.h"
+#include "utils/Grid.h"
 
 namespace sag {
     class PixbufImage : public Image {        
