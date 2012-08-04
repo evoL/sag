@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
     
     sag::PixbufImage pb(512, 512);
     pb.setPixel(128, 128, 0, 128, 255);
+    pb.toFile("test.png");
     
     Gtk::Window window;
     app.run(window);
