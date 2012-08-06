@@ -15,7 +15,7 @@ namespace sag {
         
         virtual void drawGrid(Grid& g) = 0;
         
-        virtual void setPixel(unsigned int x, unsigned int y, char r, char g, char b) = 0;
+        virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) = 0;
         
         unsigned int getWidth() { return width; }
         unsigned int getHeight() { return height; }

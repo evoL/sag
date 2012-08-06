@@ -19,7 +19,7 @@ namespace sag {
         
         virtual void drawGrid(Grid& g);
         
-        virtual void setPixel(unsigned int x, unsigned int y, char r, char g, char b);
+        virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
         
         const Glib::RefPtr<Gdk::Pixbuf> getPixbuf() { return pixbuf; }
     };

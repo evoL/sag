@@ -38,7 +38,7 @@ namespace sag {
         }
     }
     
-    void PixbufImage::setPixel(unsigned int x, unsigned int y, char r, char g, char b) {
+    void PixbufImage::setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) {
         int index = y * stride + x * 3;
         
         buffer[index]   = r;
