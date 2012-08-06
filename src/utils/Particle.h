@@ -9,7 +9,7 @@ namespace sag {
 	public:
 		Vector<number> position;
 
-		Particle(): position(Vector(0, 0, 0)) {}
+		Particle(): position(Vector<number>(0, 0, 0)) {}
 
 		Particle(const Vector<number>& v): position(v) {}
 

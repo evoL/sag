@@ -1,10 +1,23 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <queue>
+#include "utils/Particle.h"
+
 namespace sag {
 	class Renderer {
 	public:
-		virtual ~Renderer();
+        static const int QUEUE_SIZE_FACTOR = 3;
+        int particleCount = -1;
+        
+        Renderer() {}
+		virtual ~Renderer() {}
+        
+        void enqueueParticle(Particle& p);
+
+        virtual void render() = 0;
+    private:
+        std::queue<Particle> queue;
 	};
 }
 
