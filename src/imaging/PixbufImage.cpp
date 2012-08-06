@@ -15,6 +15,7 @@ namespace sag {
     }
     
     PixbufImage::~PixbufImage() {
+        pixbuf.reset();
         delete[] buffer;
     }
     
