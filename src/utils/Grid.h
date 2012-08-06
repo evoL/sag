@@ -22,10 +22,8 @@ namespace sag {
         Grid(int width, int height);
         ~Grid();
         
-//        Grid& add(int x, int y);
-//        Grid& add(double x, double y);
-        Grid& add(int x, int y, double value);
-        Grid& add(double x, double y, double value);
+        Grid& add(int x, int y, double value=1);
+        Grid& add(double x, double y, double value=1);
         
         std::vector<int> map();
         

@@ -16,7 +16,7 @@ namespace sag {
         void enqueueParticle(Particle& p);
 
         virtual void render() = 0;
-    private:
+    protected:
         std::queue<Particle> queue;
 	};
 }
