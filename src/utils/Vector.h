@@ -1,6 +1,9 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <cmath>
+#include "utils/types.h"
+
 namespace sag {
 	template <typename T>
 	class Vector {
@@ -29,6 +32,37 @@ namespace sag {
 			z += v.z;
 
 			return *this;
+		}
+
+		inline Vector<T>& operator-=(const Vector<T>& v) {
+			x -= v.x;
+			y -= v.y;
+			z -= v.z;
+
+			return *this;
+		}
+
+		inline Vector<T>& operator*=(const T x) {
+			x *= x;
+			y *= x;
+			z *= x;
+
+			return *this;
+		}
+
+		inline Vector<T>& operator/=(const T x) {
+			x /= x;
+			y /= x;
+			z /= x;
+
+			return *this;
+		}
+		inline number length() {
+			return sqrt(x*x + y*y + z*z);
+		}
+
+		inline number distance(const Vector<T>& v) {
+			return Vector<T>(v.x-x, v.y-y, v.z-z).length();
 		}
 	};
 }

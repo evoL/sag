@@ -1,6 +1,7 @@
 #ifndef BOUNDS_H
 #define BOUNDS_H
 
+#include <vector>
 #include "utils/Vector.h"
 
 namespace sag {
@@ -23,6 +24,8 @@ namespace sag {
 				  xmin(center.x - radius), xmax(center.x + radius),
 				  ymin(center.y - radius), ymax(center.y + radius),
 				  zmin(center.z - radius), zmax(center.z + radius) {}
+
+		Bounds(std::vector<Vector<T>>& particles);
 
 		~Bounds() {}
 
