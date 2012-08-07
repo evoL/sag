@@ -12,4 +12,8 @@ namespace sag {
     void Renderer::setBounds(Bounds<number>& b) {
         bounds = &b;
     }
+    
+    void Renderer::setParticleCount(int count) {
+        particleCount = count;
+    }
 }
