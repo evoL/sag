@@ -4,25 +4,25 @@
 #include <queue>
 #include "utils/types.h"
 #include "utils/Bounds.h"
-#include "utils/Particle.h"
+#include "utils/Vector.h"
 
 namespace sag {
 	class Renderer {
 	public:
-        static const int QUEUE_SIZE_FACTOR = 3;
-        int particleCount = -1;
+        virtual ~Renderer() {}
         
-        Renderer() {}
-		virtual ~Renderer() {}
-        
-        bool enqueueParticle(Particle& p);
+        bool enqueueParticle(Vector<number>& p);
         
         void setBounds(Bounds<number>& b);
 
+        void setParticleCount(int pc);
+
         virtual void render() = 0;
     protected:
-        std::queue<Particle> queue;
-        Bounds<number>* bounds;
+        std::queue<Vector<number>> queue;
+        Bounds<number> bounds;
+        static const int QUEUE_SIZE_FACTOR = 100;
+        int particleCount;
 	};
 }
 

@@ -14,10 +14,10 @@ namespace sag {
                 continue;
             }
             
-            Particle p = queue.front();
+            Vector<number> p = queue.front();
             queue.pop();
             
-            grid.add(p.position.x, p.position.y);
+            grid.add(p.x, p.y);
             
             --i;
         }

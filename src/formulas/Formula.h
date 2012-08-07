@@ -8,8 +8,8 @@
 namespace sag {
 	class Formula {
 	public:
-		const bool if3D = false;
-		const int paramCount = 0;
+		static const bool if3D = false;
+		static const int paramCount = 0;
 
 		Formula();
 
@@ -19,10 +19,10 @@ namespace sag {
 
 		virtual Vector<number> step(const Vector<number>& prev) = 0;
 	protected:
-		const int MAXITER = 5000;
+		static const int MAXITER = 5000;
 		std::vector<number> parameters;
-		const std::vector<number> minParam = std::vector<number>();
-		const std::vector<number> maxParam = std::vector<number>();
+		static const std::vector<number> minParam;
+		static const std::vector<number> maxParam;
 
 	private:
 		void randomParameters();

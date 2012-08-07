@@ -1,7 +1,7 @@
 #include "rendering/Renderer.h"
 
 namespace sag {
-    bool Renderer::enqueueParticle(Particle &p) {
+    bool Renderer::enqueueParticle(Vector<number> &p) {
         if (particleCount < 0) throw "Uninitialized particle count";
         if (queue.size() > particleCount * QUEUE_SIZE_FACTOR) return false;
         
@@ -10,6 +10,10 @@ namespace sag {
     }
     
     void Renderer::setBounds(Bounds<number>& b) {
-        bounds = &b;
+        bounds = b;
+    }
+
+    void Renderer::setParticleCount(int pc) {
+    	particleCount = pc;
     }
 }

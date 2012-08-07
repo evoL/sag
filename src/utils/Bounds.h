@@ -38,9 +38,9 @@ namespace sag {
 		Vector<T> getRandomVector(bool if3D=true);
 
 	private:
-		const Vector<T> center;
-		const T radius;
-		const T xmin, xmax, ymin, ymax, zmin, zmax;
+		Vector<T> center;
+		T radius;
+		T xmin, xmax, ymin, ymax, zmin, zmax;
 	};
 }
 
