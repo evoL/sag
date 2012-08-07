@@ -14,14 +14,14 @@ namespace sag {
 		}
 
 		Vector<T> avg;
-		for (std::vector<Vector<T>>::iterator it = particles.begin(); it<particles.end(); it++)
+		for (auto it = particles.begin(); it<particles.end(); it++)
 			avg += *it;
 
 		avg /= particles.size();
 		center = avg;
 
 		number distance, maxDistance = 0;
-		for (std::vector<Vector<T>>::iterator it = particles.begin(); it<particles.end(); it++) {
+		for (auto it = particles.begin(); it<particles.end(); it++) {
 			distance = center.distance(*it);
 			if (distance > maxDistance) maxDistance = distance;
 		}
@@ -51,4 +51,6 @@ namespace sag {
 						 Random<T>::get().inRange(ymin, ymax),
 						 (if3D) ? Random<T>::get().inRange(zmin, zmax) : 0);
 	}
+    
+    template Vector<number> Bounds<number>::getRandomVector(bool);
 }
