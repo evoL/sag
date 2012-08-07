@@ -8,4 +8,8 @@ namespace sag {
         queue.push(p);
         return true;
     }
+    
+    void Renderer::setBounds(Bounds<number>& b) {
+        bounds = &b;
+    }
 }

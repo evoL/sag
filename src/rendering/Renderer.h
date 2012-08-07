@@ -2,6 +2,8 @@
 #define RENDERER_H
 
 #include <queue>
+#include "utils/types.h"
+#include "utils/Bounds.h"
 #include "utils/Particle.h"
 
 namespace sag {
@@ -14,10 +16,13 @@ namespace sag {
 		virtual ~Renderer() {}
         
         bool enqueueParticle(Particle& p);
+        
+        void setBounds(Bounds<number>& b);
 
         virtual void render() = 0;
     protected:
         std::queue<Particle> queue;
+        Bounds<number>* bounds;
 	};
 }
 
