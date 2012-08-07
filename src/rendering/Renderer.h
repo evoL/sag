@@ -13,7 +13,7 @@ namespace sag {
         Renderer() {}
 		virtual ~Renderer() {}
         
-        void enqueueParticle(Particle& p);
+        bool enqueueParticle(Particle& p);
 
         virtual void render() = 0;
     protected:

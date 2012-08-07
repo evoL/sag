@@ -17,7 +17,7 @@ namespace sag {
 
 		virtual ~Formula() {}
 
-		virtual Vector<number> step(const Vector<number>& prev);
+		virtual Vector<number> step(const Vector<number>& prev) = 0;
 	protected:
 		const int MAXITER = 5000;
 		std::vector<number> parameters;

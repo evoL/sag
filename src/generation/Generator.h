@@ -14,7 +14,7 @@ namespace sag {
 	protected:
 		Formula *formula;
 		Renderer *renderer;
-		Bounds<number> *bounds;
+		Bounds<number> bounds;
 	};
 }
 

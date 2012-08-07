@@ -11,7 +11,7 @@ namespace sag {
     public:
         PixbufRenderer(int w, int h): grid(w, h), img(w, h) {}
         
-        virtual void render();
+        void render();
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {
             return img.getPixbuf();
