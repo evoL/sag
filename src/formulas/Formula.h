@@ -8,8 +8,8 @@
 namespace sag {
 	class Formula {
 	public:
-		const bool if3D;
-		const int paramCount;
+		const bool if3D = false;
+		const int paramCount = 0;
 
 		Formula();
 
@@ -21,8 +21,13 @@ namespace sag {
 	protected:
 		const int MAXITER = 5000;
 		std::vector<number> parameters;
+		const std::vector<number> minParam = std::vector<number>();
+		const std::vector<number> maxParam = std::vector<number>();
 
-		std::vector<number>& randomParameters();
+	private:
+		void randomParameters();
+
+		bool verifyParams(const std::vector<number>& params);
 	};
 }
 

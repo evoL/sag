@@ -8,6 +8,8 @@ namespace sag {
 	public:
 		const bool if3D = false;
 		const int paramCount = 12;
+		const std::vector<number> minParam = std::vector<number>(12, -2);
+		const std::vector<number> maxParam = std::vector<number>(12, 2);
 
 		~Quadratic() {}
 
