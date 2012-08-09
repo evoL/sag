@@ -9,6 +9,7 @@
 namespace sag {
 	class Renderer {
 	public:
+        Renderer(): particleCount(-1) {}
         virtual ~Renderer() {}
         
         bool enqueueParticle(Vector<number>& p);

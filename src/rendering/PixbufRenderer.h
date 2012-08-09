@@ -9,7 +9,7 @@
 namespace sag {
     class PixbufRenderer : public Renderer {
     public:
-        PixbufRenderer(int w, int h): grid(w, h), img(w, h), particleCount(-1) {}
+        PixbufRenderer(int w, int h): Renderer(), grid(w, h), img(w, h) {}
         
         void render();
         

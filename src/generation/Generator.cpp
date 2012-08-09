@@ -5,10 +5,7 @@
 #include "generation/Generator.h"
 
 namespace sag {
-	Generator::Generator(Formula *f, Renderer *r, int pc, bool if3D): formula(f),
-																	  renderer(r),
-																	  particleCount(pc),
-																	  if3D(if3D) {
+	Generator::Generator(Formula *f, Renderer *r, int pc, bool if3D): formula(f), particleCount(pc), if3D(if3D), renderer(r) {
 		setBounds();
 		renderer->setBounds(bounds);
 		renderer->setParticleCount(pc);
