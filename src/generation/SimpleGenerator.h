@@ -6,7 +6,10 @@
 namespace sag {
 	class SimpleGenerator : public Generator {
 	public:
+		~SimpleGenerator() {}
+
 		void run();
+
 	private:
 		static const int ITERS = 10000;
 	};

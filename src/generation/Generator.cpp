@@ -18,7 +18,7 @@ namespace sag {
 	void Generator::setBounds() {
 		std::vector<Vector<number>> particles;
 
-		particles.reserve(ITERS);
+		particles.resize(ITERS);
 		particles[0] = Bounds<number>().getRandomVector(if3D);
 
 		for (int i=1; i<ITERS; i++)

@@ -11,7 +11,7 @@ namespace sag {
 	public:
 		Generator(Formula *f, Renderer *r, int pc, bool if3D=true);
 
-		virtual ~Generator();
+		virtual ~Generator() {}
 
 		virtual void run() = 0;
 

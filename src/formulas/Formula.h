@@ -21,8 +21,8 @@ namespace sag {
 	protected:
 		static const int MAXITER = 5000;
 		std::vector<number> parameters;
-		static const std::vector<number> minParam;
-		static const std::vector<number> maxParam;
+		static std::vector<number> minParam;
+		static std::vector<number> maxParam;
 
 	private:
 		void randomParameters();
