@@ -2,6 +2,7 @@
 #define SAG_RANDOM_H
 
 #include <random>
+#include "utils/Range.h"
 
 namespace sag {
     /**
@@ -27,6 +28,13 @@ namespace sag {
          * @param to The end of the range.
          */
         T inRange(T from, T to);
+        
+        /**
+         * @brief Returns a random integer within the provided range.
+         *
+         * @param range The Range.
+         */
+        T inRange(Range<T>& range);
     };
 
     template <>
@@ -47,6 +55,13 @@ namespace sag {
          * @param to The end of the range.
          */
         int inRange(int from, int to);
+        
+        /**
+         * @brief Returns a random integer within the provided range.
+         *
+         * @param range The Range.
+         */
+        int inRange(Range<int>& range);
     };
 }
 

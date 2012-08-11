@@ -20,6 +20,11 @@ namespace sag {
         std::uniform_real_distribution<T> u(from, to);
         return u(engine);
     }
+    
+    template <typename T>
+    T Random<T>::inRange(Range<T>& range) {
+        return inRange(range.min(), range.max());
+    }
 
     Random<int>& Random<int>::get() {
         static Random<int> instance;
@@ -30,9 +35,14 @@ namespace sag {
         std::uniform_int_distribution<int> u(from, to);
         return u(engine);
     }
+    
+    int Random<int>::inRange(Range<int>& range) {
+        return inRange(range.min(), range.max());
+    }
 
     ///////// BECAUSE OF LINKER ERRORS
 
     template Random<number>& Random<number>::get();
     template number Random<number>::inRange(number from, number to);
+    template number Random<number>::inRange(Range<number>& range);
 }
