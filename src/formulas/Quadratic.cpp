@@ -1,11 +1,10 @@
 #include <vector>
 #include "utils/Vector.h"
 #include "formulas/Quadratic.h"
-
+#include "generation/EqualDistribution.h"
 
 namespace sag {
-	std::vector<number> Quadratic::minParam(12, -2);
-	std::vector<number> Quadratic::maxParam(12, 2);
+    const ParamDistribution* Quadratic::distribution = new EqualDistribution(-2, 2);
 
 	Vector<number> Quadratic::step(const Vector<number>& prev) {
 		number x = parameters[0] + (parameters[1] + parameters[2] * prev.x + parameters[3] * prev.y) * prev.x + (parameters[4] + parameters[5] * prev.y) * prev.y;

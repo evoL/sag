@@ -9,10 +9,10 @@ namespace sag {
         Range(T to): from(0), to(to) {}
         Range(T from, T to): from(from), to(to) {}
         
-        T min() { return from; }
-        T max() { return to; }
+        inline T min() const { return from; }
+        inline T max() const { return to; }
         
-        bool contains(T num) { return (num >= from) && (num <= to); }
+        inline bool contains(T num) { return (num >= from) && (num <= to); }
     private:
         T from, to;
     };

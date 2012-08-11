@@ -8,8 +8,7 @@ namespace sag {
 	public:
 		static const bool if3D = false;
 		static const int paramCount = 12;
-		static std::vector<number> minParam;
-		static std::vector<number> maxParam;
+		static const ParamDistribution* distribution;
 
 		~Quadratic() {}
 

@@ -52,5 +52,6 @@ namespace sag {
 						 (if3D) ? Random<T>::get().inRange(zmin, zmax) : 0);
 	}
     
+    template Bounds<number>::Bounds(std::vector<Vector<number>>& particles);
     template Vector<number> Bounds<number>::getRandomVector(bool);
 }

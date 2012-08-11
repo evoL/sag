@@ -34,7 +34,7 @@ namespace sag {
          *
          * @param range The Range.
          */
-        T inRange(Range<T>& range);
+        T inRange(const Range<T>& range);
     };
 
     template <>
@@ -61,7 +61,7 @@ namespace sag {
          *
          * @param range The Range.
          */
-        int inRange(Range<int>& range);
+        int inRange(const Range<int>& range);
     };
 }
 

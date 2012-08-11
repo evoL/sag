@@ -42,18 +42,18 @@ namespace sag {
 			return *this;
 		}
 
-		inline Vector<T>& operator*=(const T x) {
-			x *= x;
-			y *= x;
-			z *= x;
+		inline Vector<T>& operator*=(const T val) {
+			x *= val;
+			y *= val;
+			z *= val;
 
 			return *this;
 		}
 
-		inline Vector<T>& operator/=(const T x) {
-			x /= x;
-			y /= x;
-			z /= x;
+		inline Vector<T>& operator/=(const T val) {
+			x /= val;
+			y /= val;
+			z /= val;
 
 			return *this;
 		}

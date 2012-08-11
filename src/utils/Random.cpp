@@ -22,7 +22,7 @@ namespace sag {
     }
     
     template <typename T>
-    T Random<T>::inRange(Range<T>& range) {
+    T Random<T>::inRange(const Range<T>& range) {
         return inRange(range.min(), range.max());
     }
 
@@ -36,7 +36,7 @@ namespace sag {
         return u(engine);
     }
     
-    int Random<int>::inRange(Range<int>& range) {
+    int Random<int>::inRange(const Range<int>& range) {
         return inRange(range.min(), range.max());
     }
 
@@ -44,5 +44,5 @@ namespace sag {
 
     template Random<number>& Random<number>::get();
     template number Random<number>::inRange(number from, number to);
-    template number Random<number>::inRange(Range<number>& range);
+    template number Random<number>::inRange(const Range<number>& range);
 }

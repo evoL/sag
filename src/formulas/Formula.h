@@ -4,6 +4,7 @@
 #include <vector>
 #include "utils/types.h"
 #include "utils/Vector.h"
+#include "generation/ParamDistribution.h"
 
 namespace sag {
 	class Formula {
@@ -21,11 +22,9 @@ namespace sag {
 	protected:
 		static const int MAXITER = 5000;
 		std::vector<number> parameters;
-		static std::vector<number> minParam;
-		static std::vector<number> maxParam;
-
+		static const ParamDistribution* distribution;
 	private:
-		void randomParameters();
+		virtual void randomParameters();
 
 		bool verifyParams(const std::vector<number>& params);
 	};

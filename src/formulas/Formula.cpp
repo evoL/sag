@@ -7,6 +7,8 @@
 #include "formulas/Formula.h"
 
 namespace sag {
+    const ParamDistribution* Formula::distribution = nullptr;
+    
 	Formula::Formula() {
 		randomParameters();
 	}
@@ -14,7 +16,7 @@ namespace sag {
 	void Formula::randomParameters() {
 		do {
 			for (int i=0; i<paramCount; i++)
-				parameters[i] = Random<number>::get().inRange(minParam[i], maxParam[i]);
+				parameters[i] = Random<number>::get().inRange(distribution->getRange(i));
 
 		} while (!verifyParams(parameters));
 	}
@@ -32,7 +34,7 @@ namespace sag {
 						  v1.y + Random<number>::get().inRange(-0.5, 0.5) / 1000,
 						  (if3D) ? v1.z + Random<number>::get().inRange(-0.5, 0.5) / 1000 : 0);
 
-		// We measure first distance between them.
+		// We measure first the distance between them.
 
 		Vector<number> d(v1.x - ve.x, v1.y - ve.y, v1.z - ve.z);
 		number startdistance = sqrt(d.x*d.x + d.y*d.y);
@@ -69,7 +71,7 @@ namespace sag {
 			d.x = p.x - v1.x;
 			d.y = p.y - v1.y;
 			d.z = p.z - v1.z;
-			if ((fabs(d.x) < 1e-10) && (fabs(d.y) < 1e-10) && (fabs(d.y) < 1e-10))
+			if ((fabs(d.x) < 1e-10) && (fabs(d.y) < 1e-10) && (fabs(d.z) < 1e-10))
 				return false;
 
 			// Start doing things after 1000 iterations of warmup
