@@ -9,7 +9,7 @@
 namespace sag {
 	class Generator {
 	public:
-		Generator(Formula *f, Renderer *r, int pc, bool if3D=true);
+		Generator(Formula& f, Renderer& r, int pc, bool if3D=true);
 
 		virtual ~Generator() {}
 

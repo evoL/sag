@@ -9,24 +9,25 @@
 namespace sag {
 	class Formula {
 	public:
-		static const bool if3D = false;
-		static const int paramCount = 0;
-
-		Formula();
-
+		Formula() {}
 		Formula(const std::vector<number>& parameters): parameters(parameters) {}
 
 		virtual ~Formula() {}
 
-		virtual Vector<number> step(const Vector<number>& prev) = 0;
+        virtual void prepare();
+		virtual Vector<number> step(const Vector<number>& prev);
+        virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params) = 0;
+        
+        virtual inline bool is3D() const { return false; }
+        virtual inline int paramCount() const { return 0; }
+        virtual inline const ParamDistribution* getDistribution() const = 0;
+        
 	protected:
 		static const int MAXITER = 5000;
 		std::vector<number> parameters;
-		static const ParamDistribution* distribution;
-	private:
-		virtual void randomParameters();
-
-		bool verifyParams(const std::vector<number>& params);
+        
+        virtual void randomParameters();        
+		virtual bool verifyParams(const std::vector<number>& params);
 	};
 }
 

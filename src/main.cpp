@@ -1,13 +1,17 @@
 #include <iostream>
 #include <gtkmm.h>
-#include "imaging/PixbufImage.h"
+
+#include "formulas/Quadratic.h"
+#include "generation/SimpleGenerator.h"
+#include "rendering/PixbufRenderer.h"
 
 using namespace std;
+using namespace sag;
 
 class ImageWindow : public Gtk::Window {
 public:
-    ImageWindow(sag::PixbufImage& pb): img(pb.getPixbuf()) {
-        set_default_size(pb.getWidth(), pb.getHeight());
+    ImageWindow(Glib::RefPtr<Gdk::Pixbuf> pb): img(pb) {
+        set_default_size(pb->get_width(), pb->get_height());
         
         add(img);
         img.show();
@@ -21,11 +25,18 @@ private:
 int main(int argc, char *argv[]) {
     Gtk::Main app(argc, argv);
     
-    sag::PixbufImage pb(512, 512);
-    pb.setPixel(128, 128, 255, 255, 255);
-    ImageWindow window(pb);
+    // The formula (with randomized parameters)
+    Quadratic formula;
     
-    pb.setPixel(192, 192, 255, 255, 0);
+    // The renderer
+    PixbufRenderer renderer(512, 512);
+    ImageWindow window(renderer.getOutput());
+    
+    // The generator
+    SimpleGenerator generator(formula, renderer, 1000, false);
+    
+    // BOOM
+    generator.run();
     
     app.run(window);
 	return 0;

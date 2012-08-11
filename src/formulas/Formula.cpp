@@ -7,18 +7,22 @@
 #include "formulas/Formula.h"
 
 namespace sag {
-    const ParamDistribution* Formula::distribution = nullptr;
+    void Formula::prepare() {
+        if (parameters.empty()) randomParameters();
+    }
     
-	Formula::Formula() {
-		randomParameters();
-	}
-
 	void Formula::randomParameters() {
+//        static bool validParams = false;
+//        if (validParams) return;
+        int pc = paramCount();
+        parameters.resize(pc);
+        
 		do {
-			for (int i=0; i<paramCount; i++)
-				parameters[i] = Random<number>::get().inRange(distribution->getRange(i));
+			for (int i=0; i < pc; i++)
+				parameters[i] = Random<number>::get().inRange(getDistribution()->getRange(i));
 
 		} while (!verifyParams(parameters));
+//        validParams = true;
 	}
 
 	bool Formula::verifyParams(const std::vector<number>& params) {
@@ -28,11 +32,11 @@ namespace sag {
 
 		// Here are the particles:
 
-		Vector<number> v1 = bounds.getRandomVector(if3D);
+		Vector<number> v1 = bounds.getRandomVector(is3D());
 
 		Vector<number> ve(v1.x + Random<number>::get().inRange(-0.5, 0.5) / 1000,
 						  v1.y + Random<number>::get().inRange(-0.5, 0.5) / 1000,
-						  (if3D) ? v1.z + Random<number>::get().inRange(-0.5, 0.5) / 1000 : 0);
+						  (is3D()) ? v1.z + Random<number>::get().inRange(-0.5, 0.5) / 1000 : 0);
 
 		// We measure first the distance between them.
 
@@ -52,7 +56,7 @@ namespace sag {
 		Vector<number> p, ep;
 		for (int i = MAXITER; i>=0; i--) {
 			// Move the first particle
-			p = step(v1);
+			p = step(v1, params);
 
 			// Enlarge boundaries if needed
 			if (p.x < vmin.x) vmin.x = p.x;
@@ -63,8 +67,9 @@ namespace sag {
 			if (p.z > vmax.z) vmax.z = p.z;
 
 			//Discard if the system blows up to the universe
-			if ((vmin.x < -1e10) || (vmin.y < -1e10) || (if3D && (vmin.z < -1e10)) ||
-				(vmax.x > 1e10) || (vmax.y > 1e10) || (if3D && (vmax.z > 1e10)))
+			if ((vmin.x < -1e10) || (vmin.y < -1e10) ||
+				(vmax.x > 1e10) || (vmax.y > 1e10) ||
+                (is3D() && (vmax.z > 1e10 || vmin.z < -1e10)))
 				return false;
 
 			//Calculate how far the particle moved and discard if it's too slow
@@ -77,7 +82,7 @@ namespace sag {
 			// Start doing things after 1000 iterations of warmup
 			if (i < MAXITER-1000) {
 				// Move the second particle
-				ep = step(ve);
+				ep = step(ve, params);
 
 				// Calculate the distance
 				d.x = p.x - ep.x;
@@ -109,4 +114,8 @@ namespace sag {
 		// The condition below simplifies everything.
 		return (lyapunov >= 10);
 	}
+    
+    Vector<number> Formula::step(const Vector<number>& prev) {
+        return step(prev, parameters);
+    }
 }

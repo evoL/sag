@@ -58,8 +58,8 @@ namespace sag {
         
         for (int i = s-1; i>=0; i--) {
             // TODO: result[i] = lambda(values[i]);
-//            result[i] = (int)(values[i] / maxValue * 255);
-            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
+            result[i] = (int)(values[i] / maxValue * 255);
+//            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
         }
         
         return result;

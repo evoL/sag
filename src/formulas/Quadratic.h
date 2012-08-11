@@ -2,17 +2,17 @@
 #define QUADRATIC_H
 
 #include "formulas/Formula.h"
+#include <vector>
 
 namespace sag {
 	class Quadratic : public Formula {
 	public:
-		static const bool if3D = false;
-		static const int paramCount = 12;
-		static const ParamDistribution* distribution;
-
 		~Quadratic() {}
 
-		Vector<number> step(const Vector<number>&prev);
+		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
+        
+        virtual int paramCount() const { return 12; }
+        virtual const ParamDistribution* getDistribution() const;
 	};
 }
 
