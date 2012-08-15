@@ -33,10 +33,11 @@ int main(int argc, char *argv[]) {
     ImageWindow window(renderer.getOutput());
     
     // The generator
-    SimpleGenerator generator(formula, renderer, 1000, false);
+    SimpleGenerator generator(formula, renderer, 1, false);
     
     // BOOM
     generator.run();
+    renderer.render();
     
     app.run(window);
 	return 0;

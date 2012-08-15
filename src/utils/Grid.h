@@ -2,6 +2,9 @@
 #define SAG_GRID_H
 
 #include <vector>
+#include "utils/types.h"
+#include "utils/Vector.h"
+#include "utils/Bounds.h"
 
 namespace sag {
     class Grid {
@@ -23,7 +26,9 @@ namespace sag {
         ~Grid();
         
         Grid& add(int x, int y, double value=1);
-        Grid& add(double x, double y, double value=1);
+        Grid& add(float x, float y, double value=1);
+        
+        Grid& addProjected(Vector<number>& v, Bounds<number>& bounds, double value=1);
         
         std::vector<int> map();
         

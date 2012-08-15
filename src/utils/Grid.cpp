@@ -22,15 +22,15 @@ namespace sag {
         return *this;
     }
     
-    Grid& Grid::add(double x, double y, double value) {
+    Grid& Grid::add(float x, float y, double value) {
         int ix = (int) x;
         int iy = (int) y;
         
         // linear filtering
-        double xfrac = x - ix;
-        double yfrac = y - iy;
-        double ixfrac = 1 - xfrac;
-        double iyfrac = 1 - yfrac;
+        float xfrac = x - ix;
+        float yfrac = y - iy;
+        float ixfrac = 1 - xfrac;
+        float iyfrac = 1 - yfrac;
         
         if (size.contains(ix, iy))
             values[index(ix, iy)]     += ixfrac * iyfrac * value;
@@ -44,6 +44,15 @@ namespace sag {
         calculated = false;
         return *this;
     }
+    
+    Grid& Grid::addProjected(Vector<number>& v, Bounds<number>& bounds, double value) {
+        Bounds<number>::Raw b = bounds.getRawBounds();
+        
+        float x = (v.x - b.xmin) / (b.xmax - b.xmin) * size.width;
+        float y = (v.y - b.ymin) / (b.ymax - b.ymin) * size.height;
+        
+        return add(x, y, value);
+    };
     
     std::vector<int> Grid::map() {
         // TODO: enable customization of the mapping process with lambdas
@@ -60,6 +69,7 @@ namespace sag {
             // TODO: result[i] = lambda(values[i]);
             result[i] = (int)(values[i] / maxValue * 255);
 //            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
+//            result[i] = (values[i] > 0) ? 255 : 0;
         }
         
         return result;

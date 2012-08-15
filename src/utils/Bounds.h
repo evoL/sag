@@ -8,23 +8,32 @@ namespace sag {
 	template <typename T>
 	class Bounds {
 	public:
+        class Raw {
+        public:
+            T xmin, xmax, ymin, ymax, zmin, zmax;
+            
+            Raw(): xmin(-1), xmax(1), ymin(-1), ymax(1), zmin(-1), zmax(1) {}
+            Raw(T xmin, T xmax, T ymin, T ymax, T zmin, T zmax):
+                xmin(xmin), xmax(xmax),
+                ymin(ymin), ymax(ymax),
+                zmin(zmin), zmax(zmax) {}
+        };
+        
 		Bounds(): center(Vector<T>()), radius(1),
-				  xmin(-1), xmax(1),
-				  ymin(-1), ymax(1),
-				  zmin(-1), zmax(1) {}
-
+                  raw(-1, 1, -1, 1, -1, 1) {}
+        
 		Bounds(T radius):
 				  center(Vector<T>()), radius(radius),
-				  xmin(-radius), xmax(radius),
-				  ymin(-radius), ymax(radius),
-				  zmin(-radius), zmax(radius) {}
+                  raw(-radius, radius, -radius, radius, -radius, radius) {}
 
 		Bounds(const Vector<T>& center, T radius):
 				  center(center), radius(radius),
-				  xmin(center.x - radius), xmax(center.x + radius),
-				  ymin(center.y - radius), ymax(center.y + radius),
-				  zmin(center.z - radius), zmax(center.z + radius) {}
-
+                  raw(
+                      center.x - radius, center.x + radius,
+                      center.y - radius, center.y + radius,
+                      center.z - radius, center.z + radius
+                  ) {}
+        
 		Bounds(std::vector<Vector<T>>& particles);
 
 		~Bounds() {}
@@ -36,11 +45,13 @@ namespace sag {
 		bool contains(const Vector<T> &v);
 
 		Vector<T> getRandomVector(bool if3D=true);
+        
+        Raw getRawBounds();
 
 	private:
 		Vector<T> center;
 		T radius;
-		T xmin, xmax, ymin, ymax, zmin, zmax;
+        Raw raw;
 	};
 }
 

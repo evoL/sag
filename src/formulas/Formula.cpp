@@ -12,8 +12,6 @@ namespace sag {
     }
     
 	void Formula::randomParameters() {
-//        static bool validParams = false;
-//        if (validParams) return;
         int pc = paramCount();
         parameters.resize(pc);
         
@@ -22,7 +20,6 @@ namespace sag {
 				parameters[i] = Random<number>::get().inRange(getDistribution()->getRange(i));
 
 		} while (!verifyParams(parameters));
-//        validParams = true;
 	}
 
 	bool Formula::verifyParams(const std::vector<number>& params) {
@@ -32,7 +29,8 @@ namespace sag {
 
 		// Here are the particles:
 
-		Vector<number> v1 = bounds.getRandomVector(is3D());
+//		Vector<number> v1 = bounds.getRandomVector(is3D());
+        Vector<number> v1 = startPoint;
 
 		Vector<number> ve(v1.x + Random<number>::get().inRange(-0.5, 0.5) / 1000,
 						  v1.y + Random<number>::get().inRange(-0.5, 0.5) / 1000,
@@ -117,5 +115,9 @@ namespace sag {
     
     Vector<number> Formula::step(const Vector<number>& prev) {
         return step(prev, parameters);
+    }
+    
+    Vector<number> Formula::getStartPoint() {
+        return startPoint;
     }
 }

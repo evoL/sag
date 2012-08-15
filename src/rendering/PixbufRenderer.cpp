@@ -1,25 +1,16 @@
 #include "rendering/PixbufRenderer.h"
 
-#include <chrono>
-#include <thread>
+#include <iostream>
 
 namespace sag {
     void PixbufRenderer::render() {
         if (particleCount < 0) throw "Uninitialized particle count";
         
-        int i = particleCount;
-        while (i >= 0) {
-            if (queue.empty()) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-                continue;
-            }
-            
+        while (!queue.empty()) {
             Vector<number> p = queue.front();
             queue.pop();
             
-            grid.add(p.x, p.y);
-            
-            --i;
+            grid.addProjected(p, bounds);
         }
 
         img.drawGrid(grid);

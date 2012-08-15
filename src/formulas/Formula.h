@@ -10,13 +10,16 @@ namespace sag {
 	class Formula {
 	public:
 		Formula() {}
-		Formula(const std::vector<number>& parameters): parameters(parameters) {}
+		Formula(const std::vector<number>& parameters):
+            parameters(parameters) {}
 
 		virtual ~Formula() {}
 
         virtual void prepare();
 		virtual Vector<number> step(const Vector<number>& prev);
         virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params) = 0;
+        
+        virtual inline Vector<number> getStartPoint();
         
         virtual inline bool is3D() const { return false; }
         virtual inline int paramCount() const { return 0; }
@@ -25,6 +28,7 @@ namespace sag {
 	protected:
 		static const int MAXITER = 5000;
 		std::vector<number> parameters;
+        Vector<number> startPoint;
         
         virtual void randomParameters();        
 		virtual bool verifyParams(const std::vector<number>& params);

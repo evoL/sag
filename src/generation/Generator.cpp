@@ -15,14 +15,15 @@ namespace sag {
 	}
 
 	void Generator::sendParticle(Vector<number>& p) {
-		while (renderer->enqueueParticle(p));
+		renderer->enqueueParticle(p);
 	}
 
 	void Generator::setBounds() {
 		std::vector<Vector<number>> particles;
 
 		particles.resize(ITERS);
-		particles[0] = Bounds<number>().getRandomVector(if3D);
+//		particles[0] = Bounds<number>(0.5).getRandomVector(if3D);
+        particles[0] = formula->getStartPoint();
 
 		for (int i=1; i<ITERS; i++)
 			particles[i] = formula->step(particles[i-1]);
