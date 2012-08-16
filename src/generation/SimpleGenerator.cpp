@@ -18,14 +18,14 @@ namespace sag {
 			initials[i] = bounds.getRandomVector(if3D);
 			sendParticle(initials[i]);
 		}
-
-		for (int i=ITERS; i>0; --i) {
-			for (int j=0; j < particleCount; j++) {
+        
+        int i = iterations;
+        while ( (iterations == UNLIMITED_ITERATIONS) || (i >= 0)) {
+            for (int j=0; j < particleCount; j++) {
 				initials[j] = formula->step(initials[j]);
 				sendParticle(initials[j]);
 			}
-		}
-
-
+            --i;
+        }
 	}
 }

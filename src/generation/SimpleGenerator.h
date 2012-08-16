@@ -6,13 +6,10 @@
 namespace sag {
 	class SimpleGenerator : public Generator {
 	public:
-        SimpleGenerator(Formula& f, Renderer& r, int pc, bool if3D=true): Generator(f, r, pc, if3D) {}
+        SimpleGenerator(Formula& f, Renderer& r, int iter, bool if3D=true): Generator(f, r, iter, if3D) {}
 		~SimpleGenerator() {}
 
 		void run();
-
-	private:
-		static const int ITERS = 10000;
 	};
 }
 

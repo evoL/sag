@@ -5,13 +5,19 @@
 #include "generation/Generator.h"
 
 namespace sag {
-	Generator::Generator(Formula& f, Renderer& r, int pc, bool if3D): formula(&f), particleCount(pc), if3D(if3D), renderer(&r) {
+	Generator::Generator(Formula& f, Renderer& r, int iter, bool if3D):
+        formula(&f),
+        particleCount(1),
+        if3D(if3D),
+        iterations(iter),
+        renderer(&r)
+    {
         formula->prepare();
         
 		setBounds();
         
 		renderer->setBounds(bounds);
-		renderer->setParticleCount(pc);
+		renderer->setParticleCount(1);
 	}
 
 	void Generator::sendParticle(Vector<number>& p) {
@@ -21,12 +27,17 @@ namespace sag {
 	void Generator::setBounds() {
 		std::vector<Vector<number>> particles;
 
-		particles.resize(ITERS);
+		particles.resize(WARMUP_ITERATIONS);
         particles[0] = formula->getStartPoint();
 
-		for (int i=1; i<ITERS; i++)
+		for (int i=1; i<WARMUP_ITERATIONS; i++)
 			particles[i] = formula->step(particles[i-1]);
 
 		bounds = Bounds<number>(particles);
 	}
+    
+    void Generator::setParticleCount(int pc) {
+        particleCount = pc;
+        renderer->setParticleCount(pc);
+    }
 }
