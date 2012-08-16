@@ -13,6 +13,8 @@ namespace sag {
         
         virtual void toFile(std::string filename) = 0;
         
+        virtual void clear() = 0;
+        
         virtual void drawGrid(Grid& g) = 0;
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) = 0;

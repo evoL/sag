@@ -12,5 +12,6 @@ namespace sag {
     
     void PixbufRenderer::render() {
         img.drawGrid(grid);
+        grid.clear();
     }
 }

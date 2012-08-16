@@ -15,8 +15,10 @@ namespace sag {
 
 		virtual ~Formula() {}
 
-        virtual void prepare();
-		virtual Vector<number> step(const Vector<number>& prev);
+        void prepare();
+        void reset();
+        
+		Vector<number> step(const Vector<number>& prev);
         virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params) = 0;
         
         virtual inline Vector<number> getStartPoint() { return startPoint; }
@@ -30,8 +32,7 @@ namespace sag {
 		std::vector<number> parameters;
         Vector<number> startPoint;
         
-        virtual void randomParameters();        
-		virtual bool verifyParams(const std::vector<number>& params);
+		bool verifyParams(const std::vector<number>& params);
 	};
 }
 

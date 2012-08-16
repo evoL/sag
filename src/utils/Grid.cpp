@@ -13,6 +13,13 @@ namespace sag {
         delete[] values;
     }
     
+    Grid& Grid::clear() {
+        for (int i=size.width*size.height-1; i>=0; --i)
+            values[i] = 0;
+        
+        return *this;
+    }
+    
     Grid& Grid::add(int x, int y, double value) {
         if (!size.contains(x, y)) return *this;
         

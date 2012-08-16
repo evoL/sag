@@ -17,6 +17,7 @@ namespace sag {
         static const int UNLIMITED_ITERATIONS = -1;
         
         void setParticleCount(int pc);
+        void reset();
 
 	protected:
 		Formula *formula;

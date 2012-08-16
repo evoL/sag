@@ -8,10 +8,10 @@
 
 namespace sag {
     void Formula::prepare() {
-        if (parameters.empty()) randomParameters();
+        if (parameters.empty()) reset();
     }
     
-	void Formula::randomParameters() {
+	void Formula::reset() {
         int pc = paramCount();
         parameters.resize(pc);
         
@@ -29,7 +29,6 @@ namespace sag {
 
 		// Here are the particles:
 
-//		Vector<number> v1 = bounds.getRandomVector(is3D());
         Vector<number> v1 = startPoint;
 
 		Vector<number> ve(v1.x + Random<number>::get().inRange(-0.5, 0.5) / 1000,

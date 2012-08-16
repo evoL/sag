@@ -19,6 +19,12 @@ namespace sag {
 		renderer->setBounds(bounds);
 		renderer->setParticleCount(1);
 	}
+    
+    void Generator::reset() {
+        formula->reset();
+        setBounds();
+        renderer->setBounds(bounds);
+    }
 
 	void Generator::sendParticle(Vector<number>& p) {
 		renderer->receiveParticle(p);

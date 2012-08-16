@@ -25,6 +25,12 @@ namespace sag {
         pixbuf->save(filename, "png");
     }
     
+    void PixbufImage::clear() {
+        for (int i=width*height*3-1; i>=0; --i) {
+            buffer[i] = 0;
+        }
+    }
+    
     void PixbufImage::drawGrid(Grid& g) {
         std::vector<int> values = g.map();
         
