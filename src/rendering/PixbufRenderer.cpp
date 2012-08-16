@@ -3,16 +3,14 @@
 #include <iostream>
 
 namespace sag {
-    void PixbufRenderer::render() {
-        if (particleCount < 0) throw "Uninitialized particle count";
+    bool PixbufRenderer::receiveParticle(Vector<number>& p) {
+        if (!Renderer::receiveParticle(p)) return false;
         
-        while (!queue.empty()) {
-            Vector<number> p = queue.front();
-            queue.pop();
-            
-            grid.addProjected(p, bounds);
-        }
-
+        grid.addProjected(p, bounds);
+        return true;
+    }
+    
+    void PixbufRenderer::render() {
         img.drawGrid(grid);
     }
 }

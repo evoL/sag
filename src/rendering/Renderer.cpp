@@ -1,11 +1,8 @@
 #include "rendering/Renderer.h"
 
 namespace sag {
-    bool Renderer::enqueueParticle(Vector<number> &p) {
+    bool Renderer::receiveParticle(Vector<number> &p) {
         if (particleCount < 0) throw "Uninitialized particle count";
-        if ((int)(queue.size()) > particleCount * QUEUE_SIZE_FACTOR) return false;
-        
-        queue.push(p);
         return true;
     }
     

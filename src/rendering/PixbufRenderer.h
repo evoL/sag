@@ -11,6 +11,8 @@ namespace sag {
     public:
         PixbufRenderer(int w, int h): Renderer(), grid(w, h), img(w, h) {}
         
+        virtual bool receiveParticle(Vector<number>& p);
+        
         void render();
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {

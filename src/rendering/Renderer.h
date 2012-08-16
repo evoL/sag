@@ -12,7 +12,7 @@ namespace sag {
         Renderer(): particleCount(-1) {}
         virtual ~Renderer() {}
         
-        bool enqueueParticle(Vector<number>& p);
+        virtual bool receiveParticle(Vector<number>& p);
         
         void setBounds(Bounds<number>& b);
 
@@ -20,9 +20,8 @@ namespace sag {
 
         virtual void render() = 0;
     protected:
-        std::queue<Vector<number>> queue;
         Bounds<number> bounds;
-        static const int QUEUE_SIZE_FACTOR = 100;
+        static const int SIZE_FACTOR = 100;
         int particleCount;
 	};
 }
