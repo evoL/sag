@@ -14,7 +14,7 @@ namespace sag {
 
 		virtual void run() = 0;
         
-        const int UNLIMITED_ITERATIONS = -1;
+        static const int UNLIMITED_ITERATIONS = -1;
         
         void setParticleCount(int pc);
 
