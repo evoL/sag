@@ -52,7 +52,7 @@ namespace sag {
         float y = (v.y - b.ymin) / (b.ymax - b.ymin) * size.height;
         
         return add(x, y, value);
-    };
+    }
     
     std::vector<int> Grid::map() {
         // TODO: enable customization of the mapping process with lambdas

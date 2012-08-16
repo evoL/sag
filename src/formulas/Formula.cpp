@@ -116,8 +116,4 @@ namespace sag {
     Vector<number> Formula::step(const Vector<number>& prev) {
         return step(prev, parameters);
     }
-    
-    Vector<number> Formula::getStartPoint() {
-        return startPoint;
-    }
 }

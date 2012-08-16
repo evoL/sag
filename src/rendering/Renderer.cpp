@@ -3,7 +3,7 @@
 namespace sag {
     bool Renderer::enqueueParticle(Vector<number> &p) {
         if (particleCount < 0) throw "Uninitialized particle count";
-        if (queue.size() > particleCount * QUEUE_SIZE_FACTOR) return false;
+        if ((int)(queue.size()) > particleCount * QUEUE_SIZE_FACTOR) return false;
         
         queue.push(p);
         return true;
