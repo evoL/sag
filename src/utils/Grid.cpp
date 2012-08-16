@@ -65,11 +65,14 @@ namespace sag {
         std::vector<int> result;
         result.resize(s);
         
+        double avgCache = 8 * avgValue;
+        
         for (int i = s-1; i>=0; i--) {
             // TODO: result[i] = lambda(values[i]);
-            result[i] = (int)(values[i] / maxValue * 255);
+//            result[i] = (int)(values[i] / maxValue * 255);
 //            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
 //            result[i] = (values[i] > 0) ? 255 : 0;
+            result[i] = (values[i] > avgCache) ? 255 : (int)(values[i] / avgCache * 255);
         }
         
         return result;
@@ -83,9 +86,16 @@ namespace sag {
         if (calculated) return;
         
         int s = size.width * size.height;
+        int filledPixels = s;
+        
+        double sum = 0;
         for (int i = s - 1; i >= 0; i--) {
             if (maxValue < values[i]) maxValue = values[i];
+            
+            sum += values[i];
+            if (values[i] == 0) filledPixels--;
         }
+        avgValue = sum / filledPixels;
         
         calculated = true;
     }

@@ -37,6 +37,7 @@ namespace sag {
         
         bool calculated;
         double maxValue;
+        double avgValue;
         
         inline int index(int x, int y);
         void calculate();
