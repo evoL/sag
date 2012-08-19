@@ -2,14 +2,15 @@
 #define SAG_GENERATOR_H
 
 #include "utils/types.h"
+#include "utils/Bounds.h"
+#include "utils/Particle.h"
 #include "formulas/Formula.h"
 #include "rendering/Renderer.h"
-#include "utils/Bounds.h"
 
 namespace sag {
 	class Generator {
 	public:
-		Generator(Formula& f, Renderer& r, int iter, bool if3D=true);
+		Generator(Formula& f, Renderer& r, int iter, bool if3D=false);
 		virtual ~Generator() {}
 
 		virtual void run() = 0;
@@ -26,7 +27,7 @@ namespace sag {
 		const bool if3D;
         int iterations;
 
-		void sendParticle(Vector<number>& p);
+		void sendParticle(const Particle& p);
 
 	private:
 		Renderer *renderer;

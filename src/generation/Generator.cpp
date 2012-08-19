@@ -1,8 +1,7 @@
-#include <vector>
-#include "rendering/Renderer.h"
-#include "utils/Bounds.h"
-#include "utils/Vector.h"
 #include "generation/Generator.h"
+
+#include <vector>
+#include "utils/Vector.h"
 
 namespace sag {
 	Generator::Generator(Formula& f, Renderer& r, int iter, bool if3D):
@@ -26,7 +25,7 @@ namespace sag {
         renderer->setBounds(bounds);
     }
 
-	void Generator::sendParticle(Vector<number>& p) {
+	void Generator::sendParticle(const Particle& p) {
 		renderer->receiveParticle(p);
 	}
 

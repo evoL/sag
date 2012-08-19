@@ -26,6 +26,10 @@ namespace sag {
 			return *this;
 		}
 
+        inline Vector<T> operator+(const Vector<T>& v) {
+            return Vector<T>(x + v.x, y + v.y, z + v.z);
+        }
+        
 		inline Vector<T>& operator+=(const Vector<T>& v) {
 			x += v.x;
 			y += v.y;
@@ -33,7 +37,11 @@ namespace sag {
 
 			return *this;
 		}
-
+        
+        inline Vector<T> operator-(const Vector<T>& v) {
+            return Vector<T>(x - v.x, y - v.y, z - v.z);
+        }
+        
 		inline Vector<T>& operator-=(const Vector<T>& v) {
 			x -= v.x;
 			y -= v.y;
@@ -57,13 +65,28 @@ namespace sag {
 
 			return *this;
 		}
-		inline number length() {
+        
+		inline number length() const {
 			return sqrt(x*x + y*y + z*z);
 		}
 
-		inline number distance(const Vector<T>& v) {
+		inline number distance(const Vector<T>& v) const {
 			return Vector<T>(v.x-x, v.y-y, v.z-z).length();
 		}
+        
+        inline Vector<T>& reset(const T x2, const T y2) {
+            x = x2;
+            y = y2;
+            
+            return *this;
+        }
+        inline Vector<T>& reset(const T x2, const T y2, const T z2) {
+            x = x2;
+            y = y2;
+            z = z2;
+            
+            return *this;
+        }
 	};
 }
 

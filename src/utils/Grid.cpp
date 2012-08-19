@@ -52,7 +52,7 @@ namespace sag {
         return *this;
     }
     
-    Grid& Grid::addProjected(Vector<number>& v, Bounds<number>& bounds, double value) {
+    Grid& Grid::addProjected(const Vector<number>& v, const Bounds<number>& bounds, double value) {
         Bounds<number>::Raw b = bounds.getRawBounds();
         
         float x = (v.x - b.xmin) / (b.xmax - b.xmin) * size.width;

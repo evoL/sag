@@ -1,7 +1,7 @@
 #include "rendering/Renderer.h"
 
 namespace sag {
-    bool Renderer::receiveParticle(Vector<number> &p) {
+    bool Renderer::receiveParticle(const Particle& p) {
         if (particleCount < 0) throw "Uninitialized particle count";
         return true;
     }

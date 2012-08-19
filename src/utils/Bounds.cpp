@@ -53,9 +53,9 @@ namespace sag {
 	}
     
     template <typename T>
-    typename Bounds<T>::Raw Bounds<T>::getRawBounds() { return raw; }
+    typename Bounds<T>::Raw Bounds<T>::getRawBounds() const { return raw; }
     
     template Bounds<number>::Bounds(std::vector<Vector<number>>& particles);
     template Vector<number> Bounds<number>::getRandomVector(bool);
-    template Bounds<number>::Raw Bounds<number>::getRawBounds();
+    template Bounds<number>::Raw Bounds<number>::getRawBounds() const;
 }

@@ -4,14 +4,19 @@
 #include <gdkmm/pixbuf.h>
 #include "imaging/PixbufImage.h"
 #include "rendering/Renderer.h"
+#include "utils/Particle.h"
 #include "utils/Grid.h"
 
 namespace sag {
     class PixbufRenderer : public Renderer {
     public:
-        PixbufRenderer(int w, int h): Renderer(), grid(w, h), img(w, h) {}
+        PixbufRenderer(int w, int h):
+            Renderer(),
+            positionGrid(w, h),
+            velocityGrid(w, h),
+            img(w, h) {}
         
-        virtual bool receiveParticle(Vector<number>& p);
+        virtual bool receiveParticle(const Particle& p);
         
         void render();
         
@@ -19,7 +24,8 @@ namespace sag {
             return img.getPixbuf();
         }
     private:
-        Grid grid;
+        Grid positionGrid;
+        Grid velocityGrid;
         PixbufImage img;
     };
 }

@@ -4,7 +4,7 @@
 #include <queue>
 #include "utils/types.h"
 #include "utils/Bounds.h"
-#include "utils/Vector.h"
+#include "utils/Particle.h"
 
 namespace sag {
 	class Renderer {
@@ -12,7 +12,7 @@ namespace sag {
         Renderer(): particleCount(-1) {}
         virtual ~Renderer() {}
         
-        virtual bool receiveParticle(Vector<number>& p);
+        virtual bool receiveParticle(const Particle& p);
         
         void setBounds(Bounds<number>& b);
 

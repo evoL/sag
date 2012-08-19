@@ -46,7 +46,7 @@ namespace sag {
 
 		Vector<T> getRandomVector(bool if3D=true);
         
-        Raw getRawBounds();
+        Raw getRawBounds() const;
 
 	private:
 		Vector<T> center;

@@ -1,11 +1,11 @@
 #include "generation/SimpleGenerator.h"
 #include <vector>
-#include "utils/Vector.h"
+#include "utils/Particle.h"
 #include "utils/types.h"
 
 namespace sag {
 	void SimpleGenerator::run() {
-		std::vector<Vector<number>> initials;
+		std::vector<Particle> initials;
 
 		initials.resize(particleCount);
 
@@ -22,7 +22,7 @@ namespace sag {
         int i = iterations;
         while ( (iterations == UNLIMITED_ITERATIONS) || (i >= 0)) {
             for (int j=0; j < particleCount; j++) {
-				initials[j] = formula->step(initials[j]);
+				initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				sendParticle(initials[j]);
 			}
             --i;

@@ -3,15 +3,16 @@
 #include <iostream>
 
 namespace sag {
-    bool PixbufRenderer::receiveParticle(Vector<number>& p) {
+    bool PixbufRenderer::receiveParticle(const Particle& p) {
         if (!Renderer::receiveParticle(p)) return false;
         
-        grid.addProjected(p, bounds);
+        positionGrid.addProjected(p.getPosition(), bounds);
+        velocityGrid.addProjected(p.getPosition(), bounds, p.getVelocity().length());
         return true;
     }
     
     void PixbufRenderer::render() {
-        img.drawGrid(grid);
-        grid.clear();
+        img.drawGrid(positionGrid);
+        positionGrid.clear();
     }
 }

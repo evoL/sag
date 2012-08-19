@@ -30,7 +30,7 @@ namespace sag {
         Grid& add(int x, int y, double value=1);
         Grid& add(float x, float y, double value=1);
         
-        Grid& addProjected(Vector<number>& v, Bounds<number>& bounds, double value=1);
+        Grid& addProjected(const Vector<number>& v, const Bounds<number>& bounds, double value=1);
         
         std::vector<int> map();
         
