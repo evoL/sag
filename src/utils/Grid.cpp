@@ -3,8 +3,7 @@
 namespace sag {
     Grid::Grid(int width, int height):
         size(width, height),
-        calculated(false),
-        maxValue(0)
+        calculated(false)
     {
         values = new double[width*height];
     }
@@ -61,7 +60,7 @@ namespace sag {
         return add(x, y, value);
     }
     
-    std::vector<int> Grid::map(std::function<int(double)> fn) {
+    std::vector<int> Grid::map(std::function<int(double, const Info&)> fn) {
         // Pre-calculate things like maximum value
         calculate();
         
@@ -71,7 +70,7 @@ namespace sag {
         result.resize(s);
         
         for (int i = s-1; i>=0; i--) {
-            result[i] = fn(values[i]);
+            result[i] = fn(values[i], info);
         }
         
         return result;
@@ -81,9 +80,9 @@ namespace sag {
         // Pre-calculate the average value
         calculate();
 
-        double avgCache = 8 * avgValue;
+        double avgCache = 8 * info.avgValue;
         
-        return map( [&](double val) -> int { return (val > avgCache) ? 255 : (int)(val / avgCache * 255); } );
+        return map( [&](double val, const Info& info) -> int { return (val > avgCache) ? 255 : (int)(val / avgCache * 255); } );
     }
     
     int Grid::index(int x, int y) {
@@ -98,12 +97,13 @@ namespace sag {
         
         double sum = 0;
         for (int i = s - 1; i >= 0; i--) {
-            if (maxValue < values[i]) maxValue = values[i];
+            if (info.minValue > values[i]) info.minValue = values[i];
+            if (info.maxValue < values[i]) info.maxValue = values[i];
             
             sum += values[i];
             if (values[i] == 0) filledPixels--;
         }
-        avgValue = sum / filledPixels;
+        info.avgValue = sum / filledPixels;
         
         calculated = true;
     }

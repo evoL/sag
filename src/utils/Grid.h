@@ -21,6 +21,10 @@ namespace sag {
             }
         };
     public:
+        struct Info {
+            double minValue, maxValue, avgValue;
+        };
+        
         Dimensions size;
 
         Grid(int width, int height);
@@ -33,15 +37,16 @@ namespace sag {
         
         Grid& addProjected(const Vector<number>& v, const Bounds<number>& bounds, double value=1);
         
-        std::vector<int> map(std::function<int(double)> fn);
+        std::vector<int> map(std::function<int(double, const Info&)> fn);
         std::vector<int> map();
+        
+        inline const Info& getInfo() const { return info; }
         
     private:
         double *values;
         
         bool calculated;
-        double maxValue;
-        double avgValue;
+        Info info;
         
         inline int index(int x, int y);
         void calculate();
