@@ -2,7 +2,7 @@
 #define SAG_IMAGE
 
 #include <string>
-#include "utils/Grid.h"
+#include <vector>
 
 namespace sag {
     class Image {
@@ -15,7 +15,7 @@ namespace sag {
         
         virtual void clear() = 0;
         
-        virtual void drawGrid(Grid& g) = 0;
+        virtual void drawData(const std::vector<int>& values) = 0;
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) = 0;
         

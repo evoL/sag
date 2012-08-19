@@ -19,7 +19,7 @@ namespace sag {
         
         virtual void clear();
         
-        virtual void drawGrid(Grid& g);
+        virtual void drawData(const std::vector<int>& values);
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
         

@@ -31,16 +31,10 @@ namespace sag {
         }
     }
     
-    void PixbufImage::drawGrid(Grid& g) {
-        std::vector<int> values = g.map();
-        
+    void PixbufImage::drawData(const std::vector<int>& values) {
         int idx = 0;
         for (auto it = values.begin(); it < values.end(); it++) {
-            buffer[idx]   = *it;
-            buffer[idx+1] = *it;
-            buffer[idx+2] = *it;
-            
-            idx += 3;
+            buffer[idx++] = *it;
         }
     }
     
