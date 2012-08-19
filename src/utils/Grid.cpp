@@ -61,9 +61,7 @@ namespace sag {
         return add(x, y, value);
     }
     
-    std::vector<int> Grid::map() {
-        // TODO: enable customization of the mapping process with lambdas
-        
+    std::vector<int> Grid::map(std::function<int(double)> fn) {
         // Pre-calculate things like maximum value
         calculate();
         
@@ -72,17 +70,20 @@ namespace sag {
         std::vector<int> result;
         result.resize(s);
         
-        double avgCache = 8 * avgValue;
-        
         for (int i = s-1; i>=0; i--) {
-            // TODO: result[i] = lambda(values[i]);
-//            result[i] = (int)(values[i] / maxValue * 255);
-//            result[i] = (values[i] > 255) ? 255 : (int)(values[i]);
-//            result[i] = (values[i] > 0) ? 255 : 0;
-            result[i] = (values[i] > avgCache) ? 255 : (int)(values[i] / avgCache * 255);
+            result[i] = fn(values[i]);
         }
         
         return result;
+    }
+    
+    std::vector<int> Grid::map() {
+        // Pre-calculate the average value
+        calculate();
+
+        double avgCache = 8 * avgValue;
+        
+        return map( [&](double val) -> int { return (val > avgCache) ? 255 : (int)(val / avgCache * 255); } );
     }
     
     int Grid::index(int x, int y) {

@@ -2,6 +2,7 @@
 #define SAG_GRID_H
 
 #include <vector>
+#include <functional>
 #include "utils/types.h"
 #include "utils/Vector.h"
 #include "utils/Bounds.h"
@@ -32,6 +33,7 @@ namespace sag {
         
         Grid& addProjected(const Vector<number>& v, const Bounds<number>& bounds, double value=1);
         
+        std::vector<int> map(std::function<int(double)> fn);
         std::vector<int> map();
         
     private:
