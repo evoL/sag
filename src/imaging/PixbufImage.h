@@ -18,6 +18,7 @@ namespace sag {
         virtual void toFile(std::string filename);
         
         virtual void clear();
+        virtual void resize(unsigned int w, unsigned int h);
         
         virtual void drawData(const std::vector<int>& values);
         

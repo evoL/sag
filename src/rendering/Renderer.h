@@ -18,6 +18,7 @@ namespace sag {
 
         void setParticleCount(int pc);
 
+        virtual void clear() = 0;
         virtual void render() = 0;
     protected:
         Bounds<number> bounds;

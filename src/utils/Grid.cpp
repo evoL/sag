@@ -15,8 +15,21 @@ namespace sag {
     Grid& Grid::clear() {
         for (int i=size.width*size.height-1; i>=0; --i)
             values[i] = 0;
-        
+
+        calculated = false;
         return *this;
+    }
+    
+    Grid& Grid::resize(int w, int h) {
+        // TODO: make actual resizing
+        delete[] values;
+        
+        size.width = w;
+        size.height = h;
+        
+        values = new double[w*h];
+        
+        return clear();
     }
     
     Grid& Grid::add(int x, int y, double value) {
@@ -87,7 +100,7 @@ namespace sag {
     
     int Grid::index(int x, int y) {
         return y * size.width + x;
-     }
+    }
     
     void Grid::calculate() {
         if (calculated) return;

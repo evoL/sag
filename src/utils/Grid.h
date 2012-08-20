@@ -32,6 +32,8 @@ namespace sag {
         
         Grid& clear();
         
+        Grid& resize(int w, int h);
+        
         Grid& add(int x, int y, double value=1);
         Grid& add(float x, float y, double value=1);
         

@@ -10,6 +10,12 @@
 namespace sag {
     class PixbufRenderer : public Renderer {
     public:
+        PixbufRenderer():
+            Renderer(),
+            positionGrid(512, 512),
+            velocityGrid(512, 512),
+            img(512, 512) {}
+        
         PixbufRenderer(int w, int h):
             Renderer(),
             positionGrid(w, h),
@@ -19,6 +25,8 @@ namespace sag {
         virtual bool receiveParticle(const Particle& p);
         
         void render();
+        void clear();
+        void resize(int w, int h);
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {
             return img.getPixbuf();

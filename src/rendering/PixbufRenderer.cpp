@@ -40,8 +40,17 @@ namespace sag {
         }
         
         img.drawData(data);
-        
+    }
+    
+    void PixbufRenderer::clear() {
         positionGrid.clear();
         velocityGrid.clear();
+        img.clear();
+    }
+    
+    void PixbufRenderer::resize(int w, int h) {
+        positionGrid.resize(w, h);
+        velocityGrid.resize(w, h);
+        img.resize(w, h);
     }
 }
