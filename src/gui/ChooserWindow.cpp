@@ -1,6 +1,6 @@
 #include "gui/ChooserWindow.h"
 
-#include "formulas/Quadratic.h"
+#include "formulas/DeJong.h"
 
 namespace sag {
     ChooserWindow::ChooserWindow(): renderer(512, 512), view(renderer) {
@@ -12,7 +12,7 @@ namespace sag {
         set_default_size(512, 512);
         
         // Setup the generating stuff
-        formula = new Quadratic();
+        formula = new DeJong();
         generator = new SimpleGenerator(*formula, renderer, 10000);
         
         view.add_events(Gdk::BUTTON_PRESS_MASK);
