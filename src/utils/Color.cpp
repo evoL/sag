@@ -38,5 +38,5 @@ namespace sag {
         if (t < 0.5) return q;
         if (t < 0.666666667) return p + (q - p) * (0.666666667 - t) * 6;
         return p;
-    };
+    }
 }
