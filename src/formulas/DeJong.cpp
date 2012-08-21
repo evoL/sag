@@ -4,8 +4,8 @@
 #include <cmath>
 
 namespace sag {
-    const ParamDistribution* DeJong::getDistribution() const {
-        static ParamDistribution* dstr = new EqualDistribution(-2, 2);
+    const ParamDistribution& DeJong::getDistribution() const {
+        static EqualDistribution dstr(-2, 2);
         return dstr;
     }
     

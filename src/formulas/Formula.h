@@ -25,7 +25,7 @@ namespace sag {
         
         virtual inline bool is3D() const { return false; }
         virtual inline int paramCount() const { return 0; }
-        virtual const ParamDistribution* getDistribution() const = 0;
+        virtual const ParamDistribution& getDistribution() const = 0;
         
 	protected:
 		static const int MAXITER = 5000;

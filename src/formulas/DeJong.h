@@ -10,7 +10,7 @@ namespace sag {
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
         
         virtual inline int paramCount() const { return 4; }
-        virtual const ParamDistribution* getDistribution() const;
+        virtual const ParamDistribution& getDistribution() const;
     };
 }
 

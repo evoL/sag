@@ -11,9 +11,9 @@ namespace sag {
         EqualDistribution(Range<number>& range): range(range) {}
         EqualDistribution(number from, number to): range(from, to) {}
         
-        virtual number min(int param);
-        virtual number max(int param);
-        virtual const Range<number>& getRange(int param) const;
+        virtual number min(int param) const;
+        virtual number max(int param) const;
+        virtual const Range<number> getRange(int param) const;
         
     private:
         Range<number> range;

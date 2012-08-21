@@ -17,7 +17,7 @@ namespace sag {
         
 		do {
 			for (int i=0; i < pc; i++)
-				parameters[i] = Random<number>::get().inRange(getDistribution()->getRange(i));
+				parameters[i] = Random<number>::get().inRange(getDistribution().getRange(i));
 
 		} while (!verifyParams(parameters));
 	}
