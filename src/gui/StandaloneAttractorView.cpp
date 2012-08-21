@@ -3,6 +3,8 @@
 #include "utils/Random.h"
 #include "formulas/DeJong.h"
 #include "formulas/Quadratic.h"
+#include "formulas/Blut.h"
+
 
 namespace sag {
     StandaloneAttractorView::StandaloneAttractorView(int w, int h):
@@ -38,11 +40,16 @@ namespace sag {
                 formula = new Quadratic();
                 formulaName = "Quadratic";
                 break;
+            case 2:
+                formula = new Blut();
+                formulaName = "Blut";
+                break;
         }
         
         if (generator != nullptr) delete generator;
         
         generator = new SimpleGenerator(*formula, *renderer, ITERATIONS);
+        generator->setParticleCount(4);
     }
     
     void StandaloneAttractorView::reset() {

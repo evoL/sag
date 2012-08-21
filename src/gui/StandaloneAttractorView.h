@@ -20,7 +20,7 @@ namespace sag {
         virtual bool on_expose_event(GdkEventExpose* event);
     
     private:
-        static const int FORMULA_COUNT = 2;
+        static const int FORMULA_COUNT = 3;
         static const int ITERATIONS = 10000;
         
         Formula *formula;
