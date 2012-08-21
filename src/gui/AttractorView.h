@@ -3,7 +3,6 @@
 
 #include <gtkmm/drawingarea.h>
 #include <gdkmm/pixbuf.h>
-#include "generation/Generator.h"
 #include "rendering/PixbufRenderer.h"
 
 namespace sag {

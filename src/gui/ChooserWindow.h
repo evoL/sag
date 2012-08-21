@@ -2,10 +2,12 @@
 #define SAG_CHOOSERWINDOW
 
 #include <gtkmm/window.h>
-#include "formulas/Formula.h"
-#include "rendering/PixbufRenderer.h"
-#include "generation/SimpleGenerator.h"
-#include "gui/AttractorView.h"
+#include <gtkmm/table.h>
+#include <gtkmm/box.h>
+#include <gtkmm/button.h>
+#include <vector>
+
+#include "gui/StandaloneAttractorView.h"
 
 namespace sag {
     class ChooserWindow : public Gtk::Window {
@@ -14,16 +16,16 @@ namespace sag {
         virtual ~ChooserWindow();
         
     protected:
-        virtual void on_show();
-        virtual void on_size_allocate(Gtk::Allocation& alloc);
-        
     private:
-        Formula *formula;
-        PixbufRenderer renderer;
-        SimpleGenerator *generator;
-        AttractorView view;
+        static const int ROWS = 3;
+        static const int COLS = 3;
         
-        bool on_image_click(GdkEventButton* evt);
+        Gtk::HBox box;
+        Gtk::Table table;
+        Gtk::Button button;
+        std::vector<StandaloneAttractorView*> views;
+        
+        void on_button_clicked();
     };
 }
 
