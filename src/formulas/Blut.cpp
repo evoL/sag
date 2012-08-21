@@ -18,7 +18,7 @@ namespace sag {
     
 	Vector<number> Blut::step(const Vector<number>& prev, const std::vector<number> params) {
         
-        number x = params[8] * (sin(params[0] * prev.y) + params[2] * cos(params[0] * prev.x)) + (1 - params[8]) * (prev.y + params[4] * (prev.x >= 0 ? 1 : -1) * sqrt(abs(params[5] * prev.x - params[6])));
+        number x = params[8] * (sin(params[0] * prev.y) + params[2] * cos(params[0] * prev.x)) + (1 - params[8]) * (prev.y + params[4] * (prev.x >= 0 ? 1 : -1) * sqrt(std::abs(params[5] * prev.x - params[6])));
         number y = params[8] * (sin(params[1] * prev.x) + params[3] * cos(params[1] * prev.y)) + (1 - params[8]) * (params[7] - prev.x);
         
 		return Vector<number>(x, y);
