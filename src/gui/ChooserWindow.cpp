@@ -9,19 +9,19 @@ namespace sag {
     {
         // Window setup
         Gdk::Geometry hints;
-        hints.min_width = 1000;
-        hints.min_height = 600;
-        hints.max_width = 1000;
-        hints.max_height = 600;
+        hints.min_width = WIDTH;
+        hints.min_height = HEIGHT;
+        hints.max_width = WIDTH;
+        hints.max_height = HEIGHT;
         set_geometry_hints(*this, hints, Gdk::HINT_MIN_SIZE | Gdk::HINT_MAX_SIZE);
-        set_default_size(1000, 600);
+        set_default_size(WIDTH, HEIGHT);
         set_resizable(false);
         
         // Box setup
         add(box);
         
         // Button setup
-        button.set_size_request(400, -1);
+        button.set_size_request(WIDTH-HEIGHT, -1);
         
         button.signal_clicked().connect(sigc::mem_fun(*this, &ChooserWindow::on_button_clicked));
         
@@ -36,7 +36,7 @@ namespace sag {
             x = i / ROWS;
             y = i % ROWS;
             
-            (*it) = new StandaloneAttractorView(200,200);
+            (*it) = new StandaloneAttractorView(HEIGHT/COLS,HEIGHT/ROWS);
             table.attach(**it, x, x+1, y, y+1);
             
             i++;
@@ -56,7 +56,6 @@ namespace sag {
     void ChooserWindow::on_button_clicked() {
         for (auto it = views.begin(); it < views.end(); it++) {
             (**it).reset();
-//            (**it).get_window()->invalidate(false);
         }
         table.get_window()->invalidate(true);
     }

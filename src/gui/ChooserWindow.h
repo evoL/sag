@@ -17,6 +17,8 @@ namespace sag {
         
     protected:
     private:
+        static const int WIDTH = 1000;
+        static const int HEIGHT = 600;
         static const int ROWS = 3;
         static const int COLS = 3;
         
