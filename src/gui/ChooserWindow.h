@@ -4,6 +4,7 @@
 #include <gtkmm/window.h>
 #include <gtkmm/table.h>
 #include <gtkmm/box.h>
+#include <gtkmm/label.h>
 #include <gtkmm/button.h>
 #include <vector>
 
@@ -17,17 +18,21 @@ namespace sag {
         
     protected:
     private:
-        static const int WIDTH = 1000;
+        static const int WIDTH = 900;
         static const int HEIGHT = 600;
         static const int ROWS = 3;
         static const int COLS = 3;
         
         Gtk::HBox box;
         Gtk::Table table;
-        Gtk::Button button;
+        Gtk::VBox panel;
+        Gtk::Label title;
+        Gtk::Button randomizeButton, loadButton;
         std::vector<StandaloneAttractorView*> views;
         
-        void on_button_clicked();
+        void randomizeAttractors();
+        void loadAttractor();
+        bool onImageClick(GdkEventButton* evt, StandaloneAttractorView* view);
     };
 }
 

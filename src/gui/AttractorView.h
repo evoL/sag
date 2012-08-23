@@ -8,16 +8,27 @@
 namespace sag {
     class AttractorView : public Gtk::DrawingArea {
     public:
-        AttractorView(PixbufRenderer& r):
-            Gtk::DrawingArea(),
-            renderer(&r) {}
+        enum Events {
+            NO_EVENT = 0,
+            HOVER_EVENT = 1 << 0,
+            MOUSEBUTTON_EVENT = 1 << 1,
+            ALL_EVENTS = 3
+        };
+        
+        AttractorView(PixbufRenderer& r, Events evts = NO_EVENT);
         virtual ~AttractorView() {}
         
         inline PixbufRenderer& getRenderer() { return *renderer; }
     protected:
         PixbufRenderer *renderer;
+        Events events;
+        bool isMouseOver;
         
         virtual bool on_expose_event(GdkEventExpose* event);
+        virtual bool on_enter_notify_event(GdkEventCrossing* event);
+        virtual bool on_leave_notify_event(GdkEventCrossing* event);
+        
+        
     };
 }
 

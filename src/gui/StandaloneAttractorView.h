@@ -9,15 +9,17 @@
 namespace sag {
     class StandaloneAttractorView : public AttractorView {
     public:
-        StandaloneAttractorView(int w, int h);
+        StandaloneAttractorView(int w, int h, Events evts = NO_EVENT);
         virtual ~StandaloneAttractorView();
         
         void randomize();
         void reset();
         
-        std::string formulaName;
+        inline const Formula* getFormula() { return formula; }
     protected:
         virtual bool on_expose_event(GdkEventExpose* event);
+        virtual bool on_enter_notify_event(GdkEventCrossing* event);
+        virtual bool on_leave_notify_event(GdkEventCrossing* event);
     
     private:
         static const int FORMULA_COUNT = 3;
