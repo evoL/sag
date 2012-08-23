@@ -95,10 +95,14 @@ namespace sag {
         Gtk::MessageDialog dialog(*this, "You've clicked a " + f->name());
         
         std::stringstream ss;
-        ss << "The parameters:" << std::endl;
+        ss.precision(18);
+        ss << "AttraGen-compatible data:" << std::endl << std::endl;
+        ss << f->name() << std::endl
+           << f->getStartPoint().x << std::endl
+           << f->getStartPoint().y << std::endl;
+        
         for (auto it = f->getParameters().begin(); it < f->getParameters().end(); it++) {
-            ss << *it;
-            ss << " | ";
+            ss << *it << std::endl;
         }
         
         dialog.set_secondary_text(ss.str());
