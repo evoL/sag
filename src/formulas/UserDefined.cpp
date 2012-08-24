@@ -34,7 +34,7 @@ namespace sag {
 					number arg;
 					arg = st.top();
 					st.pop();
-					st.push(it->val.un_op(arg1));
+					st.push(it->val.un_op(arg));
 					break;
 				}
 			}
