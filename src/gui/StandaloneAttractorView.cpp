@@ -4,6 +4,7 @@
 #include "formulas/DeJong.h"
 #include "formulas/Quadratic.h"
 #include "formulas/Blut.h"
+#include "formulas/UserDefined.h"
 
 #include <gdkmm/cursor.h>
 
@@ -43,6 +44,16 @@ namespace sag {
             case 2:
                 formula = new Blut();
                 break;
+            case 3:
+            	formula = new UserDefined();
+            	std::vector<std::string> formulas;
+            	formulas.push_back("sin(p0*y)+p2*cos(p0*x)");
+            	formulas.push_back("sin(p1*x)+p3*cos(p1*y)");
+            	std::vector<Range<number>> ranges(4, Range<number>(-2, 2));
+            	CustomDistribution dstr(ranges);
+
+            	((UserDefined *)formula)->set(formulas, 4, dstr, "Clifford");
+            	break;
         }
         
         if (generator != nullptr) delete generator;

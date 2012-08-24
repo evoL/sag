@@ -8,15 +8,19 @@
 namespace sag {
 	class UserDefined : public Formula {
 	public:
-		~UserDefined() {}
+		UserDefined(): Formula(), pc(0), _is3D(false), isSet(false) {}
+
+		UserDefined(const std::vector<number>& parameters): Formula(parameters), pc(0), _is3D(false), isSet(false) {}
+
+		virtual ~UserDefined() {}
 
 		CLONEABLE(UserDefined)
 
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
 
 		virtual const std::string name() const;
-		virtual inline int paramCount() const;
 		virtual inline bool is3D() const;
+		virtual inline int paramCount() const;
 		virtual const ParamDistribution& getDistribution() const;
 
 		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname);
@@ -61,8 +65,8 @@ namespace sag {
 			void pushToken(Tokens t, number n=0);
 
 			std::vector<Token> tokens;
-			static const number PI = 3.14159265359;
-			static const number E = 2.71828182846;
+			static constexpr number PI = 3.14159265359;
+			static constexpr number E = 2.71828182846;
 		};
 
 		class Parser {
@@ -77,11 +81,15 @@ namespace sag {
 				binary_function bin_op;
 			};
 
-			static const binary_function add = [](number a, number b) -> number { return a+b; };
-			static const binary_function sub = [](number a, number b) -> number { return a-b; };
-			static const binary_function mult = [](number a, number b) -> number { return a*b; };
-			static const binary_function div = [](number a, number b) -> number { return a/b; };
-			static const binary_function mod = [](number a, number b) -> number { return a%b; };
+			static inline number add(number a, number b) { return a+b; }
+			static inline number sub(number a, number b) { return a-b; }
+			static inline number mult(number a, number b) { return a*b; }
+			static inline number div(number a, number b) { return a/b; }
+
+			//static constexpr binary_function add = [](number a, number b) -> number { return a+b; };
+			//static constexpr binary_function sub = [](number a, number b) -> number { return a-b; };
+			//static constexpr binary_function mult = [](number a, number b) -> number { return a*b; };
+			//static constexpr binary_function div = [](number a, number b) -> number { return a/b; };
 
 			enum Type {
 				UNARY_OPERATOR,
@@ -135,16 +143,16 @@ namespace sag {
 
 			bool parameter(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res);
 
-			bool number(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res);
+			bool num(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res);
 
 			bool argument(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res);
 
 		};
 
-		int pc = 0;
-		bool _is3D = false;
-		bool isSet = false;
-		CustomDistribution dstr;
+		int pc;
+		bool _is3D;
+		bool isSet;
+		CustomDistribution dstr();
 		std::vector<std::vector<Parser::Elem>> RPN;
 		std::string formulaName;
 	};

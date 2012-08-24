@@ -45,7 +45,7 @@ namespace sag {
 		return Vector<number>(res[0], res[1]);
 	}
 
-	virtual const std::string UserDefined::name() const {
+	const std::string UserDefined::name() const {
 		if (!isSet) throw "CustomDistribution is not set";
 		return formulaName;
 	}
@@ -65,7 +65,7 @@ namespace sag {
 	}
 
 	bool UserDefined::set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname) {
-		if (pc != dstr.paramCount()) return false;
+		if (pc != distribution.paramCount()) return false;
 		pc = paramCount;
 		dstr = distribution;
 		formulaName = fname;
@@ -375,7 +375,7 @@ namespace sag {
 			if (!(rightParenthesis(it2, end))) return false;
 		} else if (parameter(begin, end, res1)) {}
 		else if (argument(begin, end, res1)) {}
-		else if (number(begin, end, res1)) {}
+		else if (num(begin, end, res1)) {}
 		else return false;
 
 		res = res1;
@@ -423,7 +423,7 @@ namespace sag {
 			break;
 		case Lexer::OP_MOD:
 			el.type = BINARY_OPERATOR;
-			el.val.bin_op = mod;
+			el.val.bin_op = fmod;
 			res.push_back(el);
 			end = begin + 1;
 			break;
@@ -513,7 +513,7 @@ namespace sag {
 		return false;
 	}
 
-	bool UserDefined::Parser::number(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res) {
+	bool UserDefined::Parser::num(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res) {
 		if (begin->t == Lexer::NUM) {
 			Elem el;
 			el.type = NUMBER;
