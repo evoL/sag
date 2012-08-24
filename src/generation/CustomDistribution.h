@@ -17,6 +17,8 @@ namespace sag {
 		virtual number max(int param) const;
 		virtual const Range<number> getRange(int param) const;
 
+		inline int paramCount() { return dstr.size(); }
+
 	private:
 		const std::vector<Range<number>> dstr;
 	};
