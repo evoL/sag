@@ -26,7 +26,7 @@ namespace sag {
 			return *this;
 		}
 
-        inline Vector<T> operator+(const Vector<T>& v) {
+        inline Vector<T> operator+(const Vector<T>& v) const {
             return Vector<T>(x + v.x, y + v.y, z + v.z);
         }
         
@@ -38,7 +38,7 @@ namespace sag {
 			return *this;
 		}
         
-        inline Vector<T> operator-(const Vector<T>& v) {
+        inline Vector<T> operator-(const Vector<T>& v) const {
             return Vector<T>(x - v.x, y - v.y, z - v.z);
         }
         
@@ -66,7 +66,7 @@ namespace sag {
 			return *this;
 		}
 
-		inline const T& operator[](int id) {
+		inline const T& operator[](int id) const {
 			switch (id) {
 			case 0:
 				return x;

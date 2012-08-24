@@ -10,13 +10,16 @@ namespace sag {
 	public:
 		~UserDefined() {}
 
+		CLONEABLE(UserDefined)
+
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
 
+		virtual const std::string name() const;
 		virtual inline int paramCount() const;
 		virtual inline bool is3D() const;
 		virtual const ParamDistribution& getDistribution() const;
 
-		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution);
+		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname);
 
 	protected:
 		bool validateRPN();
@@ -143,6 +146,7 @@ namespace sag {
 		bool isSet = false;
 		CustomDistribution dstr;
 		std::vector<std::vector<Parser::Elem>> RPN;
+		std::string formulaName;
 	};
 }
 

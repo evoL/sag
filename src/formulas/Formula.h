@@ -1,6 +1,11 @@
 #ifndef FORMULA_H
 #define FORMULA_H
 
+#define CLONEABLE(className) \
+	virtual inline Formula * clone() const { \
+		return new className(*this); \
+	}
+
 #include <vector>
 #include <string>
 #include "utils/types.h"
@@ -29,6 +34,7 @@ namespace sag {
         virtual inline bool is3D() const { return false; }
         virtual inline int paramCount() const { return 0; }
         virtual const ParamDistribution& getDistribution() const = 0;
+        virtual inline Formula * clone() const = 0;
         
 	protected:
 		static const int MAXITER = 5000;

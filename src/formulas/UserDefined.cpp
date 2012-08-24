@@ -19,8 +19,7 @@ namespace sag {
 					st.push(params[it->val.i]);
 					break;
 				case Parser::ARGUMENT:
-					number x = prev[it->val.i];
-					st.push(x);
+					st.push(prev[it->val.i]);
 					break;
 				case Parser::BINARY_OPERATOR:
 					number arg1, arg2;
@@ -46,6 +45,11 @@ namespace sag {
 		return Vector<number>(res[0], res[1]);
 	}
 
+	virtual const std::string UserDefined::name() const {
+		if (!isSet) throw "CustomDistribution is not set";
+		return formulaName;
+	}
+
 	int UserDefined::paramCount() const {
 		if (!isSet) throw "CustomDistribution is not set";
 		return pc;
@@ -60,10 +64,11 @@ namespace sag {
 		return dstr;
 	}
 
-	bool UserDefined::set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution) {
+	bool UserDefined::set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname) {
 		if (pc != dstr.paramCount()) return false;
 		pc = paramCount;
 		dstr = distribution;
+		formulaName = fname;
 
 		if (formulas.size() == 2) {
 			_is3D = false;
