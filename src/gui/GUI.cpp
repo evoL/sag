@@ -1,14 +1,10 @@
-#include "gui/ChooserWindow.h"
+#include "gui/GUI.h"
+
 #include <gtkmm/messagedialog.h>
 #include <sstream>
 
 namespace sag {
-    ChooserWindow::ChooserWindow():
-        box(false, 0),
-        table(COLS, ROWS, true),
-        panel(false, 0),
-        views(COLS*ROWS)
-    {
+    GUI::GUI(): chooser(this) {
         // Window setup
         Gdk::Geometry hints;
         hints.min_width = WIDTH;
@@ -19,11 +15,20 @@ namespace sag {
         set_default_size(WIDTH, HEIGHT);
         set_resizable(false);
         
-        // Box setup
-        add(box);
+        add(chooser);
+        
+        chooser.show();
+    }
     
+    GUI::ChooserView::ChooserView(GUI* gui):
+        Gtk::HBox(false, 0),
+        gui(gui),
+        table(COLS, ROWS, true),
+        panel(false, 0),
+        views(COLS*ROWS)
+    {
         // Table setup
-        box.pack_start(table);
+        pack_start(table);
         
         int i = 0;
         int x, y;
@@ -32,12 +37,7 @@ namespace sag {
             y = i % ROWS;
             
             (*it) = new StandaloneAttractorView(HEIGHT/COLS, HEIGHT/ROWS, AttractorView::ALL_EVENTS);
-            (*it)->signal_button_press_event().connect(
-                sigc::bind<StandaloneAttractorView*>(
-                    sigc::mem_fun(*this, &ChooserWindow::onImageClick),
-                    *it
-                )
-            );
+            (*it)->signal_button_press_event().connect(sigc::bind<StandaloneAttractorView*>(sigc::mem_fun(*this, &ChooserView::onImageClick), *it));
             table.attach(**it, x, x+1, y, y+1);
             
             i++;
@@ -45,7 +45,7 @@ namespace sag {
         
         // Panel setup
         panel.set_size_request(WIDTH-HEIGHT, -1);
-        box.pack_end(panel, Gtk::PACK_SHRINK);
+        pack_end(panel, Gtk::PACK_SHRINK);
         
         title.set_markup("<span size=\"large\" weight=\"bold\">Choose an attractor</span>");
         title.set_padding(10, 10);
@@ -54,20 +54,19 @@ namespace sag {
         randomizeButton.set_label("Generate more");
         randomizeButton.set_size_request(-1, 80);
         randomizeButton.set_border_width(5);
-        randomizeButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserWindow::randomizeAttractors));
+        randomizeButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserView::randomizeAttractors));
         panel.pack_start(randomizeButton, Gtk::PACK_SHRINK);
         
         loadButton.set_label("Load from file");
         loadButton.set_size_request(-1, 80);
         loadButton.set_border_width(5);
-        loadButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserWindow::loadAttractor));
+        loadButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserView::loadAttractor));
         panel.pack_start(loadButton, Gtk::PACK_SHRINK);
-        
         
         show_all_children();
     }
     
-    ChooserWindow::~ChooserWindow() {
+    GUI::ChooserView::~ChooserView() {
         for (auto it = views.begin(); it < views.end(); it++) {
             table.remove(**it);
             delete *it;
@@ -75,24 +74,24 @@ namespace sag {
         }
     }
     
-    void ChooserWindow::randomizeAttractors() {
+    void GUI::ChooserView::randomizeAttractors() {
         for (auto it = views.begin(); it < views.end(); it++) {
             (**it).reset();
         }
         table.get_window()->invalidate(true);
     }
     
-    void ChooserWindow::loadAttractor() {
-        Gtk::MessageDialog dialog(*this, "Not implemented yet");
+    void GUI::ChooserView::loadAttractor() {
+        Gtk::MessageDialog dialog(*gui, "Not implemented yet");
         dialog.set_secondary_text("Please wait for the developers or implement this yourself. :)");
         
         dialog.run();
     }
     
-    bool ChooserWindow::onImageClick(GdkEventButton* evt, StandaloneAttractorView* view) {
+    bool GUI::ChooserView::onImageClick(GdkEventButton* evt, StandaloneAttractorView* view) {
         const Formula *f = view->getFormula();
         
-        Gtk::MessageDialog dialog(*this, "You've clicked a " + f->name());
+        Gtk::MessageDialog dialog(*gui, "You've clicked a " + f->name());
         
         std::stringstream ss;
         ss.precision(18);
