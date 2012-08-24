@@ -16,6 +16,9 @@ namespace sag {
         GUI();
         virtual ~GUI() {}
         
+        void showChooser();
+        void showEditor();
+        
     protected:
     private:
         static const int WIDTH = 900;
@@ -42,7 +45,27 @@ namespace sag {
             bool onImageClick(GdkEventButton* evt, StandaloneAttractorView* view);
         };
         
+        class EditorView : public Gtk::HBox {
+        public:
+            EditorView(GUI* gui);
+            virtual ~EditorView() {}
+            
+//            void setFormula(Formula* f);
+        private:
+            GUI* gui;
+            
+            Formula *formula;
+            Generator *generator;
+            PixbufRenderer renderer;
+            
+            AttractorView view;
+            Gtk::VBox panel;
+            Gtk::Label title;
+            Gtk::Button returnButton;
+        };
+        
         ChooserView chooser;
+        EditorView editor;
     };
 }
 

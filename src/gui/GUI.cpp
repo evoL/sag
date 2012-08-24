@@ -4,7 +4,7 @@
 #include <sstream>
 
 namespace sag {
-    GUI::GUI(): chooser(this) {
+    GUI::GUI(): chooser(this), editor(this) {
         // Window setup
         Gdk::Geometry hints;
         hints.min_width = WIDTH;
@@ -19,6 +19,20 @@ namespace sag {
         
         chooser.show();
     }
+    
+    void GUI::showChooser() {
+        remove();
+        add(chooser);
+        chooser.show();
+    }
+    
+    void GUI::showEditor() {
+        remove();
+        add(editor);
+        editor.show();
+    }
+    
+    ////////////////////////////////////////////////////////////////////
     
     GUI::ChooserView::ChooserView(GUI* gui):
         Gtk::HBox(false, 0),
@@ -107,6 +121,33 @@ namespace sag {
         dialog.set_secondary_text(ss.str());
         dialog.run();
         
+        gui->showEditor();
+        
         return true;
+    }
+    
+    ////////////////////////////////////////////////////////////////////
+    
+    GUI::EditorView::EditorView(GUI* gui):
+        gui(gui),
+        renderer(HEIGHT, HEIGHT),
+        view(renderer)
+    {
+        pack_start(view);
+        
+        panel.set_size_request(WIDTH-HEIGHT, -1);
+        pack_end(panel, Gtk::PACK_SHRINK);
+        
+        title.set_markup("<span size=\"large\" weight=\"bold\">Customize your attractor</span>");
+        title.set_padding(10, 10);
+        panel.pack_start(title, Gtk::PACK_SHRINK);
+        
+        returnButton.set_label("Choose a different attractor");
+        returnButton.set_border_width(5);
+        returnButton.set_size_request(-1, 80);
+        returnButton.signal_clicked().connect(sigc::mem_fun(*gui, &GUI::showChooser));
+        panel.pack_end(returnButton, Gtk::PACK_SHRINK);
+        
+        show_all_children();
     }
 }
