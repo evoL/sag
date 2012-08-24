@@ -7,6 +7,8 @@
 namespace sag {
     class ParamDistribution {
     public:
+    	virtual ~ParamDistribution() {}
+
         virtual number min(int param) const = 0;
         virtual number max(int param) const = 0;
         virtual const Range<number> getRange(int param) const;
