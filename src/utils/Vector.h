@@ -26,7 +26,7 @@ namespace sag {
 			return *this;
 		}
 
-        inline Vector<T> operator+(const Vector<T>& v) {
+        inline Vector<T> operator+(const Vector<T>& v) const {
             return Vector<T>(x + v.x, y + v.y, z + v.z);
         }
         
@@ -38,7 +38,7 @@ namespace sag {
 			return *this;
 		}
         
-        inline Vector<T> operator-(const Vector<T>& v) {
+        inline Vector<T> operator-(const Vector<T>& v) const {
             return Vector<T>(x - v.x, y - v.y, z - v.z);
         }
         
@@ -65,6 +65,19 @@ namespace sag {
 
 			return *this;
 		}
+
+		inline const T& operator[](int id) const {
+			switch (id) {
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			default:
+				throw "Illegal access to Vector";
+			}
+		}
         
 		inline number length() const {
 			return sqrt(x*x + y*y + z*z);
@@ -74,13 +87,7 @@ namespace sag {
 			return Vector<T>(v.x-x, v.y-y, v.z-z).length();
 		}
         
-        inline Vector<T>& reset(const T x2, const T y2) {
-            x = x2;
-            y = y2;
-            
-            return *this;
-        }
-        inline Vector<T>& reset(const T x2, const T y2, const T z2) {
+        inline Vector<T>& reset(const T x2, const T y2, const T z2 = 0) {
             x = x2;
             y = y2;
             z = z2;

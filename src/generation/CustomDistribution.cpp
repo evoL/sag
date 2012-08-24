@@ -7,7 +7,8 @@ namespace sag {
 	number CustomDistribution::max(int param) const {
 		return dstr[param].max();
 	}
-	virtual const Range<number> CustomDistribution::getRange(int param) const {
+	const Range<number> CustomDistribution::getRange(int param) const {
 		return dstr[param];
 	}
+
 }

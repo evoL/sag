@@ -7,6 +7,8 @@ namespace sag {
     class DeJong : public Formula {
         ~DeJong() {}
         
+        CLONEABLE(DeJong)
+
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
         
         virtual const std::string name() const { return "DeJong"; }
