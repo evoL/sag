@@ -9,6 +9,7 @@
 namespace sag {
 	class CustomDistribution : public ParamDistribution {
 	public:
+        CustomDistribution() {}
 		CustomDistribution(std::vector<Range<number>> dstr): dstr(dstr) {}
 
 		virtual ~CustomDistribution() {}
@@ -20,7 +21,7 @@ namespace sag {
 		inline int paramCount() { return dstr.size(); }
 
 	private:
-		const std::vector<Range<number>> dstr;
+		std::vector<Range<number>> dstr;
 	};
 }
 

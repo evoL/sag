@@ -1,6 +1,7 @@
 #include "formulas/UserDefined.h"
 #include <cmath>
 #include <stack>
+#include <sstream>
 #include "utils/Range.h"
 
 namespace sag {
@@ -46,26 +47,26 @@ namespace sag {
 	}
 
 	const std::string UserDefined::name() const {
-		if (!isSet) throw "CustomDistribution is not set";
+		if (!isSet) throw "The formula has not been set up";
 		return formulaName;
 	}
 
 	int UserDefined::paramCount() const {
-		if (!isSet) throw "CustomDistribution is not set";
+		if (!isSet) throw "The formula has not been set up";
 		return pc;
 	}
 	bool UserDefined::is3D() const {
-		if (!isSet) throw "CustomDistribution is not set";
+		if (!isSet) throw "The formula has not been set up";
 		return _is3D;
 	}
 
 	const ParamDistribution& UserDefined::getDistribution() const {
-		if (!isSet) throw "CustomDistribution is not set";
+		if (!isSet) throw "The formula has not been set up";
 		return dstr;
 	}
 
 	bool UserDefined::set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname) {
-		if (pc != distribution.paramCount()) return false;
+		if (paramCount != distribution.paramCount()) return false;
 		pc = paramCount;
 		dstr = distribution;
 		formulaName = fname;
@@ -89,7 +90,7 @@ namespace sag {
 
 			RPN.push_back(parser.getRPN());
 
-			if (!validateRPN()) {
+			if (!validateRPN(RPN.back())) {
 				RPN.clear();
 				return false;
 			}
@@ -99,9 +100,9 @@ namespace sag {
 		return true;
 	}
 
-	bool UserDefined::validateRPN() {
+	bool UserDefined::validateRPN(std::vector<Parser::Elem>& rpn) {
 		Range<int> range(0, pc-1);
-		for (std::vector<Parser::Elem>::iterator it = RPN.begin(); it < RPN.end(); it++) {
+		for (std::vector<Parser::Elem>::iterator it = rpn.begin(); it < rpn.end(); it++) {
 			if (it->type == Parser::PARAMETER && !range.contains(it->val.i)) return false;
 		}
 		return true;
@@ -112,6 +113,7 @@ namespace sag {
 		tokens.clear();
 
 		std::stringstream ss;
+        ss.precision(18);
 		ss << in;
 
 		char c, _c;
@@ -451,7 +453,7 @@ namespace sag {
 		switch (begin->t) {
 		case Lexer::ABS:
 			el.type = UNARY_OPERATOR;
-			el.val.un_op = abs;
+            el.val.un_op = std::abs;
 			res.push_back(el);
 			end = begin + 1;
 			break;
@@ -536,13 +538,13 @@ namespace sag {
 			end = begin + 1;
 			break;
 		case Lexer::ARG_Y:
-			el.type = BINARY_OPERATOR;
+			el.type = ARGUMENT;
 			el.val.i = 1;
 			res.push_back(el);
 			end = begin + 1;
 			break;
 		case Lexer::ARG_Z:
-			el.type = BINARY_OPERATOR;
+			el.type = ARGUMENT;
 			el.val.i = 2;
 			res.push_back(el);
 			end = begin + 1;

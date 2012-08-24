@@ -26,8 +26,6 @@ namespace sag {
 		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname);
 
 	protected:
-		bool validateRPN();
-
 		class Lexer {
 		public:
 			enum Tokens {
@@ -71,8 +69,8 @@ namespace sag {
 
 		class Parser {
 		public:
-			typedef number (*unary_function)(number);
-			typedef number (*binary_function)(number, number);
+			typedef double (*unary_function)(double);
+			typedef double (*binary_function)(double, double);
 
 			union Value {
 				int i;
@@ -81,10 +79,10 @@ namespace sag {
 				binary_function bin_op;
 			};
 
-			static inline number add(number a, number b) { return a+b; }
-			static inline number sub(number a, number b) { return a-b; }
-			static inline number mult(number a, number b) { return a*b; }
-			static inline number div(number a, number b) { return a/b; }
+			static inline double add(double a, double b) { return a+b; }
+			static inline double sub(double a, double b) { return a-b; }
+			static inline double mult(double a, double b) { return a*b; }
+			static inline double div(double a, double b) { return a/b; }
 
 			//static constexpr binary_function add = [](number a, number b) -> number { return a+b; };
 			//static constexpr binary_function sub = [](number a, number b) -> number { return a-b; };
@@ -148,11 +146,13 @@ namespace sag {
 			bool argument(std::vector<Lexer::Token>::iterator begin, std::vector<Lexer::Token>::iterator& end, std::vector<Elem>& res);
 
 		};
+        
+        bool validateRPN(std::vector<Parser::Elem>& rpn);
 
 		int pc;
 		bool _is3D;
 		bool isSet;
-		CustomDistribution dstr();
+		CustomDistribution dstr;
 		std::vector<std::vector<Parser::Elem>> RPN;
 		std::string formulaName;
 	};
