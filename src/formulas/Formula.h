@@ -22,7 +22,7 @@ namespace sag {
 		virtual ~Formula() {}
 
         void prepare();
-        void reset();
+        void randomize();
         
 		Vector<number> step(const Vector<number>& prev);
         virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params) = 0;

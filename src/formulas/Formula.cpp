@@ -8,10 +8,10 @@
 
 namespace sag {
     void Formula::prepare() {
-        if (parameters.empty()) reset();
+        if (parameters.empty()) randomize();
     }
     
-	void Formula::reset() {
+	void Formula::randomize() {
         int pc = paramCount();
         parameters.resize(pc);
         

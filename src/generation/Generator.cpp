@@ -20,7 +20,7 @@ namespace sag {
 	}
     
     void Generator::reset() {
-        formula->reset();
+        formula->randomize();
         setBounds();
         renderer->setBounds(bounds);
     }
