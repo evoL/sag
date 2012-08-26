@@ -2,7 +2,7 @@
 #define FORMULA_H
 
 #define CLONEABLE(className) \
-	virtual inline Formula * clone() const { \
+	virtual Formula* clone() const { \
 		return new className(*this); \
 	}
 
@@ -34,7 +34,7 @@ namespace sag {
         virtual inline bool is3D() const { return false; }
         virtual inline int paramCount() const { return 0; }
         virtual const ParamDistribution& getDistribution() const = 0;
-        virtual inline Formula * clone() const = 0;
+        virtual Formula* clone() const = 0;
         
 	protected:
 		static const int MAXITER = 5000;
