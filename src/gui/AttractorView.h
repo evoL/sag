@@ -18,6 +18,8 @@ namespace sag {
         AttractorView(PixbufRenderer& r, Events evts = NO_EVENT);
         virtual ~AttractorView() {}
         
+        inline void setHovered(bool hovered) { isMouseOver = hovered; }
+        
         inline PixbufRenderer& getRenderer() { return *renderer; }
     protected:
         PixbufRenderer *renderer;

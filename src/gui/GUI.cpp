@@ -29,7 +29,13 @@ namespace sag {
     void GUI::showEditor() {
         remove();
         add(editor);
+        editor.updateView();
         editor.show();
+    }
+    
+    void GUI::showEditor(const Formula* f) {
+        editor.setFormula(f);
+        showEditor();
     }
     
     ////////////////////////////////////////////////////////////////////
@@ -103,25 +109,28 @@ namespace sag {
     }
     
     bool GUI::ChooserView::onImageClick(GdkEventButton* evt, StandaloneAttractorView* view) {
+        view->setHovered(false);
+        
         const Formula *f = view->getFormula();
+//
+//        Gtk::MessageDialog dialog(*gui, "You've clicked a " + f->name());
+//        
+//        std::stringstream ss;
+//        ss.precision(18);
+//        ss << "AttraGen-compatible data:" << std::endl << std::endl;
+//        ss << f->name() << std::endl
+//           << f->getStartPoint().x << std::endl
+//           << f->getStartPoint().y << std::endl;
+//        
+//        for (auto it = f->getParameters().begin(); it < f->getParameters().end(); it++) {
+//            ss << *it << std::endl;
+//        }
+//        
+//        dialog.set_secondary_text(ss.str());
+//        dialog.run();
         
-        Gtk::MessageDialog dialog(*gui, "You've clicked a " + f->name());
         
-        std::stringstream ss;
-        ss.precision(18);
-        ss << "AttraGen-compatible data:" << std::endl << std::endl;
-        ss << f->name() << std::endl
-           << f->getStartPoint().x << std::endl
-           << f->getStartPoint().y << std::endl;
-        
-        for (auto it = f->getParameters().begin(); it < f->getParameters().end(); it++) {
-            ss << *it << std::endl;
-        }
-        
-        dialog.set_secondary_text(ss.str());
-        dialog.run();
-        
-        gui->showEditor();
+        gui->showEditor(f);
         
         return true;
     }
@@ -130,6 +139,8 @@ namespace sag {
     
     GUI::EditorView::EditorView(GUI* gui):
         gui(gui),
+        formula(nullptr),
+        generator(nullptr),
         renderer(HEIGHT, HEIGHT),
         view(renderer)
     {
@@ -149,5 +160,32 @@ namespace sag {
         panel.pack_end(returnButton, Gtk::PACK_SHRINK);
         
         show_all_children();
+    }
+    
+    GUI::EditorView::~EditorView() {
+        if (generator != nullptr) delete generator;
+        if (formula != nullptr) delete formula;
+    }
+    
+    void GUI::EditorView::setFormula(const Formula* f) {
+        // Create a local copy of the formula
+        if (generator != nullptr) delete generator;
+        if (formula != nullptr) delete formula;
+        
+        formula = f->clone();
+        createGenerator();
+    }
+    
+    void GUI::EditorView::createGenerator() {
+        generator = new SimpleGenerator(*formula, renderer, 2000000);
+    }
+    
+    void GUI::EditorView::updateView() {        
+        renderer.clear();
+        generator->run();
+        renderer.render();
+        
+        auto window = view.get_window();
+        if (window) window->invalidate(false);
     }
 }

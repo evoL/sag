@@ -18,6 +18,7 @@ namespace sag {
         
         void showChooser();
         void showEditor();
+        void showEditor(const Formula* f);
         
     protected:
     private:
@@ -48,10 +49,13 @@ namespace sag {
         class EditorView : public Gtk::HBox {
         public:
             EditorView(GUI* gui);
-            virtual ~EditorView() {}
+            virtual ~EditorView();
             
-//            void setFormula(Formula* f);
+            void setFormula(const Formula* f);
+            void updateView();
         private:
+            void createGenerator();
+            
             GUI* gui;
             
             Formula *formula;
