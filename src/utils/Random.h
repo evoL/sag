@@ -34,33 +34,6 @@ namespace sag {
          */
         T inRange(const Range<T>& range);
     };
-
-    template <>
-    class Random <int> {
-        std::default_random_engine engine;
-    public:
-        Random();
-        
-        /**
-         * @brief Returns an instance of the generator
-         */
-        static Random& getGlobal();
-
-        /**
-         * @brief Returns a random integer within the provided range.
-         *
-         * @param from The beginning of the range.
-         * @param to The end of the range.
-         */
-        int inRange(int from, int to);
-        
-        /**
-         * @brief Returns a random integer within the provided range.
-         *
-         * @param range The Range.
-         */
-        int inRange(const Range<int>& range);
-    };
 }
 
 #endif

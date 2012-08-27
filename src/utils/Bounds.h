@@ -39,7 +39,7 @@ namespace sag {
 
 		~Bounds() {}
 
-		inline Vector<T>& getCenter() const { return *center; }
+		inline Vector<T> getCenter() const { return center; }
 
 		inline T getRadius() const { return radius; }
 
