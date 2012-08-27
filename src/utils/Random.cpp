@@ -20,6 +20,12 @@ namespace sag {
         return u(engine);
     }
     
+    template <>
+    int Random<int>::inRange(int from, int to) {
+		std::uniform_int_distribution<int> u(from, to);
+		return u(engine);
+    }
+
     template <typename T>
     T Random<T>::inRange(const Range<T>& range) {
         return inRange(range.min(), range.max());
