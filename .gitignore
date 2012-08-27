@@ -1,5 +1,7 @@
-# CMake
+# Preprocessed files
+src/formulas/all.h
 
+# CMake
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
