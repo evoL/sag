@@ -1,11 +1,7 @@
 #ifndef SAG_GUI_H
 #define SAG_GUI_H
 
-#include <gtkmm/window.h>
-#include <gtkmm/table.h>
-#include <gtkmm/box.h>
-#include <gtkmm/label.h>
-#include <gtkmm/button.h>
+#include <gtkmm.h>
 #include <vector>
 
 #include "gui/StandaloneAttractorView.h"
@@ -54,7 +50,21 @@ namespace sag {
             void setFormula(const Formula* f);
             void updateView();
         private:
+            static const int MAX_PARTICLECOUNT = 1000;
+            
             void createGenerator();
+            
+            class FormulaColumns : public Gtk::TreeModelColumnRecord {
+            public:
+                FormulaColumns() { add(formula); }
+                Gtk::TreeModelColumn<Glib::ustring> formula;
+            };
+            
+            class ParameterColumns : public Gtk::TreeModelColumnRecord {
+            public:
+                ParameterColumns() { add(param); }
+                Gtk::TreeModelColumn<number> param;
+            };
             
             GUI* gui;
             
@@ -66,6 +76,16 @@ namespace sag {
             Gtk::VBox panel;
             Gtk::Label title;
             Gtk::Button returnButton;
+            Gtk::Expander shapeExpander, appearanceExpander;
+            Gtk::Table shapeTable, appearanceTable;
+            
+            Gtk::Label formulaLabel, particleCountLabel;
+            Gtk::ComboBox formulaBox;
+            FormulaColumns formulaColumns;
+            Gtk::Adjustment particleCountAdjustment;
+            Gtk::SpinButton particleCountEntry;
+            Gtk::TreeView parameterView;
+            ParameterColumns parameterColumns;
         };
         
         ChooserView chooser;
