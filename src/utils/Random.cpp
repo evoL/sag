@@ -1,12 +1,11 @@
 #include "utils/Random.h"
-
-#include <ctime>
 #include "utils/types.h"
 
 namespace sag {
     template <typename T>
     Random<T>::Random() {
-        engine.seed(time(NULL));
+        std::random_device device;
+        engine.seed(device());
     }
 
     template <typename T>
@@ -24,6 +23,11 @@ namespace sag {
     template <typename T>
     T Random<T>::inRange(const Range<T>& range) {
         return inRange(range.min(), range.max());
+    }
+    
+    Random<int>::Random() {
+        std::random_device device;
+        engine.seed(device());
     }
 
     Random<int>& Random<int>::get() {

@@ -39,7 +39,9 @@ namespace sag {
 
     template <>
     class Random <int> {
-        Random() {};
+        Random();
+        Random(const Random&);
+        Random& operator=(const Random&);
 
         std::default_random_engine engine;
     public:
