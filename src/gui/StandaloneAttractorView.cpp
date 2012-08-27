@@ -1,10 +1,7 @@
 #include "gui/StandaloneAttractorView.h"
 
 #include "utils/Random.h"
-#include "formulas/DeJong.h"
-#include "formulas/Quadratic.h"
-#include "formulas/Blut.h"
-#include "formulas/UserDefined.h"
+#include "formulas/all.h"
 
 #include <gdkmm/cursor.h>
 
@@ -32,29 +29,10 @@ namespace sag {
         
         if (formula != nullptr) delete formula;
         
-        int rnd = Random<int>::getGlobal().inRange(0, FORMULA_COUNT-1);
+        int rnd = Random<int>::getGlobal().inRange(0, FORMULA_NAMES.size()-1);
         
-        switch (rnd) {
-            case 0:
-                formula = new DeJong();
-                break;
-            case 1:
-                formula = new Quadratic();
-                break;
-            case 2:
-                formula = new Blut();
-                break;
-            case 3:
-            	formula = new UserDefined();
-            	std::vector<std::string> formulas;
-            	formulas.push_back("sin(p0*y)+p2*cos(p0*x)");
-            	formulas.push_back("sin(p1*x)+p3*cos(p1*y)");
-            	std::vector<Range<number>> ranges(4, Range<number>(-2, 2));
-            	CustomDistribution dstr(ranges);
-
-            	((UserDefined *)formula)->set(formulas, 4, dstr, "Clifford");
-            	break;
-        }
+        formula = createFormula(FORMULA_NAMES[rnd]);
+        // TODO: create a facility for managing user defined formulas
         
         if (generator != nullptr) delete generator;
         

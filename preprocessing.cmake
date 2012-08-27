@@ -29,8 +29,8 @@ foreach(formula ${FORMULA_NAMES})
     list(APPEND FORMULA_CODE_LINES "if (name == \"${formula}\") return new ${formula}()\;")
     list(APPEND FORMULA_CODE_LINES_WITH_PARAMS "if (name == \"${formula}\") return new ${formula}(params)\;")
 endforeach()
-JOIN("${FORMULA_CODE_LINES}" "\n" FORMULA_CODE)
-JOIN("${FORMULA_CODE_LINES_WITH_PARAMS}" "\n" FORMULA_CODE_WITH_PARAMS)
+JOIN("${FORMULA_CODE_LINES}" "\n        " FORMULA_CODE)
+JOIN("${FORMULA_CODE_LINES_WITH_PARAMS}" "\n        " FORMULA_CODE_WITH_PARAMS)
 
 # Create include FORMULA_CODE_LINES
 foreach(file ${FORMULA_FILES})
