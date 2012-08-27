@@ -17,7 +17,7 @@ namespace sag {
         
 		do {
 			for (int i=0; i < pc; i++)
-				parameters[i] = Random<number>::get().inRange(getDistribution().getRange(i));
+				parameters[i] = Random<number>::getGlobal().inRange(getDistribution().getRange(i));
 
 		} while (!verifyParams(parameters));
 	}
@@ -31,9 +31,9 @@ namespace sag {
 
         Vector<number> v1 = startPoint;
 
-		Vector<number> ve(v1.x + Random<number>::get().inRange(-0.5, 0.5) / 1000,
-						  v1.y + Random<number>::get().inRange(-0.5, 0.5) / 1000,
-						  (is3D()) ? v1.z + Random<number>::get().inRange(-0.5, 0.5) / 1000 : 0);
+		Vector<number> ve(v1.x + Random<number>::getGlobal().inRange(-0.5, 0.5) / 1000,
+						  v1.y + Random<number>::getGlobal().inRange(-0.5, 0.5) / 1000,
+						  (is3D()) ? v1.z + Random<number>::getGlobal().inRange(-0.5, 0.5) / 1000 : 0);
 
 		// We measure first the distance between them.
 

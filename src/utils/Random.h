@@ -10,16 +10,14 @@ namespace sag {
      */
     template <typename T>
     class Random {
-        Random();
-        Random(const Random&);
-        Random& operator=(const Random&);
-
         std::default_random_engine engine;
     public:
+        Random();
+        
         /**
          * @brief Returns an instance of the generator
          */
-        static Random& get();
+        static Random& getGlobal();
 
         /**
          * @brief Returns a random number within the provided range.
@@ -39,16 +37,14 @@ namespace sag {
 
     template <>
     class Random <int> {
-        Random();
-        Random(const Random&);
-        Random& operator=(const Random&);
-
         std::default_random_engine engine;
     public:
+        Random();
+        
         /**
          * @brief Returns an instance of the generator
          */
-        static Random& get();
+        static Random& getGlobal();
 
         /**
          * @brief Returns a random integer within the provided range.

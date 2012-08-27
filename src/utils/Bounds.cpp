@@ -46,16 +46,16 @@ namespace sag {
 	}
 
 	template <typename T>
-	Vector<T> Bounds<T>::getRandomVector(bool if3D) {
-		return Vector<T>(Random<T>::get().inRange(raw.xmin, raw.xmax),
-						 Random<T>::get().inRange(raw.ymin, raw.ymax),
-						 (if3D) ? Random<T>::get().inRange(raw.zmin, raw.zmax) : 0);
+	Vector<T> Bounds<T>::getRandomVector(bool if3D, Random<T>& rnd) {
+		return Vector<T>(rnd.inRange(raw.xmin, raw.xmax),
+						 rnd.inRange(raw.ymin, raw.ymax),
+						 (if3D) ? rnd.inRange(raw.zmin, raw.zmax) : 0);
 	}
     
     template <typename T>
     typename Bounds<T>::Raw Bounds<T>::getRawBounds() const { return raw; }
     
     template Bounds<number>::Bounds(std::vector<Vector<number>>& particles);
-    template Vector<number> Bounds<number>::getRandomVector(bool);
+    template Vector<number> Bounds<number>::getRandomVector(bool, Random<number>&);
     template Bounds<number>::Raw Bounds<number>::getRawBounds() const;
 }

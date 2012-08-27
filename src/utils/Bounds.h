@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "utils/Vector.h"
+#include "utils/Random.h"
 
 namespace sag {
 	template <typename T>
@@ -44,7 +45,7 @@ namespace sag {
 
 		bool contains(const Vector<T> &v);
 
-		Vector<T> getRandomVector(bool if3D=true);
+		Vector<T> getRandomVector(bool if3D = true, Random<T>& rnd = Random<T>::getGlobal());
         
         Raw getRawBounds() const;
 

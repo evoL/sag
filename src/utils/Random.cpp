@@ -9,7 +9,7 @@ namespace sag {
     }
 
     template <typename T>
-    Random<T>& Random<T>::get() {
+    Random<T>& Random<T>::getGlobal() {
         static Random<T> instance;
         return instance;
     }
@@ -30,7 +30,7 @@ namespace sag {
         engine.seed(device());
     }
 
-    Random<int>& Random<int>::get() {
+    Random<int>& Random<int>::getGlobal() {
         static Random<int> instance;
         return instance;
     }
@@ -46,7 +46,7 @@ namespace sag {
 
     ///////// BECAUSE OF LINKER ERRORS
 
-    template Random<number>& Random<number>::get();
+    template Random<number>& Random<number>::getGlobal();
     template number Random<number>::inRange(number from, number to);
     template number Random<number>::inRange(const Range<number>& range);
 }

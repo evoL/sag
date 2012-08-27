@@ -32,7 +32,7 @@ namespace sag {
         
         if (formula != nullptr) delete formula;
         
-        int rnd = Random<int>::get().inRange(0, FORMULA_COUNT-1);
+        int rnd = Random<int>::getGlobal().inRange(0, FORMULA_COUNT-1);
         
         switch (rnd) {
             case 0:
