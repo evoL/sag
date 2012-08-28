@@ -49,8 +49,6 @@ namespace sag {
             void setFormula(const Formula* f);
             void updateView();
         private:
-            static const int MAX_PARTICLECOUNT = 1000;
-            
             class FormulaColumns : public Gtk::TreeModelColumnRecord {
             public:
                 FormulaColumns() { add(formula); }
@@ -86,6 +84,11 @@ namespace sag {
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
+            
+            Gtk::Label iterationsLabel;
+            Gtk::Adjustment iterationsAdjustment;
+            Gtk::SpinButton iterationsEntry;
+            Gtk::ToggleButton infiniteIterationsButton;
             
             void createGenerator();
             void createFormulaModel();

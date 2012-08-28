@@ -1,6 +1,7 @@
 #include "gui/GUI.h"
 
 #include <algorithm>
+#include <limits>
 #include <sstream>
 #include <gtkmm/messagedialog.h>
 #include "formulas/all.h"
@@ -147,8 +148,9 @@ namespace sag {
         renderer(HEIGHT, HEIGHT),
         view(renderer),
         shapeTable(3, 3, false),
-        appearanceTable(3, 4, false),
-        particleCountAdjustment(1, 1, MAX_PARTICLECOUNT)
+        appearanceTable(3, 3, false),
+        particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
+        iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000)
     {
         pack_start(view);
         
@@ -198,10 +200,21 @@ namespace sag {
         
         appearanceExpander.set_label("Appearance");
         appearanceExpander.set_expanded(true);
-        panel.pack_start(appearanceExpander, Gtk::PACK_SHRINK);
+        panel.pack_start(appearanceExpander, Gtk::PACK_SHRINK); 
         
         appearanceTable.set_border_width(5);
+        appearanceTable.set_row_spacings(5);
         appearanceExpander.add(appearanceTable);
+        
+        iterationsLabel.set_text("Iteration count");
+        iterationsLabel.set_alignment(Gtk::ALIGN_LEFT);
+        appearanceTable.attach(iterationsLabel, 0, 1, 0, 1);
+        
+        iterationsEntry.set_adjustment(iterationsAdjustment);
+        appearanceTable.attach(iterationsEntry, 1, 2, 0, 1);
+        
+        infiniteIterationsButton.set_label("∞");
+        appearanceTable.attach(infiniteIterationsButton, 2, 3, 0, 1);
         
         returnButton.set_label("Choose a different attractor");
         returnButton.set_border_width(5);
@@ -241,7 +254,7 @@ namespace sag {
     }
     
     void GUI::EditorView::createGenerator() {
-        generator = new SimpleGenerator(*formula, renderer, 2000000);
+        generator = new SimpleGenerator(*formula, renderer, 1000000);
     }
     
     void GUI::EditorView::createFormulaModel() {
