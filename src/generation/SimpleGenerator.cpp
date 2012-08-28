@@ -1,10 +1,11 @@
 #include "generation/SimpleGenerator.h"
 #include <vector>
 #include "utils/Particle.h"
-#include "utils/types.h"
 
 namespace sag {
-	void SimpleGenerator::generate() {
+	void SimpleGenerator::run() {
+		renderer->startReceiving();
+		
 		std::vector<Particle> initials;
 		
 		initials.resize(particleCount);
@@ -20,12 +21,16 @@ namespace sag {
 		}
         
         int i = iterations;
-        while ( (iterations == UNLIMITED_ITERATIONS) || (i >= 0)) {
+        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
             for (int j=0; j < particleCount; j++) {
 				initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				sendParticle(initials[j]);
+				if (aborting) break;
 			}
             --i;
         }
+        
+        aborting = false;
+        renderer->finishReceiving();
 	}
 }

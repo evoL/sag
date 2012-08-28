@@ -8,6 +8,7 @@ namespace sag {
         formula(&f),
         particleCount(1),
         if3D(if3D),
+        aborting(false),
         iterations(iter),
         renderer(&r)
     {
@@ -19,17 +20,15 @@ namespace sag {
 		renderer->setParticleCount(1);
 	}
 	
-	void Generator::run() {
-		renderer->startReceiving();
-		generate();
-		renderer->finishReceiving();
-	}
-    
     void Generator::reset() {
         formula->randomize();
         setBounds();
         renderer->setBounds(bounds);
     }
+    
+    void Generator::abort() {
+		aborting = true;
+	}
 
 	void Generator::sendParticle(const Particle& p) {
 		renderer->enqueueParticle(p);

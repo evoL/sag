@@ -24,8 +24,9 @@ namespace sag {
         
         void processParticle(Particle &p);
         
-        void render();
-        void clear();
+		void clear();
+		void render();
+		void abort();
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {
             return img.getPixbuf();

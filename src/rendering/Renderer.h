@@ -32,13 +32,12 @@ namespace sag {
         virtual void processParticle(Particle &p) = 0;
 		virtual void clear() = 0;
         virtual void render() = 0;
-		virtual void abort() { throw "Aborting not implemented"; }
     
 	protected:
         Bounds<number> bounds;
 		ConcurrentQueue<Particle> queue;
 		std::thread receivingThread;
-		std::mutex receivingMutex;
+		mutable std::mutex receivingMutex;
         int particleCount;
 		bool expectParticles;
 	};
