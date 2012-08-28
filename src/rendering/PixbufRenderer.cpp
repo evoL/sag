@@ -1,7 +1,6 @@
 #include "rendering/PixbufRenderer.h"
 
 #include <vector>
-#include <mutex>
 #include "utils/Color.h"
 
 namespace sag {
@@ -47,11 +46,5 @@ namespace sag {
         velocityGrid.clear();
         img.clear();
 		queue.clear();
-    }
-    
-    void PixbufRenderer::resize(int w, int h) {
-        positionGrid.resize(w, h);
-        velocityGrid.resize(w, h);
-        img.resize(w, h);
     }
 }

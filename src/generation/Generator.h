@@ -13,7 +13,7 @@ namespace sag {
 		Generator(Formula& f, Renderer& r, int iter, bool if3D=false);
 		virtual ~Generator() {}
 
-		virtual void run() = 0;
+		void run();
         
         static const int UNLIMITED_ITERATIONS = -1;
         
@@ -29,10 +29,11 @@ namespace sag {
 
 		void sendParticle(const Particle& p);
 		
-		Renderer *renderer; //TODO: Make it private
-
+		virtual void generate() = 0;
+		
 	private:
 		static const int WARMUP_ITERATIONS = 5000;
+		Renderer *renderer;
 
 		void setBounds();
 	};

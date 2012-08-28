@@ -4,9 +4,7 @@
 #include "utils/types.h"
 
 namespace sag {
-	void SimpleGenerator::run() {
-		renderer->startReceiving();
-		
+	void SimpleGenerator::generate() {
 		std::vector<Particle> initials;
 		
 		initials.resize(particleCount);
@@ -29,7 +27,5 @@ namespace sag {
 			}
             --i;
         }
-        
-        renderer->finishReceiving();
 	}
 }

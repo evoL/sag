@@ -26,7 +26,6 @@ namespace sag {
         
         void render();
         void clear();
-        void resize(int w, int h);
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {
             return img.getPixbuf();

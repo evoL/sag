@@ -18,6 +18,12 @@ namespace sag {
 		renderer->setBounds(bounds);
 		renderer->setParticleCount(1);
 	}
+	
+	void Generator::run() {
+		renderer->startReceiving();
+		generate();
+		renderer->finishReceiving();
+	}
     
     void Generator::reset() {
         formula->randomize();

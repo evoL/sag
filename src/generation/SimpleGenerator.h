@@ -8,8 +8,9 @@ namespace sag {
 	public:
         SimpleGenerator(Formula& f, Renderer& r, int iter, bool if3D=false): Generator(f, r, iter, if3D) {}
 		~SimpleGenerator() {}
-
-		void run();
+		
+	protected:
+		void generate();
 	};
 }
 
