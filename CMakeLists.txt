@@ -21,6 +21,7 @@ add_definitions("-Wall" "-pedantic")
 ###############################################################
 
 configure_file ("src/formulas/all.h.in" "src/formulas/all.h")
+configure_file ("src/formulas/all.cpp.in" "src/formulas/all.cpp")
 
 include_directories (
     src

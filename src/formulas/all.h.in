@@ -5,20 +5,12 @@
 #include <string>
 #include "utils/types.h"
 #include "formulas/Formula.h"
-@FORMULA_INCLUDES@
 
 namespace sag {
     const std::vector<std::string> FORMULA_NAMES = {@FORMULA_NAMES_ARRAY@};
 
-    Formula* createFormula(const std::string& name) {
-        @FORMULA_CODE@
-        return nullptr;
-    }
-
-    Formula* createFormula(const std::string& name, const std::vector<number>& params) {
-        @FORMULA_CODE_WITH_PARAMS@
-        return nullptr;
-    }
+    Formula* createFormula(const std::string& name);
+    Formula* createFormula(const std::string& name, const std::vector<number>& params);
 }
 
 #endif

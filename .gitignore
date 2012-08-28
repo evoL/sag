@@ -1,5 +1,6 @@
 # Preprocessed files
 src/formulas/all.h
+src/formulas/all.cpp
 
 # CMake
 CMakeCache.txt
