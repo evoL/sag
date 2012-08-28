@@ -1,9 +1,8 @@
 #include "gui/StandaloneAttractorView.h"
 
+#include <gdkmm/cursor.h>
 #include "utils/Random.h"
 #include "formulas/all.h"
-
-#include <gdkmm/cursor.h>
 
 namespace sag {
     StandaloneAttractorView::StandaloneAttractorView(int w, int h, Events evts):
@@ -25,18 +24,13 @@ namespace sag {
     }
     
     void StandaloneAttractorView::randomize() {
-        // The most naive approach to formula randomization
-        // TODO: figure out how to improve this
-        
         if (formula != nullptr) delete formula;
         
         int rnd = Random<int>::getGlobal().inRange(0, FORMULA_NAMES.size()-1);
-        
         formula = createFormula(FORMULA_NAMES[rnd]);
         // TODO: create a facility for managing user defined formulas
         
         if (generator != nullptr) delete generator;
-        
         generator = new SimpleGenerator(*formula, *renderer, ITERATIONS);
     }
     

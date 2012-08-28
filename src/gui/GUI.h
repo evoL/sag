@@ -3,7 +3,6 @@
 
 #include <gtkmm.h>
 #include <vector>
-
 #include "gui/StandaloneAttractorView.h"
 
 namespace sag {
@@ -50,10 +49,6 @@ namespace sag {
             void setFormula(const Formula* f);
             void updateView();
         private:
-            static const int MAX_PARTICLECOUNT = 1000;
-            
-            void createGenerator();
-            
             class FormulaColumns : public Gtk::TreeModelColumnRecord {
             public:
                 FormulaColumns() { add(formula); }
@@ -82,10 +77,22 @@ namespace sag {
             Gtk::Label formulaLabel, particleCountLabel;
             Gtk::ComboBox formulaBox;
             FormulaColumns formulaColumns;
+            Glib::RefPtr<Gtk::ListStore> formulaModel;
             Gtk::Adjustment particleCountAdjustment;
             Gtk::SpinButton particleCountEntry;
+            Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
+            Glib::RefPtr<Gtk::ListStore> parameterModel;
+            
+            Gtk::Label iterationsLabel;
+            Gtk::Adjustment iterationsAdjustment;
+            Gtk::SpinButton iterationsEntry;
+            Gtk::ToggleButton infiniteIterationsButton;
+            
+            void createGenerator();
+            void createFormulaModel();
+            void updateParameterModel();
         };
         
         ChooserView chooser;

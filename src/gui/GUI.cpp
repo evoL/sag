@@ -1,7 +1,10 @@
 #include "gui/GUI.h"
 
-#include <gtkmm/messagedialog.h>
+#include <algorithm>
+#include <limits>
 #include <sstream>
+#include <gtkmm/messagedialog.h>
+#include "formulas/all.h"
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
@@ -145,8 +148,9 @@ namespace sag {
         renderer(HEIGHT, HEIGHT),
         view(renderer),
         shapeTable(3, 3, false),
-        appearanceTable(3, 4, false),
-        particleCountAdjustment(1, 1, MAX_PARTICLECOUNT)
+        appearanceTable(3, 3, false),
+        particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
+        iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000)
     {
         pack_start(view);
         
@@ -164,12 +168,16 @@ namespace sag {
         panel.pack_start(shapeExpander, Gtk::PACK_SHRINK);
         
         shapeTable.set_border_width(5);
+        shapeTable.set_row_spacings(5);
         shapeExpander.add(shapeTable);
         
         formulaLabel.set_text("Formula");
         formulaLabel.set_alignment(Gtk::ALIGN_LEFT);
         shapeTable.attach(formulaLabel, 0, 1, 0, 1);
         
+        createFormulaModel();
+        formulaBox.set_model(formulaModel);
+        formulaBox.pack_start(formulaColumns.formula);
         shapeTable.attach(formulaBox, 1, 3, 0, 1);
         
         particleCountLabel.set_text("Particle count");
@@ -179,16 +187,34 @@ namespace sag {
         particleCountEntry.set_adjustment(particleCountAdjustment);
         shapeTable.attach(particleCountEntry, 2, 3, 1, 2);
         
-        shapeTable.attach(parameterView, 0, 3, 2, 3);
+        parameterViewWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
+        parameterViewWindow.set_size_request(-1, 110);
+        shapeTable.attach(parameterViewWindow, 0, 3, 2, 3);
+        
+        parameterModel = Gtk::ListStore::create(parameterColumns);
+        parameterView.set_model(parameterModel);
+        parameterView.append_column("Parameters", parameterColumns.param);
+        parameterViewWindow.add(parameterView);
         
         //////////////////////////////////////////////////////
         
         appearanceExpander.set_label("Appearance");
         appearanceExpander.set_expanded(true);
-        panel.pack_start(appearanceExpander, Gtk::PACK_SHRINK);
+        panel.pack_start(appearanceExpander, Gtk::PACK_SHRINK); 
         
         appearanceTable.set_border_width(5);
+        appearanceTable.set_row_spacings(5);
         appearanceExpander.add(appearanceTable);
+        
+        iterationsLabel.set_text("Iteration count");
+        iterationsLabel.set_alignment(Gtk::ALIGN_LEFT);
+        appearanceTable.attach(iterationsLabel, 0, 1, 0, 1);
+        
+        iterationsEntry.set_adjustment(iterationsAdjustment);
+        appearanceTable.attach(iterationsEntry, 1, 2, 0, 1);
+        
+        infiniteIterationsButton.set_label("∞");
+        appearanceTable.attach(infiniteIterationsButton, 2, 3, 0, 1);
         
         returnButton.set_label("Choose a different attractor");
         returnButton.set_border_width(5);
@@ -211,10 +237,11 @@ namespace sag {
         
         formula = f->clone();
         createGenerator();
-    }
-    
-    void GUI::EditorView::createGenerator() {
-        generator = new SimpleGenerator(*formula, renderer, 2000000);
+        
+        auto iterator = std::find(FORMULA_NAMES.begin(), FORMULA_NAMES.end(), f->name());
+        formulaBox.set_active(iterator - FORMULA_NAMES.begin());
+        
+        updateParameterModel();
     }
     
     void GUI::EditorView::updateView() {        
@@ -224,5 +251,25 @@ namespace sag {
         
         auto window = view.get_window();
         if (window) window->invalidate(false);
+    }
+    
+    void GUI::EditorView::createGenerator() {
+        generator = new SimpleGenerator(*formula, renderer, 1000000);
+    }
+    
+    void GUI::EditorView::createFormulaModel() {
+        formulaModel = Gtk::ListStore::create(formulaColumns);
+        
+        for (auto it = FORMULA_NAMES.begin(); it < FORMULA_NAMES.end(); it++) {
+            Gtk::TreeModel::Row row = *(formulaModel->append());
+            row[formulaColumns.formula] = *it;
+        }
+    }
+    
+    void GUI::EditorView::updateParameterModel() {
+        for (auto it = formula->getParameters().begin(); it < formula->getParameters().end(); it++) {
+            Gtk::TreeModel::Row row = (*parameterModel->append());
+            row[parameterColumns.param] = *it;
+        }
     }
 }
