@@ -4,6 +4,9 @@
 #include <gtkmm.h>
 #include <vector>
 #include "gui/StandaloneAttractorView.h"
+#include "generation/Generator.h"
+#include "formulas/Formula.h"
+#include "rendering/PixbufRenderer.h"
 
 namespace sag {
     class GUI : public Gtk::Window {

@@ -1,5 +1,6 @@
 #include "rendering/Renderer.h"
 #include <chrono>
+#include <thread>
 
 namespace sag {
     void Renderer::enqueueParticle(const Particle& p) {
