@@ -2,28 +2,45 @@
 #define RENDERER_H
 
 #include <queue>
+#include <thread>
+#include <mutex>
 #include "utils/types.h"
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
+#include "utils/ConcurrentQueue.h"
 
 namespace sag {
 	class Renderer {
 	public:
-        Renderer(): particleCount(-1) {}
+        Renderer(): particleCount(-1), expectParticles(false) {}
         virtual ~Renderer() {}
         
-        virtual bool receiveParticle(const Particle& p);
+        void enqueueParticle(const Particle& p);
         
         void setBounds(Bounds<number>& b);
 
         void setParticleCount(int pc);
+		
+		void wait();
+		
+		void finishReceiving();
 
-        virtual void clear() = 0;
+        void startReceiving();
+		
+		void receiveParticles();
+		
+        virtual void processParticle(Particle &p) = 0;
+		virtual void clear() = 0;
         virtual void render() = 0;
-    protected:
+		virtual void abort() { throw "Aborting not implemented"; }
+    
+	protected:
         Bounds<number> bounds;
-        static const int SIZE_FACTOR = 100;
+		ConcurrentQueue<Particle> queue;
+		std::thread receivingThread;
+		std::mutex receivingMutex;
         int particleCount;
+		bool expectParticles;
 	};
 }
 

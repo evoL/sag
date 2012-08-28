@@ -13,6 +13,7 @@ namespace sag {
         // Drawing setup
         randomize();
         generator->run();
+		renderer->wait();
         renderer->render();
     }
     
@@ -42,6 +43,7 @@ namespace sag {
         renderer->clear();
         randomize();
         generator->run();
+		renderer->wait();
         renderer->render();
     }
     

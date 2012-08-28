@@ -22,7 +22,7 @@ namespace sag {
             velocityGrid(w, h),
             img(w, h) {}
         
-        virtual bool receiveParticle(const Particle& p);
+        void processParticle(Particle &p);
         
         void render();
         void clear();
@@ -35,6 +35,8 @@ namespace sag {
         Grid positionGrid;
         Grid velocityGrid;
         PixbufImage img;
+		
+		void getParticles();
     };
 }
 

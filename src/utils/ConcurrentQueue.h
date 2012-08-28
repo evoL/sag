@@ -1,4 +1,4 @@
-// Original code:
+// Adapted from:
 // http://www.justsoftwaresolutions.co.uk/threading/implementing-a-thread-safe-queue-using-condition-variables.html
 
 #ifndef CONCURRENT_QUEUE_H
@@ -21,9 +21,7 @@ namespace sag {
 		
 		bool empty() const {
 			std::unique_lock<std::mutex> lock(theMutex);
-			bool res = theQueue.empty();
-			lock.unlock();
-			return res;
+			return theQueue.empty();
 		}
 		
 		bool try_pop(T& poppedValue) {
@@ -34,7 +32,6 @@ namespace sag {
 			}
 			poppedValue = theQueue.front();
 			theQueue.pop();
-			lock.unlock();
 			return true;
 		}
 		
@@ -45,7 +42,11 @@ namespace sag {
 			
 			poppedValue = theQueue.front();
 			theQueue.pop();
-			lock.unlock();
+		}
+		
+		void clear() {
+			std::unique_lock<std::mutex> lock(theMutex);
+			while (!theQueue.empty()) theQueue.pop();
 		}
 			
 	private:

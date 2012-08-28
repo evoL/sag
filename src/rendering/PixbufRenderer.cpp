@@ -1,22 +1,22 @@
 #include "rendering/PixbufRenderer.h"
 
 #include <vector>
+#include <mutex>
 #include "utils/Color.h"
 
 namespace sag {
-    bool PixbufRenderer::receiveParticle(const Particle& p) {
-        if (!Renderer::receiveParticle(p)) return false;
-        
-        positionGrid.addProjected(p.getPosition(), bounds);
-        velocityGrid.addProjected(p.getPosition(), bounds, p.getVelocity().length());
-        return true;
-    }
-    
-    void PixbufRenderer::render() {
-        std::vector<int> shapeData = positionGrid.map();
+	void PixbufRenderer::processParticle(Particle& p) {
+		positionGrid.addProjected(p.getPosition(), bounds);
+		velocityGrid.addProjected(p.getPosition(), bounds, p.getVelocity().length());
+	}
+	
+	void PixbufRenderer::render() {
+		receivingMutex.lock();
+		std::vector<int> shapeData = positionGrid.map();
         std::vector<int> colorData = velocityGrid.map( [](double val, const Grid::Info& info) -> int {
             return 255 - (val - info.minValue) / (info.maxValue - info.minValue) * 255;
         } );
+		receivingMutex.unlock();
         
         
         // Merge the data into one vector
@@ -46,6 +46,7 @@ namespace sag {
         positionGrid.clear();
         velocityGrid.clear();
         img.clear();
+		queue.clear();
     }
     
     void PixbufRenderer::resize(int w, int h) {

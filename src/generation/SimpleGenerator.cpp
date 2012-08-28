@@ -5,8 +5,10 @@
 
 namespace sag {
 	void SimpleGenerator::run() {
+		renderer->startReceiving();
+		
 		std::vector<Particle> initials;
-
+		
 		initials.resize(particleCount);
 
         // The initial point is always the starting point
@@ -27,5 +29,7 @@ namespace sag {
 			}
             --i;
         }
+        
+        renderer->finishReceiving();
 	}
 }

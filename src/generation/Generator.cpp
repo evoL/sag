@@ -26,7 +26,7 @@ namespace sag {
     }
 
 	void Generator::sendParticle(const Particle& p) {
-		renderer->receiveParticle(p);
+		renderer->enqueueParticle(p);
 	}
 
 	void Generator::setBounds() {

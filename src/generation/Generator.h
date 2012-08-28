@@ -28,9 +28,10 @@ namespace sag {
         int iterations;
 
 		void sendParticle(const Particle& p);
+		
+		Renderer *renderer; //TODO: Make it private
 
 	private:
-		Renderer *renderer;
 		static const int WARMUP_ITERATIONS = 5000;
 
 		void setBounds();
