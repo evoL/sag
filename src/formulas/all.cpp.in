@@ -1,0 +1,15 @@
+#include "formulas/all.h"
+
+@FORMULA_INCLUDES@
+
+namespace sag {
+    Formula* createFormula(const std::string& name) {
+        @FORMULA_CODE@
+        return nullptr;
+    }
+    
+    Formula* createFormula(const std::string& name, const std::vector<number>& params) {
+        @FORMULA_CODE_WITH_PARAMS@
+        return nullptr;
+    }
+}

@@ -1,0 +1,16 @@
+#ifndef SAG_ALL_FORMULAS
+#define SAG_ALL_FORMULAS
+
+#include <vector>
+#include <string>
+#include "utils/types.h"
+#include "formulas/Formula.h"
+
+namespace sag {
+    const std::vector<std::string> FORMULA_NAMES = {@FORMULA_NAMES_ARRAY@};
+
+    Formula* createFormula(const std::string& name);
+    Formula* createFormula(const std::string& name, const std::vector<number>& params);
+}
+
+#endif

@@ -5,7 +5,9 @@
 
 namespace sag {
     class Blut : public Formula {
-    public:        
+    public:
+        Blut(): Formula() {}
+        Blut(const std::vector<number>& parameters): Formula(parameters) {}
         ~Blut() {}
         
         CLONEABLE(Blut)

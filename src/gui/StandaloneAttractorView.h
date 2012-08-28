@@ -22,7 +22,6 @@ namespace sag {
         virtual bool on_leave_notify_event(GdkEventCrossing* event);
     
     private:
-        static const int FORMULA_COUNT = 4;
         static const int ITERATIONS = 10000;
         
         Formula *formula;

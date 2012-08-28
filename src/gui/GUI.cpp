@@ -5,7 +5,8 @@
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
-        // Window setup
+        set_title("Pierdut HD 3D");
+        
         Gdk::Geometry hints;
         hints.min_width = WIDTH;
         hints.min_height = HEIGHT;
@@ -142,7 +143,10 @@ namespace sag {
         formula(nullptr),
         generator(nullptr),
         renderer(HEIGHT, HEIGHT),
-        view(renderer)
+        view(renderer),
+        shapeTable(3, 3, false),
+        appearanceTable(3, 4, false),
+        particleCountAdjustment(1, 1, MAX_PARTICLECOUNT)
     {
         pack_start(view);
         
@@ -152,6 +156,39 @@ namespace sag {
         title.set_markup("<span size=\"large\" weight=\"bold\">Customize your attractor</span>");
         title.set_padding(10, 10);
         panel.pack_start(title, Gtk::PACK_SHRINK);
+        
+        //////////////////////////////////////////////////////
+        
+        shapeExpander.set_label("Shape");
+        shapeExpander.set_expanded(true);
+        panel.pack_start(shapeExpander, Gtk::PACK_SHRINK);
+        
+        shapeTable.set_border_width(5);
+        shapeExpander.add(shapeTable);
+        
+        formulaLabel.set_text("Formula");
+        formulaLabel.set_alignment(Gtk::ALIGN_LEFT);
+        shapeTable.attach(formulaLabel, 0, 1, 0, 1);
+        
+        shapeTable.attach(formulaBox, 1, 3, 0, 1);
+        
+        particleCountLabel.set_text("Particle count");
+        particleCountLabel.set_alignment(Gtk::ALIGN_LEFT);
+        shapeTable.attach(particleCountLabel, 0, 2, 1, 2);
+        
+        particleCountEntry.set_adjustment(particleCountAdjustment);
+        shapeTable.attach(particleCountEntry, 2, 3, 1, 2);
+        
+        shapeTable.attach(parameterView, 0, 3, 2, 3);
+        
+        //////////////////////////////////////////////////////
+        
+        appearanceExpander.set_label("Appearance");
+        appearanceExpander.set_expanded(true);
+        panel.pack_start(appearanceExpander, Gtk::PACK_SHRINK);
+        
+        appearanceTable.set_border_width(5);
+        appearanceExpander.add(appearanceTable);
         
         returnButton.set_label("Choose a different attractor");
         returnButton.set_border_width(5);

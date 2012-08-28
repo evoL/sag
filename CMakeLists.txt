@@ -4,6 +4,8 @@ project (sag)
 set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+include("preprocessing.cmake")
+
 find_package(GTK2 2.20 REQUIRED gtk gtkmm)
 
 set (INCLUDES
@@ -17,6 +19,9 @@ add_definitions("-std=c++0x")
 add_definitions("-Wall" "-pedantic")
 
 ###############################################################
+
+configure_file ("src/formulas/all.h.in" "src/formulas/all.h")
+configure_file ("src/formulas/all.cpp.in" "src/formulas/all.cpp")
 
 include_directories (
     src

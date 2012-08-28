@@ -5,6 +5,9 @@
 
 namespace sag {
     class DeJong : public Formula {
+    public:
+        DeJong(): Formula() {}
+        DeJong(const std::vector<number>& parameters): Formula(parameters) {}
         ~DeJong() {}
         
         CLONEABLE(DeJong)
