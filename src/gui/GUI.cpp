@@ -1,7 +1,9 @@
 #include "gui/GUI.h"
 
-#include <gtkmm/messagedialog.h>
+#include <algorithm>
 #include <sstream>
+#include <gtkmm/messagedialog.h>
+#include "formulas/all.h"
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
@@ -170,6 +172,9 @@ namespace sag {
         formulaLabel.set_alignment(Gtk::ALIGN_LEFT);
         shapeTable.attach(formulaLabel, 0, 1, 0, 1);
         
+        createFormulaModel();
+        formulaBox.set_model(formulaModel);
+        formulaBox.pack_start(formulaColumns.formula);
         shapeTable.attach(formulaBox, 1, 3, 0, 1);
         
         particleCountLabel.set_text("Particle count");
@@ -211,10 +216,9 @@ namespace sag {
         
         formula = f->clone();
         createGenerator();
-    }
-    
-    void GUI::EditorView::createGenerator() {
-        generator = new SimpleGenerator(*formula, renderer, 2000000);
+        
+        auto iterator = std::find(FORMULA_NAMES.begin(), FORMULA_NAMES.end(), f->name());
+        formulaBox.set_active(iterator - FORMULA_NAMES.begin());
     }
     
     void GUI::EditorView::updateView() {        
@@ -224,5 +228,18 @@ namespace sag {
         
         auto window = view.get_window();
         if (window) window->invalidate(false);
+    }
+    
+    void GUI::EditorView::createGenerator() {
+        generator = new SimpleGenerator(*formula, renderer, 2000000);
+    }
+    
+    void GUI::EditorView::createFormulaModel() {
+        formulaModel = Gtk::ListStore::create(formulaColumns);
+        
+        for (auto it = FORMULA_NAMES.begin(); it < FORMULA_NAMES.end(); it++) {
+            Gtk::TreeModel::Row row = *(formulaModel->append());
+            row[formulaColumns.formula] = *it;
+        }
     }
 }

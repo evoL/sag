@@ -1,9 +1,8 @@
 #include "gui/StandaloneAttractorView.h"
 
+#include <gdkmm/cursor.h>
 #include "utils/Random.h"
 #include "formulas/all.h"
-
-#include <gdkmm/cursor.h>
 
 namespace sag {
     StandaloneAttractorView::StandaloneAttractorView(int w, int h, Events evts):
