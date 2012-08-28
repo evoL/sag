@@ -166,6 +166,7 @@ namespace sag {
         panel.pack_start(shapeExpander, Gtk::PACK_SHRINK);
         
         shapeTable.set_border_width(5);
+        shapeTable.set_row_spacings(5);
         shapeExpander.add(shapeTable);
         
         formulaLabel.set_text("Formula");
@@ -184,7 +185,14 @@ namespace sag {
         particleCountEntry.set_adjustment(particleCountAdjustment);
         shapeTable.attach(particleCountEntry, 2, 3, 1, 2);
         
-        shapeTable.attach(parameterView, 0, 3, 2, 3);
+        parameterViewWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
+        parameterViewWindow.set_size_request(-1, 110);
+        shapeTable.attach(parameterViewWindow, 0, 3, 2, 3);
+        
+        parameterModel = Gtk::ListStore::create(parameterColumns);
+        parameterView.set_model(parameterModel);
+        parameterView.append_column("Parameters", parameterColumns.param);
+        parameterViewWindow.add(parameterView);
         
         //////////////////////////////////////////////////////
         
@@ -219,6 +227,8 @@ namespace sag {
         
         auto iterator = std::find(FORMULA_NAMES.begin(), FORMULA_NAMES.end(), f->name());
         formulaBox.set_active(iterator - FORMULA_NAMES.begin());
+        
+        updateParameterModel();
     }
     
     void GUI::EditorView::updateView() {        
@@ -240,6 +250,13 @@ namespace sag {
         for (auto it = FORMULA_NAMES.begin(); it < FORMULA_NAMES.end(); it++) {
             Gtk::TreeModel::Row row = *(formulaModel->append());
             row[formulaColumns.formula] = *it;
+        }
+    }
+    
+    void GUI::EditorView::updateParameterModel() {
+        for (auto it = formula->getParameters().begin(); it < formula->getParameters().end(); it++) {
+            Gtk::TreeModel::Row row = (*parameterModel->append());
+            row[parameterColumns.param] = *it;
         }
     }
 }

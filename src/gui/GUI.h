@@ -82,11 +82,14 @@ namespace sag {
             Glib::RefPtr<Gtk::ListStore> formulaModel;
             Gtk::Adjustment particleCountAdjustment;
             Gtk::SpinButton particleCountEntry;
+            Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
+            Glib::RefPtr<Gtk::ListStore> parameterModel;
             
             void createGenerator();
             void createFormulaModel();
+            void updateParameterModel();
         };
         
         ChooserView chooser;
