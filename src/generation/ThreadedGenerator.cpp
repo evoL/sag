@@ -16,13 +16,13 @@ namespace sag {
         // The initial point is always the starting point
         initials[0] = formula->getStartPoint();
         sendParticle(initials[0]);
-		threads.push_back(std::thread(&ThreadedGenerator::iterate, this, initials[0]));
+		threads[0] = std::thread(&ThreadedGenerator::iterate, this, initials[0]);
         
         // The rest are random
 		for (int i=1; i<particleCount; i++) {
 			initials[i] = bounds.getRandomVector(if3D);
 			sendParticle(initials[i]);
-			threads.push_back(std::thread(&ThreadedGenerator::iterate, this, initials[i]));
+			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i]);
 		}
 		
 		threadController = std::thread(&ThreadedGenerator::controlThreads, this);
@@ -32,11 +32,9 @@ namespace sag {
 	void ThreadedGenerator::iterate(Particle &p) {
 		int i = iterations;
         while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
-            for (int j=0; j < particleCount; j++) {
-				p.moveTo( formula->step(p.getPosition()) );
-				sendParticle(p);
-				if (aborting) break;
-			}
+            p.moveTo( formula->step(p.getPosition()) );
+            sendParticle(p);
+            if (aborting) break;
             --i;
         }
 	}
