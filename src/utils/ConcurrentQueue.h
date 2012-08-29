@@ -24,7 +24,7 @@ namespace sag {
 			return theQueue.empty();
 		}
 		
-		bool try_pop(T& poppedValue) {
+		bool tryPop(T& poppedValue) {
 			std::unique_lock<std::mutex> lock(theMutex);
 			if (theQueue.empty()) {
 				theMutex.unlock();

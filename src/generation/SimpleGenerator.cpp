@@ -21,7 +21,7 @@ namespace sag {
 		}
         
         int i = iterations;
-        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
+        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
             for (int j=0; j < particleCount; j++) {
 				initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				sendParticle(initials[j]);

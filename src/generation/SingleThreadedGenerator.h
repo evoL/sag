@@ -1,4 +1,4 @@
-#ifndef SAG_SINGLE_THREADED_GENERATOR_H
+/* #ifndef SAG_SINGLE_THREADED_GENERATOR_H
 #define SAG_SINGLE_THREADED_GENERATOR_H
 
 #include "generation/Generator.h"
@@ -22,3 +22,4 @@ namespace sag {
 }
 
 #endif
+*/

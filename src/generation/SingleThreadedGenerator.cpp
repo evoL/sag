@@ -1,4 +1,4 @@
-#include "generation/SingleThreadedGenerator.h"
+/* #include "generation/SingleThreadedGenerator.h"
 
 
 namespace sag {
@@ -35,3 +35,4 @@ namespace sag {
         renderer->finishReceiving();
 	}
 }
+*/

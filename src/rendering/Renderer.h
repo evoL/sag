@@ -12,7 +12,7 @@
 namespace sag {
 	class Renderer {
 	public:
-        Renderer(): particleCount(-1), expectParticles(false) {}
+        Renderer(): particleCount(-1), expectParticles(false), receiving(false) {}
         virtual ~Renderer() {}
         
         void enqueueParticle(const Particle& p);
@@ -40,6 +40,7 @@ namespace sag {
 		mutable std::mutex receivingMutex;
         int particleCount;
 		bool expectParticles;
+		bool receiving;
 	};
 }
 
