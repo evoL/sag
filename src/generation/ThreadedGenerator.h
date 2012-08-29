@@ -1,3 +1,5 @@
+#ifndef NO_THREADED_GENERATOR
+
 #ifndef SAG_THREADED_GENERATOR_H
 #define SAG_THREADED_GENERATOR_H
 
@@ -22,5 +24,7 @@ namespace sag {
 		void controlThreads();
 	};
 }
+
+#endif
 
 #endif

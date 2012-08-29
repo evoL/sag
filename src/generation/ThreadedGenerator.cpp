@@ -1,3 +1,5 @@
+#ifndef NO_THREADED_GENERATOR
+
 #include "generation/ThreadedGenerator.h"
 #include <vector>
 #include "utils/Particle.h"
@@ -47,3 +49,5 @@ namespace sag {
 		aborting = false;
 	}
 }
+
+#endif
