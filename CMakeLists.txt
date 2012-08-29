@@ -46,6 +46,6 @@ target_link_libraries (
 #################
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    add_definitions("-stdlib=libc++")
+    add_definitions("-stdlib=libc++" "-DNO_THREADED_GENERATOR")
     set_target_properties(sag PROPERTIES LINK_FLAGS "-stdlib=libc++")
 endif()
