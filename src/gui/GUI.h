@@ -46,7 +46,7 @@ namespace sag {
             EditorView(GUI* gui);
             virtual ~EditorView();
             
-            void setFormula(const Formula* f);
+            void editFormula(const Formula* f);
             void updateView();
         private:
             class FormulaColumns : public Gtk::TreeModelColumnRecord {
@@ -60,6 +60,8 @@ namespace sag {
                 ParameterColumns() { add(param); }
                 Gtk::TreeModelColumn<number> param;
             };
+            
+            bool automatedChange;
             
             GUI* gui;
             
@@ -80,9 +82,13 @@ namespace sag {
             Glib::RefPtr<Gtk::ListStore> formulaModel;
             Gtk::Adjustment particleCountAdjustment;
             Gtk::SpinButton particleCountEntry;
+            
             Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
+            Gtk::Adjustment parameterAdjustment;
+            Gtk::CellRendererSpin parameterRenderer;
+            Gtk::TreeViewColumn parameterColumn;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
             
             Gtk::Label iterationsLabel;
@@ -90,9 +96,21 @@ namespace sag {
             Gtk::SpinButton iterationsEntry;
             Gtk::ToggleButton infiniteIterationsButton;
             
+            void setFormula(Formula* f);
+            
             void createGenerator();
             void createFormulaModel();
+            void updateFormulaBox();
             void updateParameterModel();
+            
+            void onChangeFormula();
+            void onChangeParticleCount();
+            
+            void onChangeIterations();
+            
+            void parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
+            void onParameterEditStart(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
+            void onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text);
         };
         
         ChooserView chooser;

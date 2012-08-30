@@ -12,7 +12,7 @@ namespace sag {
         inline T min() const { return from; }
         inline T max() const { return to; }
         
-        inline bool contains(T num) { return (num >= from) && (num <= to); }
+        inline bool contains(T num) const { return (num >= from) && (num <= to); }
     private:
         T from, to;
     };
