@@ -57,8 +57,9 @@ namespace sag {
             
             class ParameterColumns : public Gtk::TreeModelColumnRecord {
             public:
-                ParameterColumns() { add(param); }
+                ParameterColumns() { add(param); add(adjustment); }
                 Gtk::TreeModelColumn<number> param;
+                Gtk::TreeModelColumn<Gtk::Adjustment*> adjustment;
             };
             
             bool automatedChange;
@@ -86,7 +87,6 @@ namespace sag {
             Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
-            Gtk::Adjustment parameterAdjustment;
             Gtk::CellRendererSpin parameterRenderer;
             Gtk::TreeViewColumn parameterColumn;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
@@ -109,7 +109,6 @@ namespace sag {
             void onChangeIterations();
             
             void parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
-            void onParameterEditStart(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
             void onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text);
         };
         

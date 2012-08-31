@@ -151,7 +151,6 @@ namespace sag {
         shapeTable(3, 3, false),
         appearanceTable(3, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
-        parameterAdjustment(0, std::numeric_limits<float>::min(), std::numeric_limits<float>::max(), 1e-6, 1e-3),
         iterationsAdjustment(10000, 1, std::numeric_limits<int>::max(), 100, 10000)
     {
         pack_start(view);
@@ -202,13 +201,12 @@ namespace sag {
         parameterColumn.set_title("Parameters");
         parameterColumn.pack_start(parameterRenderer);
         parameterColumn.set_cell_data_func(parameterRenderer, sigc::mem_fun(*this, &EditorView::parameterColumnCellData));
+        parameterColumn.add_attribute(parameterRenderer.property_adjustment(), parameterColumns.adjustment);
         parameterView.append_column(parameterColumn);
         
-        parameterRenderer.property_adjustment() = &parameterAdjustment;
         parameterRenderer.property_editable() = true;
         parameterRenderer.property_digits() = 18;
         
-        parameterRenderer.signal_editing_started().connect(sigc::mem_fun(*this, &EditorView::onParameterEditStart));
         parameterRenderer.signal_edited().connect(sigc::mem_fun(*this, &EditorView::onParameterEditFinish));
         
         parameterViewWindow.add(parameterView);
@@ -302,6 +300,7 @@ namespace sag {
         for (auto it = formula->getParameters().begin(); it < formula->getParameters().end(); it++) {
             Gtk::TreeModel::Row row = (*parameterModel->append());
             row[parameterColumns.param] = *it;
+            row[parameterColumns.adjustment] = Gtk::manage(new Gtk::Adjustment(0, formula->getDistribution().min(index), formula->getDistribution().max(index), 1e-4, 1e-2));
             
             index++;
         }
@@ -346,17 +345,6 @@ namespace sag {
         parameterRenderer.property_text() = result;
     }
     
-    void GUI::EditorView::onParameterEditStart(Gtk::CellEditable* cell_editable, const Glib::ustring& path_string) {
-//        Gtk::SpinButton* entry = dynamic_cast<Gtk::SpinButton*>(cell_editable);
-//        
-//        Gtk::TreePath path(path_string);
-//        Gtk::TreeModel::iterator iter = parameterModel->get_iter(path);
-//        if (!iter) return;
-//        Gtk::TreeModel::Row row = *iter;
-//        
-//        entry->set_value(row[parameterColumns.param]);
-    }
-    
     void GUI::EditorView::onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text) {
         Gtk::TreePath path(path_string);
         
@@ -380,20 +368,6 @@ namespace sag {
             Formula *f = createFormula(formula->name(), params);
             setFormula(f);
             updateView();
-        } else {
-            // Display an error
-            std::stringstream ss;
-            ss << "The value of this parameter must be between ";
-            ss << range.min();
-            ss << " and ";
-            ss << range.max();
-            ss << ".";
-            
-            Glib::ustring msg;
-            ss >> msg;
-            
-            Gtk::MessageDialog dialog(*gui, msg, false, Gtk::MESSAGE_ERROR);
-            dialog.run();
         }
     }
 }
