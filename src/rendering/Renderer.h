@@ -33,6 +33,8 @@ namespace sag {
         virtual void processParticle(Particle &p) = 0;
 		virtual void clear() = 0;
         virtual void render() = 0;
+
+        inline int getReceivedParticleCount() { return receivedParticleCount; }
     
 	protected:
         Bounds<number> bounds;
@@ -43,7 +45,7 @@ namespace sag {
 		int particleCount;
 		volatile bool expectParticles;
 		volatile bool receiving;
-
+		volatile int receivedParticleCount;
 	};
 }
 

@@ -23,7 +23,7 @@ namespace sag {
         while (drawing) {
             renderer->render();
             onTick();
-            std::this_thread::sleep_for(std::chrono::milliseconds(33));
+            std::this_thread::sleep_for(std::chrono::milliseconds(16));
         }
     }
     

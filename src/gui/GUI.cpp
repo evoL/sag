@@ -232,6 +232,19 @@ namespace sag {
         
         ///////////////////////////////////////////////////////
         
+        progressBox.set_border_width(5);
+        progressBox.set_spacing(5);
+        panel.pack_end(progressBox, Gtk::PACK_SHRINK);
+
+        view.onTick.connect(sigc::mem_fun(*this, &EditorView::onProgress));
+        progressBox.pack_start(progress);
+
+        abortButton.set_label("Abort");
+        abortButton.signal_clicked().connect(sigc::mem_fun(*this, &EditorView::onAbortClick));
+        progressBox.pack_end(abortButton, Gtk::PACK_SHRINK);
+
+        ///////////////////////////////////////////////////////
+
         returnButton.set_label("Choose a different attractor");
         returnButton.set_border_width(5);
         returnButton.set_size_request(-1, 80);
@@ -252,6 +265,8 @@ namespace sag {
         zoomButton.set_label("Zoom");
         toolbox.pack_start(zoomButton);
         
+        ///////////////////////////////////////////////////////
+
         show_all_children();
     }
     
@@ -278,6 +293,8 @@ namespace sag {
     
     void GUI::EditorView::stopUpdating() {
         view.stop();
+        generator->abort();
+        renderer.clear();
     }
     
     void GUI::EditorView::setFormula(Formula* f) {
@@ -334,33 +351,44 @@ namespace sag {
         if (!row) return;
         
         stopUpdating();
-        renderer.clear();
-        
+
         Formula *f = createFormula(row.get_value(formulaColumns.formula));
         setFormula(f);
 
         startUpdating();
     }
     
-    void GUI::EditorView::onChangeParticleCount() {
-        stopUpdating();
-        
-        renderer.clear();
+    void
+    GUI::EditorView::onChangeParticleCount() {
+    	stopUpdating();
         generator->setParticleCount(particleCountEntry.get_value_as_int());
-        
         startUpdating();
     }
     
     void GUI::EditorView::onChangeIterations() {
-        stopUpdating();
-        
-        renderer.clear();
+    	stopUpdating();
         if (generator != nullptr) delete generator;
         createGenerator();
-
         startUpdating();
     }
     
+    void GUI::EditorView::onProgress() {
+    	if (infiniteIterationsButton.get_active()) {
+    		progress.pulse();
+    	} else {
+    		double iterations = iterationsEntry.get_value();
+    		int particles = particleCountEntry.get_value_as_int();
+    		int received = renderer.getReceivedParticleCount();
+
+    		progress.set_fraction(received/(iterations*particles));
+    	}
+    }
+
+    void GUI::EditorView::onAbortClick() {
+    	generator->abort();
+    	view.stop();
+    }
+
     void GUI::EditorView::parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter) {
         if (!iter) return;
         
@@ -392,10 +420,9 @@ namespace sag {
             Gtk::TreeModel::Row row = *iter;
             row[parameterColumns.param] = value;
             
-            // Update the parameter
             stopUpdating();
-            renderer.clear();
-            
+
+            // Update the parameter
             auto params = formula->getParameters();
             params[index] = value;
             Formula *f = createFormula(formula->name(), params);

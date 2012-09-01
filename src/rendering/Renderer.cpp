@@ -37,6 +37,7 @@ namespace sag {
 		if (!expectParticles) {
 			expectParticles = true;
 			receiving = true;
+			receivedParticleCount = 0;
 			receivingThread = std::thread(&Renderer::receiveParticles, this);
 		}
 	}
@@ -47,6 +48,7 @@ namespace sag {
 			if (queue.tryPop(p)) {
 				receivingMutex.lock();
 				processParticle(p);
+				receivedParticleCount++;
 				receivingMutex.unlock();
 			} else {
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));

@@ -105,7 +105,11 @@ namespace sag {
             Gtk::ToggleButton moveButton;
             Gtk::ToggleButton zoomButton;
             
-            void setFormula(Formula* f);
+            Gtk::HBox progressBox;
+            Gtk::ProgressBar progress;
+            Gtk::Button abortButton;
+
+            void setFormula(Formula* Ref);
             
             void createGenerator();
             void createFormulaModel();
@@ -114,8 +118,10 @@ namespace sag {
             
             void onChangeFormula();
             void onChangeParticleCount();
-            
             void onChangeIterations();
+            
+            void onProgress();
+            void onAbortClick();
             
             void parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
             void onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text);
