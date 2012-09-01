@@ -10,6 +10,7 @@ namespace sag {
 	}
 
 	void ThreadedGenerator::run() {
+        running = true;
 		renderer->startReceiving();
 		
 		threads.clear();
@@ -37,7 +38,7 @@ namespace sag {
 	
 	void ThreadedGenerator::iterate(Particle &p) {
 		int i = iterations;
-        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
             p.moveTo( formula->step(p.getPosition()) );
             sendParticle(p);
             --i;
@@ -48,7 +49,7 @@ namespace sag {
 		for (auto &t : threads) {
 			t.join();
 		}
-		aborting = false;
+		running = false;
 		renderer->finishReceiving();
 	}
 }

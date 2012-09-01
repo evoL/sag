@@ -6,6 +6,7 @@
 #include "utils/Particle.h"
 #include "formulas/Formula.h"
 #include "rendering/Renderer.h"
+#include <atomic>
 
 namespace sag {
 	class Generator {
@@ -26,7 +27,7 @@ namespace sag {
 		Bounds<number> bounds;
 		int particleCount;
 		const bool if3D;
-		bool aborting;
+        std::atomic<bool> running;
         int iterations;
 		Renderer *renderer;
 

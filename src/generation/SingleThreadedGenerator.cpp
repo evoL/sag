@@ -2,7 +2,12 @@
 
 
 namespace sag {
+    SingleThreadedGenerator::~SingleThreadedGenerator() {
+        thread.join();
+    }
+    
 	void SingleThreadedGenerator::run() {
+        running = true;
 		renderer->startReceiving();
 		
 		std::vector<Particle> initials;
@@ -23,15 +28,16 @@ namespace sag {
 	
 	void SingleThreadedGenerator::iterate(std::vector<Particle> v) {
 		int i = iterations;
-        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
             for (auto it = v.begin(); it < v.end(); it++) {
 				it->moveTo( formula->step(it->getPosition()) );
 				sendParticle(*it);
-				if (aborting) break;
+				if (!running) break;
 			}
             --i;
         }
         
+        running = false;
         renderer->finishReceiving();
 	}
 }

@@ -8,7 +8,7 @@ namespace sag {
         formula(&f),
         particleCount(1),
         if3D(if3D),
-        aborting(false),
+        running(false),
         iterations(iter),
         renderer(&r)
     {
@@ -27,7 +27,7 @@ namespace sag {
     }
     
     void Generator::abort() {
-		aborting = true;
+		running = false;
 	}
 
 	void Generator::sendParticle(const Particle& p) {

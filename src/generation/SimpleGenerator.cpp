@@ -4,6 +4,7 @@
 
 namespace sag {
 	void SimpleGenerator::run() {
+        running = true;
 		renderer->startReceiving();
 		
 		std::vector<Particle> initials;
@@ -21,16 +22,16 @@ namespace sag {
 		}
         
         int i = iterations;
-        while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
             for (int j=0; j < particleCount; j++) {
 				initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				sendParticle(initials[j]);
-				if (aborting) break;
+				if (!running) break;
 			}
             --i;
         }
         
-        aborting = false;
+        running = false;
         renderer->finishReceiving();
 	}
 }
