@@ -9,10 +9,12 @@ namespace sag {
     class AttractorView : public Gtk::DrawingArea {
     public:
         enum Events {
-            NO_EVENT = 0,
-            HOVER_EVENT = 1 << 0,
+            NO_EVENT          = 0,
+            HOVER_EVENT       = 1 << 0,
             MOUSEBUTTON_EVENT = 1 << 1,
-            ALL_EVENTS = 3
+            DRAG_EVENT        = 1 << 2,
+            SCROLL_EVENT      = 1 << 3,
+            ALL_EVENTS        = 15
         };
         
         AttractorView(PixbufRenderer& r, Events evts = NO_EVENT);

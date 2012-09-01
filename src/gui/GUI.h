@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include <vector>
 #include "gui/StandaloneAttractorView.h"
+#include "gui/AttractorEditor.h"
 #include "generation/Generator.h"
 #include "formulas/Formula.h"
 #include "rendering/PixbufRenderer.h"
@@ -49,8 +50,9 @@ namespace sag {
             EditorView(GUI* gui);
             virtual ~EditorView();
             
-            void setFormula(const Formula* f);
-            void updateView();
+            void editFormula(const Formula* f);
+            void startUpdating();
+            void stopUpdating();
         private:
             class FormulaColumns : public Gtk::TreeModelColumnRecord {
             public:
@@ -60,9 +62,12 @@ namespace sag {
             
             class ParameterColumns : public Gtk::TreeModelColumnRecord {
             public:
-                ParameterColumns() { add(param); }
+                ParameterColumns() { add(param); add(adjustment); }
                 Gtk::TreeModelColumn<number> param;
+                Gtk::TreeModelColumn<Gtk::Adjustment*> adjustment;
             };
+            
+            bool automatedChange;
             
             GUI* gui;
             
@@ -70,7 +75,7 @@ namespace sag {
             Generator *generator;
             PixbufRenderer renderer;
             
-            AttractorView view;
+            AttractorEditor view;
             Gtk::VBox panel;
             Gtk::Label title;
             Gtk::Button returnButton;
@@ -83,9 +88,12 @@ namespace sag {
             Glib::RefPtr<Gtk::ListStore> formulaModel;
             Gtk::Adjustment particleCountAdjustment;
             Gtk::SpinButton particleCountEntry;
+            
             Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
+            Gtk::CellRendererSpin parameterRenderer;
+            Gtk::TreeViewColumn parameterColumn;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
             
             Gtk::Label iterationsLabel;
@@ -93,9 +101,24 @@ namespace sag {
             Gtk::SpinButton iterationsEntry;
             Gtk::ToggleButton infiniteIterationsButton;
             
+            Gtk::HButtonBox toolbox;
+            Gtk::ToggleButton moveButton;
+            Gtk::ToggleButton zoomButton;
+            
+            void setFormula(Formula* f);
+            
             void createGenerator();
             void createFormulaModel();
+            void updateFormulaBox();
             void updateParameterModel();
+            
+            void onChangeFormula();
+            void onChangeParticleCount();
+            
+            void onChangeIterations();
+            
+            void parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
+            void onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text);
         };
         
         ChooserView chooser;

@@ -10,6 +10,8 @@ namespace sag {
         if (events != NO_EVENT) {
             if (events & HOVER_EVENT) mask |= Gdk::ENTER_NOTIFY_MASK | Gdk::LEAVE_NOTIFY_MASK;
             if (events & MOUSEBUTTON_EVENT) mask |= Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK;
+            if (events & DRAG_EVENT) mask |= Gdk::BUTTON1_MOTION_MASK;
+            if (events & SCROLL_EVENT) mask |= Gdk::SCROLL_MASK;
             add_events(mask);
         }
         isMouseOver = false;
