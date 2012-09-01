@@ -4,6 +4,7 @@
 #include <queue>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 #include "utils/types.h"
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
@@ -38,9 +39,11 @@ namespace sag {
 		ConcurrentQueue<Particle> queue;
 		std::thread receivingThread;
 		mutable std::mutex receivingMutex;
-        int particleCount;
-		bool expectParticles;
-		bool receiving;
+        std::condition_variable waitingCV;
+		int particleCount;
+		volatile bool expectParticles;
+		volatile bool receiving;
+
 	};
 }
 
