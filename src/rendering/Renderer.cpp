@@ -16,16 +16,21 @@ namespace sag {
     }
     
     void Renderer::wait() {
-    	// TODO: Use std::condition_variable
-		while (receiving) std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    	if (receiving) {
+			std::mutex waitingMutex;
+			std::unique_lock<std::mutex> waitingLock(waitingMutex);
+			waitingCV.wait(waitingLock);
+    	}
+
 	}
     
     void Renderer::finishReceiving() {
 		if (expectParticles) {
 			expectParticles = false;
 			receivingThread.join();
-			receiving = false;
 		}
+		waitingCV.notify_one();
+		receiving = false;
 	}
     
     void Renderer::startReceiving() {
@@ -38,13 +43,13 @@ namespace sag {
 	
 	void Renderer::receiveParticles() {
 		Particle p;
-		bool got;
 		while (expectParticles || !queue.empty()) {
-			got = queue.tryPop(p);
-			if (got) {
+			if (queue.tryPop(p)) {
 				receivingMutex.lock();
 				processParticle(p);
 				receivingMutex.unlock();
+			} else {
+				std::this_thread::sleep_for(std::chrono::milliseconds(10));
 			}
 		}
 	}

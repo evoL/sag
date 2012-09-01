@@ -1,4 +1,4 @@
-/* #ifndef SAG_SINGLE_THREADED_GENERATOR_H
+#ifndef SAG_SINGLE_THREADED_GENERATOR_H
 #define SAG_SINGLE_THREADED_GENERATOR_H
 
 #include "generation/Generator.h"
@@ -11,7 +11,7 @@ namespace sag {
 	public:
         SingleThreadedGenerator(Formula& f, Renderer& r, int iter, bool if3D=false): Generator(f, r, iter, if3D) {}
 		~SingleThreadedGenerator() {}
-        
+
 		void run();
         
 	private:
@@ -22,4 +22,3 @@ namespace sag {
 }
 
 #endif
-*/
