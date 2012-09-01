@@ -5,7 +5,18 @@
 #include <sstream>
 #include <gtkmm/messagedialog.h>
 #include "formulas/all.h"
+
+#ifdef NO_THREADED_GENERATOR
+
+#include "generation/SingleThreadedGenerator.h"
+#define THREADED_GENERATOR_IMPL SingleThreadedGenerator
+
+#else
+
 #include "generation/ThreadedGenerator.h"
+#define THREADED_GENERATOR_IMPL ThreadedGenerator
+
+#endif
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
@@ -261,7 +272,7 @@ namespace sag {
     
     void GUI::EditorView::createGenerator() {
         //generator = new SimpleGenerator(*formula, renderer, 1000000);
-        generator = new ThreadedGenerator(*formula, renderer, 1000000);
+        generator = new THREADED_GENERATOR_IMPL(*formula, renderer, 1000000);
     }
     
     void GUI::EditorView::createFormulaModel() {
