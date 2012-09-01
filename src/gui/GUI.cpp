@@ -5,7 +5,7 @@
 #include <sstream>
 #include <gtkmm/messagedialog.h>
 #include "formulas/all.h"
-#include "generation/SingleThreadedGenerator.h"
+#include "generation/ThreadedGenerator.h"
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
@@ -227,14 +227,18 @@ namespace sag {
     }
     
     GUI::EditorView::~EditorView() {
-        if (generator != nullptr) delete generator;
-        if (formula != nullptr) delete formula;
+        delete generator;
+        generator = nullptr;
+        delete formula;
+        formula = nullptr;
     }
     
     void GUI::EditorView::setFormula(const Formula* f) {
         // Create a local copy of the formula
-        if (generator != nullptr) delete generator;
-        if (formula != nullptr) delete formula;
+    	delete generator;
+		generator = nullptr;
+		delete formula;
+		formula = nullptr;
         
         formula = f->clone();
         createGenerator();
@@ -257,7 +261,7 @@ namespace sag {
     
     void GUI::EditorView::createGenerator() {
         //generator = new SimpleGenerator(*formula, renderer, 1000000);
-        generator = new SingleThreadedGenerator(*formula, renderer, 1000000);
+        generator = new ThreadedGenerator(*formula, renderer, 1000000);
     }
     
     void GUI::EditorView::createFormulaModel() {

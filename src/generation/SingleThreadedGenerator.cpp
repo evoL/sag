@@ -1,4 +1,4 @@
-#include "generation/SingleThreadedGenerator.h"
+ #include "generation/SingleThreadedGenerator.h"
 
 
 namespace sag {

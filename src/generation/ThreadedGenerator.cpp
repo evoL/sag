@@ -3,6 +3,10 @@
 #include "utils/Particle.h"
 
 namespace sag {
+	ThreadedGenerator::~ThreadedGenerator() {
+		threadController.join();
+	}
+
 	void ThreadedGenerator::run() {
 		renderer->startReceiving();
 		
@@ -34,7 +38,6 @@ namespace sag {
         while ((!aborting) && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
             p.moveTo( formula->step(p.getPosition()) );
             sendParticle(p);
-            if (aborting) break;
             --i;
         }
 	}
