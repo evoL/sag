@@ -147,7 +147,7 @@ namespace sag {
         shapeTable(3, 3, false),
         appearanceTable(3, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
-        iterationsAdjustment(10000, 1, std::numeric_limits<int>::max(), 100, 10000)
+        iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000)
     {
         pack_start(view);
         

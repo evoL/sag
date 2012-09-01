@@ -16,7 +16,7 @@ namespace sag {
     
     void AttractorEditor::stop() {
         drawing = false;
-        refresher.join();
+        if (refresher.joinable()) refresher.join();
     }
     
     void AttractorEditor::redraw() {
