@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include <vector>
 #include "gui/StandaloneAttractorView.h"
+#include "gui/AttractorEditor.h"
 
 namespace sag {
     class GUI : public Gtk::Window {
@@ -47,7 +48,8 @@ namespace sag {
             virtual ~EditorView();
             
             void editFormula(const Formula* f);
-            void updateView();
+            void startUpdating();
+            void stopUpdating();
         private:
             class FormulaColumns : public Gtk::TreeModelColumnRecord {
             public:
@@ -70,7 +72,7 @@ namespace sag {
             Generator *generator;
             PixbufRenderer renderer;
             
-            AttractorView view;
+            AttractorEditor view;
             Gtk::VBox panel;
             Gtk::Label title;
             Gtk::Button returnButton;
@@ -95,6 +97,10 @@ namespace sag {
             Gtk::Adjustment iterationsAdjustment;
             Gtk::SpinButton iterationsEntry;
             Gtk::ToggleButton infiniteIterationsButton;
+            
+            Gtk::HButtonBox toolbox;
+            Gtk::ToggleButton moveButton;
+            Gtk::ToggleButton zoomButton;
             
             void setFormula(Formula* f);
             

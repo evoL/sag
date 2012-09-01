@@ -25,6 +25,8 @@ namespace sag {
     }
     
     void GUI::showChooser() {
+        editor.stopUpdating();
+        
         remove();
         add(chooser);
         chooser.show();
@@ -33,8 +35,8 @@ namespace sag {
     void GUI::showEditor() {
         remove();
         add(editor);
-        editor.updateView();
         editor.show();
+        editor.startUpdating();
     }
     
     void GUI::showEditor(const Formula* f) {
@@ -116,24 +118,6 @@ namespace sag {
         view->setHovered(false);
         
         const Formula *f = view->getFormula();
-//
-//        Gtk::MessageDialog dialog(*gui, "You've clicked a " + f->name());
-//        
-//        std::stringstream ss;
-//        ss.precision(18);
-//        ss << "AttraGen-compatible data:" << std::endl << std::endl;
-//        ss << f->name() << std::endl
-//           << f->getStartPoint().x << std::endl
-//           << f->getStartPoint().y << std::endl;
-//        
-//        for (auto it = f->getParameters().begin(); it < f->getParameters().end(); it++) {
-//            ss << *it << std::endl;
-//        }
-//        
-//        dialog.set_secondary_text(ss.str());
-//        dialog.run();
-        
-        
         gui->showEditor(f);
         
         return true;
@@ -234,16 +218,33 @@ namespace sag {
         infiniteIterationsButton.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onChangeIterations));
         appearanceTable.attach(infiniteIterationsButton, 2, 3, 0, 1);
         
+        ///////////////////////////////////////////////////////
+        
         returnButton.set_label("Choose a different attractor");
         returnButton.set_border_width(5);
         returnButton.set_size_request(-1, 80);
         returnButton.signal_clicked().connect(sigc::mem_fun(*gui, &GUI::showChooser));
         panel.pack_end(returnButton, Gtk::PACK_SHRINK);
         
+        ///////////////////////////////////////////////////////
+        
+        toolbox.set_border_width(5);
+        toolbox.set_layout(Gtk::BUTTONBOX_EDGE);
+        toolbox.set_spacing(5);
+        panel.pack_end(toolbox, Gtk::PACK_SHRINK);
+        
+        moveButton.set_label("Move");
+        moveButton.set_active(true);
+        toolbox.pack_start(moveButton);
+        
+        zoomButton.set_label("Zoom");
+        toolbox.pack_start(zoomButton);
+        
         show_all_children();
     }
     
     GUI::EditorView::~EditorView() {
+        stopUpdating();
         if (generator != nullptr) delete generator;
         if (formula != nullptr) delete formula;
     }
@@ -255,6 +256,15 @@ namespace sag {
         automatedChange = false;
     }
     
+    void GUI::EditorView::startUpdating() {
+        generator->run();
+        view.start();
+    }
+    
+    void GUI::EditorView::stopUpdating() {
+        view.stop();
+    }
+    
     void GUI::EditorView::setFormula(Formula* f) {
         // Create a local copy of the formula
         if (generator != nullptr) delete generator;
@@ -263,15 +273,6 @@ namespace sag {
         formula = f;
         createGenerator();
         updateParameterModel();
-    }
-    
-    void GUI::EditorView::updateView() {        
-        renderer.clear();
-        generator->run();
-        renderer.render();
-        
-        auto window = view.get_window();
-        if (window) window->invalidate(false);
     }
     
     void GUI::EditorView::createGenerator() {
@@ -315,20 +316,32 @@ namespace sag {
         auto row = *it;
         if (!row) return;
         
+        stopUpdating();
+        renderer.clear();
+        
         Formula *f = createFormula(row.get_value(formulaColumns.formula));
         setFormula(f);
-        updateView();
+
+        startUpdating();
     }
     
     void GUI::EditorView::onChangeParticleCount() {
+        stopUpdating();
+        
+        renderer.clear();
         generator->setParticleCount(particleCountEntry.get_value_as_int());
-        updateView();
+        
+        startUpdating();
     }
     
     void GUI::EditorView::onChangeIterations() {
+        stopUpdating();
+        
+        renderer.clear();
         if (generator != nullptr) delete generator;
         createGenerator();
-        updateView();
+
+        startUpdating();
     }
     
     void GUI::EditorView::parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter) {
@@ -363,11 +376,15 @@ namespace sag {
             row[parameterColumns.param] = value;
             
             // Update the parameter
+            stopUpdating();
+            renderer.clear();
+            
             auto params = formula->getParameters();
             params[index] = value;
             Formula *f = createFormula(formula->name(), params);
             setFormula(f);
-            updateView();
+            
+            startUpdating();
         }
     }
 }
