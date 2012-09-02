@@ -23,6 +23,7 @@ namespace sag {
         void setParticleCount(int pc);
 		
 		void wait();
+        void abort();
 		
 		void finishReceiving();
 

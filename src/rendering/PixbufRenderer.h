@@ -26,7 +26,6 @@ namespace sag {
         
 		void clear();
 		void render();
-		void abort();
         
         const Glib::RefPtr<Gdk::Pixbuf> getOutput() {
             return img.getPixbuf();

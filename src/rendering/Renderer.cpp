@@ -24,6 +24,11 @@ namespace sag {
 
 	}
     
+    void Renderer::abort() {
+        receiving = false;
+        expectParticles = false;
+    }
+    
     void Renderer::finishReceiving() {
 		if (expectParticles) {
 			expectParticles = false;
@@ -44,7 +49,7 @@ namespace sag {
 	
 	void Renderer::receiveParticles() {
 		Particle p;
-		while (expectParticles || !queue.empty()) {
+		while (receiving && (expectParticles || !queue.empty())) {
 			if (queue.tryPop(p)) {
 				receivingMutex.lock();
 				processParticle(p);
