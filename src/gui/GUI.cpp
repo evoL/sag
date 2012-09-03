@@ -292,7 +292,7 @@ namespace sag {
     }
     
     void GUI::EditorView::stopUpdating() {
-        generator->abort();
+        if (generator != nullptr) generator->abort();
         view.stop();
         renderer.abort();
         renderer.clear();
