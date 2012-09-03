@@ -18,7 +18,7 @@ namespace sag {
 		Formula() {}
 		
 		Formula(const std::vector<number>& parameters):
-            parameters(parameters) { if ((int)parameters.size() != paramCount()) throw "Wrong parameters"; }
+            parameters(parameters) {}
 
 		virtual ~Formula() {}
 		

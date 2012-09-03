@@ -9,7 +9,7 @@
 namespace sag {
 	std::string serialize(Generator& g, Formula& f, Renderer& r, std::string name);
 	
-	void unserialize(std::string rawXML, Generator& g, Formula& f, Renderer& r);
+	//void unserialize(std::string rawXML, Generator& g, Formula& f, Renderer& r);
 }
 
 #endif

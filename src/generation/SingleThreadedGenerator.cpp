@@ -9,7 +9,8 @@ namespace sag {
     
 	std::string SingleThreadedGenerator::serialize() const {
 		std::stringstream ss;
-		ss << "<generator class=\"SingleThreadedGenerator\">" << std::endl;
+		ss << "<generator>" << std::endl;
+		ss << "<class>SingleThreadedGenerator</class>" << std::endl;
 		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
 		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
 		ss << "</generator>" << std::endl;

@@ -7,7 +7,9 @@
 namespace sag {
 	std::string PixbufRenderer::serialize() const {
 		std::stringstream ss;
-		ss << "<renderer class=\"PixbufRenderer\" />" << std::endl;
+		ss << "<renderer>" << std::endl;
+		ss << "<class>PixbufRenderer</class>" << std::endl;
+		ss << "</renderer>" << std::endl;
 		
 		return ss.str();
 	}

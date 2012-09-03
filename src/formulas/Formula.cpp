@@ -10,7 +10,8 @@
 namespace sag {
     std::string Formula::serialize() const {
 		std::stringstream ss;
-		ss << "<formula class=\"" << this->name() << "\">" << std::endl;
+		ss << "<formula>" << std::endl;
+		ss << "<class>" << this->name() << "</class>" << std::endl;
 		ss << "<startPoint>" << std::endl;
 		ss << "<x>" << startPoint.x << "</x>" << std::endl;
 		ss << "<y>" << startPoint.y << "</y>" << std::endl;

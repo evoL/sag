@@ -6,7 +6,8 @@
 namespace sag {
 	std::string SimpleGenerator::serialize() const {
 		std::stringstream ss;
-		ss << "<generator class=\"SimpleGenerator\">" << std::endl;
+		ss << "<generator>" << std::endl;
+		ss << "<class>SimpleGenerator</class>" << std::endl;
 		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
 		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
 		ss << "</generator>" << std::endl;

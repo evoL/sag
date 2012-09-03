@@ -12,7 +12,9 @@ namespace sag {
 		
 		std::stringstream ss;
 		ss << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << std::endl;
-		ss << "<settings name \"" << name << "\"" << (is3D ? "is3D=\"true\"" : "") << ">" << std::endl;
+		ss << "<settings>" << std::endl;
+		ss << "<name>" << name << "</name>" << std::endl;
+		ss << "<is3D>" << (is3D?"true":"false") << "</is3D>" << std::endl;
 		ss << bounds;
 		ss << generator;
 		ss << renderer;

@@ -8,7 +8,9 @@ namespace sag {
 	std::string UserDefined::serialize() const {
 		if (!isSet) throw "UserDefined formula is not set";
 		std::stringstream ss;
-		ss << "<formula class=\"UserDefined\" name=\"" << name();
+		ss << "<formula>" << std::endl;
+		ss << "<class>UserDefined</class>" << std::endl;
+		ss << "<name>" << name() << "</name>" << std::endl;
 		ss << "<startPoint>" << std::endl;
 		ss << "<x>" << startPoint.x << "</x>" << std::endl;
 		ss << "<y>" << startPoint.y << "</y>" << std::endl;
