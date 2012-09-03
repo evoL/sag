@@ -27,7 +27,6 @@ namespace sag {
         } );
 		receivingMutex.unlock();
         
-        
         // Merge the data into one vector
         std::vector<int> data(img.getWidth()*img.getHeight()*3);
         
