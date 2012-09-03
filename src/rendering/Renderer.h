@@ -5,7 +5,6 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <string>
 #include "utils/types.h"
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
@@ -17,8 +16,6 @@ namespace sag {
         Renderer(): expectParticles(false), receiving(false) {}
         
         virtual ~Renderer() {}
-		
-		virtual std::string serialize() const = 0;
         
         void enqueueParticle(const Particle& p);
         

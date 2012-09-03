@@ -1,19 +1,9 @@
 #include "rendering/PixbufRenderer.h"
 
 #include <vector>
-#include <sstream>
 #include "utils/Color.h"
 
 namespace sag {
-	std::string PixbufRenderer::serialize() const {
-		std::stringstream ss;
-		ss << "<renderer>" << std::endl;
-		ss << "<class>PixbufRenderer</class>" << std::endl;
-		ss << "</renderer>" << std::endl;
-		
-		return ss.str();
-	}
-	
 	void PixbufRenderer::processParticle(Particle& p) {
 		positionGrid.addProjected(p.getPosition(), bounds);
 		velocityGrid.addProjected(p.getPosition(), bounds, p.getVelocity().length());

@@ -5,37 +5,6 @@
 #include "utils/Range.h"
 
 namespace sag {
-	std::string UserDefined::serialize() const {
-		if (!isSet) throw "UserDefined formula is not set";
-		std::stringstream ss;
-		ss << "<formula>" << std::endl;
-		ss << "<class>UserDefined</class>" << std::endl;
-		ss << "<name>" << name() << "</name>" << std::endl;
-		ss << "<startPoint>" << std::endl;
-		ss << "<x>" << startPoint.x << "</x>" << std::endl;
-		ss << "<y>" << startPoint.y << "</y>" << std::endl;
-		if (_is3D) ss << "<z>" << startPoint.z << "</z>" << std::endl;
-		else ss << "<z/>" << std::endl;
-		ss << "</startPoint>" << std::endl;
-		ss << "<params>" << std::endl;
-		
-		for (int i=0; i < this->paramCount(); i++) {
-			ss << "<p min=" << dstr.min(i) << " max=" << dstr.max(i);
-			ss << ">" << parameters[i] << "</p>" << std::endl;
-		}
-		
-		ss << "</params>" << std::endl;
-		ss << "<formulas>" << std::endl;
-		ss << "<x>" << formulas[0] << "</x>" << std::endl;
-		ss << "<y>" << formulas[1] << "</y>" << std::endl;
-		if (_is3D) ss << "<z>" << formulas[0] << "</z>" << std::endl;
-		else ss << "<z/>" << std::endl;
-		ss << "</formulas>" << std:: endl;
-		ss << "</formula>" << std::endl;
-		
-		return ss.str();
-	}
-	
 	Vector<number> UserDefined::step(const Vector<number>& prev, const std::vector<number> params) {
 		std::vector<number> res;
 

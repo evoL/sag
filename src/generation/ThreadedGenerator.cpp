@@ -2,23 +2,11 @@
 
 #include "generation/ThreadedGenerator.h"
 #include <vector>
-#include <sstream>
 #include "utils/Particle.h"
 
 namespace sag {
 	ThreadedGenerator::~ThreadedGenerator() {
 		threadController.join();
-	}
-	
-	std::string ThreadedGenerator::serialize() const {
-		std::stringstream ss;
-		ss << "<generator>" << std::endl;
-		ss << "<class>ThreadedGenerator</class>" << std::endl;
-		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
-		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
-		ss << "</generator>" << std::endl;
-		
-		return ss.str();
 	}
 
 	void ThreadedGenerator::run() {

@@ -11,7 +11,6 @@
 #include "utils/types.h"
 #include "utils/Vector.h"
 #include "generation/ParamDistribution.h"
-
 namespace sag {
 	class Formula {
 	public:
@@ -21,8 +20,6 @@ namespace sag {
             parameters(parameters) {}
 
 		virtual ~Formula() {}
-		
-		virtual std::string serialize() const;
 
         void prepare();
         void randomize();
