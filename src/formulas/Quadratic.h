@@ -7,7 +7,11 @@ namespace sag {
 	class Quadratic : public Formula {
 	public:
         Quadratic(): Formula() {}
+        
         Quadratic(const std::vector<number>& parameters): Formula(parameters) {}
+        
+		// Quadratic(std::string xml);
+		
 		~Quadratic() {}
 
 		CLONEABLE(Quadratic)

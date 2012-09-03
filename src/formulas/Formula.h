@@ -16,10 +16,13 @@ namespace sag {
 	class Formula {
 	public:
 		Formula() {}
+		
 		Formula(const std::vector<number>& parameters):
-            parameters(parameters) {}
+            parameters(parameters) { if ((int)parameters.size() != paramCount()) throw "Wrong parameters"; }
 
 		virtual ~Formula() {}
+		
+		virtual std::string serialize() const;
 
         void prepare();
         void randomize();

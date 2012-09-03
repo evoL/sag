@@ -3,6 +3,7 @@
 
 #include "formulas/Formula.h"
 #include <vector>
+#include <string>
 #include "generation/CustomDistribution.h"
 
 namespace sag {
@@ -16,6 +17,8 @@ namespace sag {
 
 		CLONEABLE(UserDefined)
 
+		std::string serialize() const;
+		
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
 
 		virtual const std::string name() const;
@@ -84,11 +87,6 @@ namespace sag {
 			static inline double mult(double a, double b) { return a*b; }
 			static inline double div(double a, double b) { return a/b; }
 
-			//static constexpr binary_function add = [](number a, number b) -> number { return a+b; };
-			//static constexpr binary_function sub = [](number a, number b) -> number { return a-b; };
-			//static constexpr binary_function mult = [](number a, number b) -> number { return a*b; };
-			//static constexpr binary_function div = [](number a, number b) -> number { return a/b; };
-
 			enum Type {
 				UNARY_OPERATOR,
 				BINARY_OPERATOR,
@@ -155,6 +153,7 @@ namespace sag {
 		CustomDistribution dstr;
 		std::vector<std::vector<Parser::Elem>> RPN;
 		std::string formulaName;
+		std::vector<std::string> formulas;
 	};
 }
 

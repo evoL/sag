@@ -2,6 +2,7 @@
 #define BOUNDS_H
 
 #include <vector>
+#include <string>
 #include "utils/Vector.h"
 #include "utils/Random.h"
 
@@ -39,6 +40,8 @@ namespace sag {
 
 		~Bounds() {}
 
+		std::string serialize() const;
+		
 		inline Vector<T> getCenter() const { return center; }
 
 		inline T getRadius() const { return radius; }

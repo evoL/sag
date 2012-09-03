@@ -1,8 +1,19 @@
 #include "generation/SimpleGenerator.h"
 #include <vector>
+#include <sstream>
 #include "utils/Particle.h"
 
 namespace sag {
+	std::string SimpleGenerator::serialize() const {
+		std::stringstream ss;
+		ss << "<generator class=\"SimpleGenerator\">" << std::endl;
+		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
+		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
+		ss << "</generator>" << std::endl;
+		
+		return ss.str();
+	}
+	
 	void SimpleGenerator::run() {
         running = true;
 		renderer->startReceiving();
