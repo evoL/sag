@@ -20,7 +20,11 @@ namespace sag {
         virtual void clear();
         virtual void resize(unsigned int w, unsigned int h);
         
+        virtual void blur(int radius);
+        
         virtual void drawData(const std::vector<int>& values);
+        
+        virtual void compositeData(const std::vector<int>& values, CompositeType type);
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
         

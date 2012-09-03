@@ -44,6 +44,7 @@ namespace sag {
         }
         
         img.drawData(data);
+        img.blur(3);
     }
     
     void PixbufRenderer::clear() {

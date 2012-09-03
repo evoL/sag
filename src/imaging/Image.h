@@ -9,6 +9,10 @@ namespace sag {
     protected:
         unsigned int width, height;
     public:
+        enum CompositeType {
+            COMPOSITE_ADD
+        };
+        
         Image(unsigned int width, unsigned int height): width(width), height(height) {}
         
         virtual void toFile(std::string filename) = 0;
@@ -16,7 +20,11 @@ namespace sag {
         virtual void clear() = 0;
         virtual void resize(unsigned int w, unsigned int h) = 0;
         
+        virtual void blur(int radius) = 0;
+        
         virtual void drawData(const std::vector<int>& values) = 0;
+        
+        virtual void compositeData(const std::vector<int>& values, CompositeType type) = 0;
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) = 0;
         
