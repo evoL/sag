@@ -5,6 +5,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <string>
 #include "utils/types.h"
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
@@ -13,14 +14,15 @@
 namespace sag {
 	class Renderer {
 	public:
-        Renderer(): particleCount(-1), expectParticles(false), receiving(false) {}
+        Renderer(): expectParticles(false), receiving(false) {}
+        
         virtual ~Renderer() {}
+		
+		virtual std::string serialize() const = 0;
         
         void enqueueParticle(const Particle& p);
         
         void setBounds(Bounds<number>& b);
-
-        void setParticleCount(int pc);
 		
 		void wait();
         void abort();
@@ -43,7 +45,6 @@ namespace sag {
 		std::thread receivingThread;
 		mutable std::mutex receivingMutex;
         std::condition_variable waitingCV;
-		int particleCount;
 		volatile bool expectParticles;
 		volatile bool receiving;
 		volatile int receivedParticleCount;

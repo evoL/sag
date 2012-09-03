@@ -17,7 +17,6 @@ namespace sag {
 		setBounds();
         
 		renderer->setBounds(bounds);
-		renderer->setParticleCount(1);
 	}
 	
     void Generator::reset() {
@@ -48,6 +47,5 @@ namespace sag {
     
     void Generator::setParticleCount(int pc) {
         particleCount = pc;
-        renderer->setParticleCount(pc);
     }
 }

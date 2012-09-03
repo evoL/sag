@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include <sstream>
 #include "utils/types.h"
 #include "utils/Random.h"
 #include "utils/Vector.h"
@@ -7,7 +8,27 @@
 #include "formulas/Formula.h"
 
 namespace sag {
-    void Formula::prepare() {
+    std::string Formula::serialize() const {
+		std::stringstream ss;
+		ss << "<formula class=\"" << this->name() << "\">" << std::endl;
+		ss << "<startPoint>" << std::endl;
+		ss << "<x>" << startPoint.x << "</x>" << std::endl;
+		ss << "<y>" << startPoint.y << "</y>" << std::endl;
+		ss << "<z>" << startPoint.z << "</z>" << std::endl;
+		ss << "</startPoint>" << std::endl;
+		ss << "<params>" << std::endl;
+		
+		for (auto it = parameters.begin(); it<parameters.end(); it++) {
+			ss << "<p>" << *it << "</p>" << std::endl;
+		}
+		
+		ss << "</params>" << std::endl;
+		ss << "</formula>" << std::endl;
+		
+		return ss.str();
+	}
+	
+	void Formula::prepare() {
         if (parameters.empty()) randomize();
     }
     

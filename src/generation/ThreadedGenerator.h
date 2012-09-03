@@ -6,6 +6,7 @@
 #include "generation/Generator.h"
 #include <vector>
 #include <thread>
+#include <string>
 
 namespace sag {
 	class ThreadedGenerator : public Generator {
@@ -13,6 +14,8 @@ namespace sag {
         ThreadedGenerator(Formula& f, Renderer& r, int iter, bool if3D=false): Generator(f, r, iter, if3D) {}
 		~ThreadedGenerator();
 
+		std::string serialize() const;
+		
 		void run();
 	
 	private:

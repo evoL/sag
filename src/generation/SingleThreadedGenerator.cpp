@@ -1,4 +1,5 @@
- #include "generation/SingleThreadedGenerator.h"
+#include "generation/SingleThreadedGenerator.h"
+#include <sstream> 
 
 
 namespace sag {
@@ -6,6 +7,16 @@ namespace sag {
         thread.join();
     }
     
+	std::string SingleThreadedGenerator::serialize() const {
+		std::stringstream ss;
+		ss << "<generator class=\"SingleThreadedGenerator\">" << std::endl;
+		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
+		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
+		ss << "</generator>" << std::endl;
+		
+		return ss.str();
+	}
+	
 	void SingleThreadedGenerator::run() {
         running = true;
 		renderer->startReceiving();

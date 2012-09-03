@@ -4,6 +4,7 @@
 #include "generation/Generator.h"
 #include <vector>
 #include <thread>
+#include <string>
 #include "utils/Particle.h"
 
 namespace sag {
@@ -11,6 +12,8 @@ namespace sag {
 	public:
         SingleThreadedGenerator(Formula& f, Renderer& r, int iter, bool if3D=false): Generator(f, r, iter, if3D) {}
 		virtual ~SingleThreadedGenerator();
+		
+		std::string serialize() const;
 
 		void run();
         

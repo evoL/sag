@@ -25,6 +25,10 @@ bin/
 # Image
 *.png
 
+# XML files
+
+*.xml
+
 # Visual Studio
 *.sln
 *.vcxproj

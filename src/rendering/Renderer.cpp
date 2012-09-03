@@ -3,16 +3,12 @@
 #include <thread>
 
 namespace sag {
-    void Renderer::enqueueParticle(const Particle& p) {
+	void Renderer::enqueueParticle(const Particle& p) {
 		queue.push(p);
 	}
     
     void Renderer::setBounds(Bounds<number>& b) {
         bounds = b;
-    }
-
-    void Renderer::setParticleCount(int pc) {
-    	particleCount = pc;
     }
     
     void Renderer::wait() {
