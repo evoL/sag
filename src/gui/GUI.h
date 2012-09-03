@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include <vector>
+#include "utils/Range.h"
 #include "gui/StandaloneAttractorView.h"
 #include "gui/AttractorEditor.h"
 #include "generation/Generator.h"
@@ -12,6 +13,12 @@
 namespace sag {
     class GUI : public Gtk::Window {
     public:
+        struct CustomFormula {
+            std::string name;
+            std::vector<std::string> formulas;
+            std::vector<Range<number>> distribution;
+        };
+        
         GUI();
         virtual ~GUI() {}
         
@@ -23,6 +30,54 @@ namespace sag {
     private:
         static const int WIDTH = 900;
         static const int HEIGHT = 600;
+        
+        class FormulaEditor : public Gtk::Window {
+        public:
+            FormulaEditor();
+            virtual ~FormulaEditor() {}
+            
+            void setCustomFormula(CustomFormula& f);
+            
+            inline sigc::signal<void, CustomFormula&> signal_saved_data() {
+                return signalSavedData;
+            }
+            inline sigc::signal<void> signal_canceled() {
+                return signalCanceled;
+            }
+            
+        protected:
+            bool on_window_delete_event(GdkEventAny*);
+            
+        private:
+            class DistributionColumns : public Gtk::TreeModelColumnRecord {
+            public:
+                DistributionColumns() { add(index); add(min); add(max); }
+                Gtk::TreeModelColumn<int> index;
+                Gtk::TreeModelColumn<number> min, max;
+            };
+            
+            sigc::signal<void, CustomFormula&> signalSavedData;
+            sigc::signal<void> signalCanceled;
+            
+            Gtk::VBox content;
+            Gtk::Table texts;
+            Gtk::Label nameLabel, xLabel, yLabel, countLabel;
+            Gtk::Entry nameEntry, xEntry, yEntry;
+            Gtk::SpinButton countEntry;
+            Gtk::Adjustment countAdjustment;
+            
+            DistributionColumns dstrColumns;
+            Gtk::ScrolledWindow dstrScrollWindow;
+            Glib::RefPtr<Gtk::ListStore> dstrModel;
+            Gtk::TreeView dstrView;
+            
+            Gtk::HButtonBox actions;
+            Gtk::Button cancelButton, okButton;
+            
+            void onSave();
+            void onCancel();
+            void onCountChanged();
+        };
         
         class ChooserView : public Gtk::HBox {
         public:
@@ -75,6 +130,9 @@ namespace sag {
             Generator *generator;
             PixbufRenderer renderer;
             
+            GUI::FormulaEditor editor;
+            GUI::CustomFormula customFormula;
+            
             AttractorEditor view;
             Gtk::VBox panel;
             Gtk::Label title;
@@ -89,6 +147,8 @@ namespace sag {
             Gtk::Adjustment particleCountAdjustment;
             Gtk::SpinButton particleCountEntry;
             
+            Gtk::Button editFormulaButton;
+            
             Gtk::ScrolledWindow parameterViewWindow;
             Gtk::TreeView parameterView;
             ParameterColumns parameterColumns;
@@ -101,10 +161,6 @@ namespace sag {
             Gtk::SpinButton iterationsEntry;
             Gtk::ToggleButton infiniteIterationsButton;
             
-            Gtk::HButtonBox toolbox;
-            Gtk::ToggleButton moveButton;
-            Gtk::ToggleButton zoomButton;
-            
             Gtk::HBox progressBox;
             Gtk::ProgressBar progress;
             Gtk::Button abortButton;
@@ -116,6 +172,11 @@ namespace sag {
             void updateFormulaBox();
             void updateParameterModel();
             
+            void onEditFormulaClick();
+            
+            void onUpdateCustomFormula(CustomFormula& cf);
+            void onSetCustomFormula();
+            
             void onChangeFormula();
             void onChangeParticleCount();
             void onChangeIterations();
@@ -126,7 +187,7 @@ namespace sag {
             void parameterColumnCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
             void onParameterEditFinish(const Glib::ustring& path_string, const Glib::ustring& new_text);
         };
-        
+                
         ChooserView chooser;
         EditorView editor;
     };

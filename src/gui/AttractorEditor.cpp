@@ -10,11 +10,15 @@ namespace sag {
     }
     
     void AttractorEditor::start() {
+        if (drawing) return;
+        
         drawing = true;
         refresher = std::thread(&AttractorEditor::redraw, this);
     }
     
     void AttractorEditor::stop() {
+        if (!drawing) return;
+        
         drawing = false;
         if (refresher.joinable()) refresher.join();
     }

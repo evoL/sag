@@ -5,6 +5,7 @@
 #include <sstream>
 #include <gtkmm/messagedialog.h>
 #include "formulas/all.h"
+#include "formulas/UserDefined.h"
 
 #ifdef NO_THREADED_GENERATOR
 
@@ -149,6 +150,16 @@ namespace sag {
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000)
     {
+        editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));
+        editor.signal_canceled().connect(sigc::mem_fun(*this, &EditorView::onSetCustomFormula));
+        
+        customFormula.name = "Clifford";
+        customFormula.formulas.push_back("sin(p0 * y) + p2 * cos(p0 * x)");
+        customFormula.formulas.push_back("sin(p1 * x) + p3 * cos(p1 * y)");
+        customFormula.distribution = std::vector<Range<number>>(4, Range<number>(-2, 2));
+        
+        //////////////////////////////////////////////////////
+        
         pack_start(view);
         
         panel.set_size_request(WIDTH-HEIGHT, -1);
@@ -176,16 +187,21 @@ namespace sag {
         formulaBox.set_model(formulaModel);
         formulaBox.pack_start(formulaColumns.formula);
         formulaBox.signal_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeFormula));
-        shapeTable.attach(formulaBox, 1, 3, 0, 1);
+        shapeTable.attach(formulaBox, 1, 2, 0, 1);
+        
+        editFormulaButton.set_label("Edit");
+        editFormulaButton.set_sensitive(false);
+        editFormulaButton.signal_clicked().connect(sigc::mem_fun(*this, &EditorView::onEditFormulaClick));
+        shapeTable.attach(editFormulaButton, 2, 3, 0, 1);
         
         particleCountLabel.set_text("Particle count");
         particleCountLabel.set_alignment(Gtk::ALIGN_LEFT);
-        shapeTable.attach(particleCountLabel, 0, 2, 1, 2);
+        shapeTable.attach(particleCountLabel, 0, 1, 1, 2);
         
         particleCountEntry.set_adjustment(particleCountAdjustment);
         particleCountEntry.set_numeric(true);
         particleCountEntry.signal_value_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeParticleCount));
-        shapeTable.attach(particleCountEntry, 2, 3, 1, 2);
+        shapeTable.attach(particleCountEntry, 1, 3, 1, 2);
         
         parameterViewWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
         parameterViewWindow.set_size_request(-1, 110);
@@ -252,20 +268,6 @@ namespace sag {
         panel.pack_end(returnButton, Gtk::PACK_SHRINK);
         
         ///////////////////////////////////////////////////////
-        
-        toolbox.set_border_width(5);
-        toolbox.set_layout(Gtk::BUTTONBOX_EDGE);
-        toolbox.set_spacing(5);
-        panel.pack_end(toolbox, Gtk::PACK_SHRINK);
-        
-        moveButton.set_label("Move");
-        moveButton.set_active(true);
-        toolbox.pack_start(moveButton);
-        
-        zoomButton.set_label("Zoom");
-        toolbox.pack_start(zoomButton);
-        
-        ///////////////////////////////////////////////////////
 
         show_all_children();
     }
@@ -323,6 +325,9 @@ namespace sag {
             Gtk::TreeModel::Row row = *(formulaModel->append());
             row[formulaColumns.formula] = *it;
         }
+        
+        Gtk::TreeModel::Row lastRow = *(formulaModel->append());
+        lastRow[formulaColumns.formula] = "Custom (Clifford)";
     }
     
     void GUI::EditorView::updateFormulaBox() {
@@ -342,6 +347,35 @@ namespace sag {
         }
     }
     
+    void GUI::EditorView::onEditFormulaClick() {
+        editor.show();
+    }
+    
+    void GUI::EditorView::onUpdateCustomFormula(CustomFormula& cf) {
+        customFormula = cf;
+        onSetCustomFormula();
+        
+        automatedChange = true;
+
+        // Update the GUI
+        Gtk::TreeModel::Row lastRow = *(formulaModel->children().rbegin());
+        lastRow[formulaColumns.formula] = "Custom (" + customFormula.name + ")";
+        
+        updateParameterModel();
+        
+        automatedChange = false;
+    }
+    
+    void GUI::EditorView::onSetCustomFormula() {
+        // Set the formula
+        UserDefined* f = new UserDefined();
+        CustomDistribution dstr(customFormula.distribution);
+        f->set(customFormula.formulas, customFormula.distribution.size(), dstr, customFormula.name);
+        setFormula(f);
+        
+        startUpdating();
+    }
+    
     void GUI::EditorView::onChangeFormula() {
         if (automatedChange) return;
         
@@ -352,15 +386,25 @@ namespace sag {
         if (!row) return;
         
         stopUpdating();
-
-        Formula *f = createFormula(row.get_value(formulaColumns.formula));
-        setFormula(f);
-
-        startUpdating();
+        
+        std::string name = row.get_value(formulaColumns.formula);
+        
+        int offset = name.find("Custom");
+        Formula *f;
+        if ((offset != std::string::npos) && (offset == 0)) {
+            // Custom formula
+            editFormulaButton.set_sensitive(true);
+            editor.setCustomFormula(customFormula);
+            editor.show();
+        } else {
+            editFormulaButton.set_sensitive(false);
+            f = createFormula(name);
+            setFormula(f);
+            startUpdating();
+        }
     }
     
-    void
-    GUI::EditorView::onChangeParticleCount() {
+    void GUI::EditorView::onChangeParticleCount() {
     	stopUpdating();
         generator->setParticleCount(particleCountEntry.get_value_as_int());
         startUpdating();
@@ -430,6 +474,155 @@ namespace sag {
             setFormula(f);
             
             startUpdating();
+        }
+    }
+    
+    GUI::FormulaEditor::FormulaEditor():
+        texts(4, 2),
+        countAdjustment(0, 0, std::numeric_limits<int>::max(), 1, 10),
+        cancelButton(Gtk::Stock::CANCEL),
+        okButton(Gtk::Stock::OK)
+    {
+        set_title("Formula Editor");
+        set_size_request(500, 300);
+        set_modal();
+        
+        content.set_border_width(10);
+        content.set_spacing(5);
+        add(content);
+        
+        texts.set_row_spacings(5);
+        content.pack_start(texts, Gtk::PACK_SHRINK);
+        
+        nameLabel.set_alignment(Gtk::ALIGN_LEFT);
+        nameLabel.set_text("Name");
+        texts.attach(nameLabel, 0, 1, 0, 1);
+        
+        texts.attach(nameEntry, 1, 2, 0, 1);
+        
+        xLabel.set_alignment(Gtk::ALIGN_LEFT);
+        xLabel.set_text("X");
+        texts.attach(xLabel, 0, 1, 1, 2);
+        
+        texts.attach(xEntry, 1, 2, 1, 2);
+        
+        yLabel.set_alignment(Gtk::ALIGN_LEFT);
+        yLabel.set_text("Y");
+        texts.attach(yLabel, 0, 1, 2, 3);
+        
+        texts.attach(yEntry, 1, 2, 2, 3);
+        
+        countLabel.set_alignment(Gtk::ALIGN_LEFT);
+        countLabel.set_text("Parameter count");
+        texts.attach(countLabel, 0, 1, 3, 4);
+        
+        countEntry.set_adjustment(countAdjustment);
+        countEntry.set_numeric(true);
+        countEntry.signal_value_changed().connect(sigc::mem_fun(*this, &FormulaEditor::onCountChanged));
+        texts.attach(countEntry, 1, 2, 3, 4);
+        
+        dstrScrollWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
+        content.pack_start(dstrScrollWindow);
+        
+        dstrModel = Gtk::ListStore::create(dstrColumns);
+        dstrView.set_model(dstrModel);
+        dstrView.append_column_numeric("Parameter", dstrColumns.index, "%d");
+        dstrView.append_column_numeric_editable("Minimum", dstrColumns.min, "%.4f");
+        dstrView.append_column_numeric_editable("Maximum", dstrColumns.max, "%.4f");
+        
+        dstrScrollWindow.add(dstrView);
+        
+        actions.set_spacing(5);
+        cancelButton.signal_clicked().connect(sigc::mem_fun(*this, &FormulaEditor::onCancel));
+        actions.pack_start(cancelButton);
+        okButton.signal_clicked().connect(sigc::mem_fun(*this, &FormulaEditor::onSave));
+        actions.pack_end(okButton);
+        
+        content.pack_start(actions, Gtk::PACK_SHRINK);
+        
+        ////////////////////////////////////////////////////////////
+        
+        show_all_children();
+    }
+    
+    void GUI::FormulaEditor::setCustomFormula(CustomFormula& f) {
+        nameEntry.set_text(f.name);
+        xEntry.set_text(f.formulas[0]);
+        yEntry.set_text(f.formulas[1]);
+        countEntry.set_value(f.distribution.size());
+        
+        Gtk::TreeModel::Children children = dstrModel->children();
+        int i = 0;
+        for (auto it = children.begin(); it != children.end(); it++) {
+            Gtk::TreeModel::Row row = *it;
+            row[dstrColumns.min] = f.distribution[i].min();
+            row[dstrColumns.max] = f.distribution[i].max();
+            i++;
+        }
+    }
+    
+    void GUI::FormulaEditor::onSave() {
+        CustomFormula data;
+        data.name = nameEntry.get_text();
+        data.formulas.push_back(xEntry.get_text());
+        data.formulas.push_back(yEntry.get_text());
+        
+        Gtk::TreeModel::Children children = dstrModel->children();
+        for (auto it = children.begin(); it != children.end(); it++) {
+            Gtk::TreeModel::Row row = *it;
+            data.distribution.push_back(Range<number>(row[dstrColumns.min], row[dstrColumns.max]));
+        }
+        
+        signalSavedData.emit(data);
+        hide();
+    }
+    
+    void GUI::FormulaEditor::onCancel() {
+        signalCanceled.emit();
+        hide();
+    }
+    
+    bool GUI::FormulaEditor::on_window_delete_event(GdkEventAny*) {
+        signalCanceled.emit();
+        return true;
+    }
+    
+    void GUI::FormulaEditor::onCountChanged() {
+        Gtk::TreeModel::Children children = dstrModel->children();
+        
+        int count = countEntry.get_value_as_int();
+        if (count < children.size()) {
+            // Delete if too many rows
+            
+            // Select the rows
+            auto selection = dstrView.get_selection();
+            Gtk::TreePath start( std::to_string( count - 1) );
+            Gtk::TreePath end( std::to_string(children.size() - 1) );
+            selection->select(start, end);
+            
+            // Make references from selection
+            std::list<Gtk::TreePath> paths = selection->get_selected_rows();
+            std::list<Gtk::TreeRowReference> rows;
+            for (auto pathit = paths.begin(); pathit != paths.end(); pathit++) {
+                rows.push_back(Gtk::TreeRowReference(dstrModel, *pathit));
+            }
+            
+            // Erase the rows
+            for (auto it = rows.begin(); it != rows.end(); it++) {
+                Gtk::TreeModel::iterator treeit = dstrModel->get_iter(it->get_path());
+                dstrModel->erase(treeit);
+            }
+            
+        } else if (count > children.size()) {
+            // Append necessary rows
+            int howMany = count - children.size();
+            
+            for (int i = 1; i <= howMany; i++) {
+                Gtk::TreeModel::Row row = *(dstrModel->append());
+                row[dstrColumns.index] = i;
+                row[dstrColumns.min] = -2;
+                row[dstrColumns.max] = 2;
+            }
         }
     }
 }
