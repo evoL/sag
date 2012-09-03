@@ -20,6 +20,7 @@ namespace sag {
         static const int UNLIMITED_ITERATIONS = -1;
         
         void setParticleCount(int pc);
+        void setTTL(int TTL);
         void reset();
 		void abort();
 		
@@ -34,6 +35,7 @@ namespace sag {
 		const bool if3D;
         volatile bool running;
         int iterations;
+        int TTL;
 		Renderer *renderer;
 
 		void sendParticle(const Particle& p);

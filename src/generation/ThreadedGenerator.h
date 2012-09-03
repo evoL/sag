@@ -19,7 +19,7 @@ namespace sag {
 		std::vector<std::thread> threads;
 		std::thread threadController;
 
-		void iterate(Particle &p);
+		void iterate(Particle &p, int n);
 		
 		void controlThreads();
 	};

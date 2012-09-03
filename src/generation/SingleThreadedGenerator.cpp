@@ -27,14 +27,18 @@ namespace sag {
 	}
 	
 	void SingleThreadedGenerator::iterate(std::vector<Particle> v) {
-		int i = iterations;
-        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i >= 0))) {
-            for (auto it = v.begin(); it < v.end(); it++) {
-				it->moveTo( formula->step(it->getPosition()) );
-				sendParticle(*it);
+		int i = 1;
+		int offset;
+		if (TTL > 0) offset = TTL / particleCount;
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
+        	for (int j=0; j < particleCount; j++) {
+        		if (j != 0 && TTL > 0 && i % TTL == j*offset)
+        			v[j].moveTo(bounds.getRandomVector(if3D));
+        		else
+        			v[j].moveTo( formula->step(v[j].getPosition()) );
+				sendParticle(v[j]);
 				if (!running) break;
 			}
-            --i;
         }
         
         running = false;
