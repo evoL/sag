@@ -2,10 +2,8 @@
 #define BOUNDS_H
 
 #include <vector>
-#include <string>
 #include "utils/Vector.h"
 #include "utils/Random.h"
-
 namespace sag {
 	template <typename T>
 	class Bounds {
@@ -39,8 +37,6 @@ namespace sag {
 		Bounds(std::vector<Vector<T>>& particles);
 
 		~Bounds() {}
-
-		std::string serialize() const;
 		
 		inline Vector<T> getCenter() const { return center; }
 

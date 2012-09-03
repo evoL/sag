@@ -7,7 +7,6 @@
 #include "formulas/Formula.h"
 #include "rendering/Renderer.h"
 #include <atomic>
-#include <string>
 
 namespace sag {
 	class Generator {
@@ -15,14 +14,13 @@ namespace sag {
 		Generator(Formula& f, Renderer& r, int iter, bool if3D=false);
 		
 		virtual ~Generator() {}
-		
-		virtual std::string serialize() const = 0;
 
 		virtual void run() = 0;
         
         static const int UNLIMITED_ITERATIONS = -1;
         
         void setParticleCount(int pc);
+        void setTTL(int TTL);
         void reset();
 		void abort();
 		
@@ -37,6 +35,7 @@ namespace sag {
 		const bool if3D;
         volatile bool running;
         int iterations;
+        int TTL;
 		Renderer *renderer;
 
 		void sendParticle(const Particle& p);

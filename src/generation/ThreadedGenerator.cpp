@@ -2,26 +2,15 @@
 
 #include "generation/ThreadedGenerator.h"
 #include <vector>
-#include <sstream>
 #include "utils/Particle.h"
 
 namespace sag {
 	ThreadedGenerator::~ThreadedGenerator() {
 		threadController.join();
 	}
-	
-	std::string ThreadedGenerator::serialize() const {
-		std::stringstream ss;
-		ss << "<generator class=\"ThreadedGenerator\">" << std::endl;
-		ss << "<particleCount>" << particleCount << "</particleCount>" << std::endl;
-		ss << "<iterations>" << iterations << "</iterations>" << std::endl;
-		ss << "</generator>" << std::endl;
-		
-		return ss.str();
-	}
 
 	void ThreadedGenerator::run() {
-        running = true;
+		running = true;
 		renderer->startReceiving();
 		
 		threads.clear();
@@ -34,25 +23,29 @@ namespace sag {
         // The initial point is always the starting point
         initials[0] = formula->getStartPoint();
         sendParticle(initials[0]);
-		threads[0] = std::thread(&ThreadedGenerator::iterate, this, initials[0]);
+		threads[0] = std::thread(&ThreadedGenerator::iterate, this, initials[0], 0);
         
         // The rest are random
 		for (int i=1; i<particleCount; i++) {
 			initials[i] = bounds.getRandomVector(if3D);
 			sendParticle(initials[i]);
-			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i]);
+			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i], i);
 		}
 		
 		threadController = std::thread(&ThreadedGenerator::controlThreads, this);
 		
 	}
 	
-	void ThreadedGenerator::iterate(Particle &p) {
-		int i = iterations;
-        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i > 1))) {
-            p.moveTo( formula->step(p.getPosition()) );
+	void ThreadedGenerator::iterate(Particle &p, int n) {
+		int i = 1;
+		int offset;
+		if (TTL > 0) offset = TTL / particleCount * n;
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
+            if (n != 0 && TTL > 0 && i % TTL == offset)
+            	p.moveTo(bounds.getRandomVector(if3D));
+            else
+            	p.moveTo( formula->step(p.getPosition()));
             sendParticle(p);
-            --i;
         }
 	}
 	

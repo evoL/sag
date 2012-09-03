@@ -16,8 +16,6 @@ namespace sag {
 		virtual ~UserDefined() {}
 
 		CLONEABLE(UserDefined)
-
-		std::string serialize() const;
 		
 		virtual Vector<number> step(const Vector<number>& prev, const std::vector<number> params);
 

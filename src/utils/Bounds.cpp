@@ -1,5 +1,5 @@
 #include <vector>
-#include <sstream>
+#include <cstdlib>
 #include "utils/Random.h"
 #include "utils/Bounds.h"
 
@@ -34,21 +34,6 @@ namespace sag {
 		raw.ymax = center.y + radius;
 		raw.zmin = center.z - radius;
 		raw.zmax = center.z + radius;
-	}
-	
-	template <typename T>
-	std::string Bounds<T>::serialize() const {
-		std::stringstream ss;
-		ss << "<bounds>" << std::endl;
-		ss << "<center>" << std::endl;
-		ss << "<x>" << center.x << "</x>" << std::endl;
-		ss << "<y>" << center.y << "</y>" << std::endl;
-		ss << "<z>" << center.z << "</z>" << std::endl;
-		ss << "</center>" << std::endl;
-		ss << "<radius>" << radius << "</radius>" << std::endl;
-		ss << "</bounds>" << std::endl;
-		
-		return ss.str();
 	}
 
 	template <typename T>
