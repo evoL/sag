@@ -146,10 +146,10 @@ namespace sag {
         renderer(HEIGHT, HEIGHT),
         view(renderer),
         shapeTable(3, 3, false),
-        appearanceTable(4, 3, false),
+        appearanceTable(5, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
-        ttlAdjustment(1000, 10, std::numeric_limits<int>::max(), 100, 1000),
+        ttlAdjustment(1000, 2, std::numeric_limits<int>::max(), 100, 1000),
         colorShiftAdjustment(0.25, 0, 1, 0.01, 0.1)
     {
         editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));
@@ -287,6 +287,13 @@ namespace sag {
         colorShiftScale.set_digits(2);
         colorShiftScale.signal_value_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeColorShift));
         appearanceTable.attach(colorShiftScale, 1, 3, 3, 4);
+        
+        ///////////////////////////////////////////////////////
+        
+        blurCheck.set_label("Blur");
+        blurCheck.set_active(true);
+        blurCheck.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onToggleBlur));
+        appearanceTable.attach(blurCheck, 0, 1, 4, 5);
         
         ///////////////////////////////////////////////////////
         
@@ -486,6 +493,14 @@ namespace sag {
         stopUpdating();
         
         renderer.setColorShiftLevel(colorShiftScale.get_value());
+        
+        startUpdating();
+    }
+    
+    void GUI::EditorView::onToggleBlur() {
+        stopUpdating();
+        
+        renderer.setBlur(blurCheck.get_active());
         
         startUpdating();
     }

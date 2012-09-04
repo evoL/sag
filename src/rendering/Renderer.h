@@ -18,7 +18,8 @@ namespace sag {
             expectParticles(false),
             receiving(false),
             color(255, 0, 0),
-            colorShiftLevel(0.25)
+            colorShiftLevel(0.25),
+            blur(true)
         {}
         
         virtual ~Renderer() {}
@@ -47,6 +48,8 @@ namespace sag {
         
         void setColorShiftLevel(double l) { colorShiftLevel = l; }
         inline const double getColorShiftLevel() const { return colorShiftLevel; }
+        
+        void setBlur(bool b) { blur = b; }
     
 	protected:
         Bounds<number> bounds;
@@ -60,6 +63,7 @@ namespace sag {
         
         Color color;
         double colorShiftLevel;
+        bool blur;
 	};
 }
 

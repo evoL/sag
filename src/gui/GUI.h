@@ -173,6 +173,8 @@ namespace sag {
             Gtk::Label colorShiftLabel;
             Gtk::HScale colorShiftScale;
             
+            Gtk::CheckButton blurCheck;
+            
             Gtk::HBox progressBox;
             Gtk::ProgressBar progress;
             Gtk::Button abortButton;
@@ -196,6 +198,8 @@ namespace sag {
             
             void onChangeColor();
             void onChangeColorShift();
+
+            void onToggleBlur();
             
             void onProgress();
             void onAbortClick();

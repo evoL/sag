@@ -45,8 +45,11 @@ namespace sag {
         }
         
         img.drawData(data);
-        img.blur(sqrt(img.getWidth()*img.getHeight()) * 0.1);
-        img.compositeData(data, Image::COMPOSITE_ADD);
+        
+        if (blur) {
+            img.blur(sqrt(img.getWidth()*img.getHeight()) * 0.1);
+            img.compositeData(data, Image::COMPOSITE_ADD);
+        }
     }
     
     void PixbufRenderer::clear() {
