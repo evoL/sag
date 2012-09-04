@@ -6,7 +6,7 @@
 
 namespace sag {
 	/**
-	 * @brief Represents single particle in 2- or 3-dimensional Euclidian space.
+	 * @brief Represents single particle in 2- or 3-dimensional Euclidean space.
 	 */
 	class Particle {
 	public:
