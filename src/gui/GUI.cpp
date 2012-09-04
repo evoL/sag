@@ -146,10 +146,11 @@ namespace sag {
         renderer(HEIGHT, HEIGHT),
         view(renderer),
         shapeTable(3, 3, false),
-        appearanceTable(3, 3, false),
+        appearanceTable(4, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
-        ttlAdjustment(1000, 10, std::numeric_limits<int>::max(), 100, 1000)
+        ttlAdjustment(1000, 10, std::numeric_limits<int>::max(), 100, 1000),
+        colorShiftAdjustment(0.25, 0, 1, 0.01, 0.1)
     {
         editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));
         editor.signal_canceled().connect(sigc::mem_fun(*this, &EditorView::onSetCustomFormula));
@@ -275,6 +276,17 @@ namespace sag {
         colorButton.set_color(color);
         colorButton.signal_color_set().connect(sigc::mem_fun(*this, &EditorView::onChangeColor));
         appearanceTable.attach(colorButton, 2, 3, 2, 3);
+        
+        ///////////////////////////////////////////////////////
+        
+        colorShiftLabel.set_text("Color shift");
+        colorShiftLabel.set_alignment(Gtk::ALIGN_LEFT);
+        appearanceTable.attach(colorShiftLabel, 0, 1, 3, 4);
+        
+        colorShiftScale.set_adjustment(colorShiftAdjustment);
+        colorShiftScale.set_digits(2);
+        colorShiftScale.signal_value_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeColorShift));
+        appearanceTable.attach(colorShiftScale, 1, 3, 3, 4);
         
         ///////////////////////////////////////////////////////
         
@@ -466,6 +478,14 @@ namespace sag {
         Gdk::Color gcolor = colorButton.get_color();
         Color color(gcolor.get_red_p() * 255, gcolor.get_green_p() * 255, gcolor.get_blue_p() * 255);
         renderer.setColor(color);
+        
+        startUpdating();
+    }
+    
+    void GUI::EditorView::onChangeColorShift() {
+        stopUpdating();
+        
+        renderer.setColorShiftLevel(colorShiftScale.get_value());
         
         startUpdating();
     }

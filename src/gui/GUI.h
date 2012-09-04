@@ -169,6 +169,10 @@ namespace sag {
             Gtk::Label colorLabel;
             Gtk::ColorButton colorButton;
             
+            Gtk::Adjustment colorShiftAdjustment;
+            Gtk::Label colorShiftLabel;
+            Gtk::HScale colorShiftScale;
+            
             Gtk::HBox progressBox;
             Gtk::ProgressBar progress;
             Gtk::Button abortButton;
@@ -191,6 +195,7 @@ namespace sag {
             void onChangeTTL();
             
             void onChangeColor();
+            void onChangeColorShift();
             
             void onProgress();
             void onAbortClick();

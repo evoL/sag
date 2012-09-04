@@ -16,9 +16,6 @@ namespace sag {
         std::vector<int> lightData = velocityGrid.map( [](double val, const Grid::Info& info) -> int {
             return 255 - (val - info.minValue) / (info.maxValue - info.minValue) * 255;
         } );
-//        std::vector<int> colorData = accelerationGrid.map( [](double val, const Grid::Info& info) -> int {
-//            return (val - info.minValue) / (info.maxValue - info.minValue) * 255;
-//        } );
         std::vector<int> colorData = accelerationGrid.map();
 		receivingMutex.unlock();
         
@@ -29,7 +26,7 @@ namespace sag {
         int imgidx = 0;
         for (auto it = shapeData.begin(); it < shapeData.end(); it++) {
             Color c = color;
-            double hue = c.hue() + (colorData[idx]/255.0) * 0.25;
+            double hue = c.hue() + (colorData[idx]/255.0) * colorShiftLevel;
             c.hue((hue > 1.0) ? (hue - 1) : hue);
             c.saturation(c.saturation() * ((lightData[idx])/255.0));
             c.lightness((*it)/255.0);
