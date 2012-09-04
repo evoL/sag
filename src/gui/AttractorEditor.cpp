@@ -4,7 +4,8 @@
 
 namespace sag {
     AttractorEditor::AttractorEditor(PixbufRenderer &r):
-        AttractorView(r, AttractorView::ALL_EVENTS)
+        AttractorView(r, AttractorView::ALL_EVENTS),
+        drawing(false)
     {
         onTick.connect(sigc::mem_fun(*this, &AttractorEditor::invalidate));
     }
