@@ -6,7 +6,7 @@
 
 namespace sag {
 	/**
-	 * @brief Represents a single vector in 2- or 3-dimensional Euclidian space.
+	 * @brief Represents a single vector in 2- or 3-dimensional Euclidean space.
 	 */
 	template <typename T>
 	class Vector {
