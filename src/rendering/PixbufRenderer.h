@@ -6,6 +6,7 @@
 #include "rendering/Renderer.h"
 #include "utils/Particle.h"
 #include "utils/Grid.h"
+#include "utils/Color.h"
 
 namespace sag {
     class PixbufRenderer : public Renderer {

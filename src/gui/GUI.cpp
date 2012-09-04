@@ -246,6 +246,16 @@ namespace sag {
         infiniteIterationsButton.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onChangeIterations));
         appearanceTable.attach(infiniteIterationsButton, 2, 3, 0, 1);
         
+        colorLabel.set_text("Color");
+        colorLabel.set_alignment(Gtk::ALIGN_LEFT);
+        appearanceTable.attach(colorLabel, 0, 1, 1, 2);
+        
+        Gdk::Color color;
+        color.set_rgb_p(renderer.getColor().red() / 255.0, renderer.getColor().green() / 255.0, renderer.getColor().blue() / 255.0);
+        colorButton.set_color(color);
+        colorButton.signal_color_set().connect(sigc::mem_fun(*this, &EditorView::onChangeColor));
+        appearanceTable.attach(colorButton, 2, 3, 1, 2);
+        
         ///////////////////////////////////////////////////////
         
         progressBox.set_border_width(5);
@@ -414,6 +424,16 @@ namespace sag {
     	stopUpdating();
         if (generator != nullptr) delete generator;
         createGenerator();
+        startUpdating();
+    }
+    
+    void GUI::EditorView::onChangeColor() {
+        stopUpdating();
+        
+        Gdk::Color gcolor = colorButton.get_color();
+        Color color(gcolor.get_red_p() * 255, gcolor.get_green_p() * 255, gcolor.get_blue_p() * 255);
+        renderer.setColor(color);
+        
         startUpdating();
     }
     

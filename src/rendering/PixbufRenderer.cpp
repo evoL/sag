@@ -23,11 +23,13 @@ namespace sag {
         int idx = 0;
         int imgidx = 0;
         for (auto it = shapeData.begin(); it < shapeData.end(); it++) {
-            Color c = Color::fromHSL(0.08, (double)(colorData[idx])/255, (double)(*it)/255);
+            Color c = color;
+            c.saturation((colorData[idx])/255.0);
+            c.lightness((*it)/255.0);
             
-            data[imgidx]   = c.r;
-            data[imgidx+1] = c.g;
-            data[imgidx+2] = c.b;
+            data[imgidx]   = c.red();
+            data[imgidx+1] = c.green();
+            data[imgidx+2] = c.blue();
             
 //            data[imgidx] = colorData[idx];
 //            data[imgidx+1] = colorData[idx];

@@ -9,11 +9,16 @@
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
 #include "utils/ConcurrentQueue.h"
+#include "utils/Color.h"
 
 namespace sag {
 	class Renderer {
 	public:
-        Renderer(): expectParticles(false), receiving(false) {}
+        Renderer():
+            expectParticles(false),
+            receiving(false),
+            color(255, 120, 0)
+        {}
         
         virtual ~Renderer() {}
         
@@ -35,6 +40,9 @@ namespace sag {
         virtual void render() = 0;
 
         inline int getReceivedParticleCount() { return receivedParticleCount; }
+        
+        void setColor(Color& c) { color = c; }
+        inline const Color& getColor() const { return color; }
     
 	protected:
         Bounds<number> bounds;
@@ -45,6 +53,8 @@ namespace sag {
 		volatile bool expectParticles;
 		volatile bool receiving;
 		volatile int receivedParticleCount;
+        
+        Color color;
 	};
 }
 
