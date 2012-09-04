@@ -29,11 +29,15 @@ namespace sag {
         
         /**
          * @brief Returns the position of the particle.
+         *
+         * @returns Position
          */
 		inline const Vector<number>& getPosition() const { return position; }
 
 		/**
 		 * @brief Returns the velocity of the particle.
+		 *
+		 * @returns Velocity
 		 */
         inline const Vector<number>& getVelocity() const { return velocity; }
         
@@ -48,6 +52,8 @@ namespace sag {
          * @brief Sets new position of the particle and zeroes its velocity.
          *
          * @param New position
+         *
+         * @return This particle
          */
         inline Particle& operator=(const Vector<number>& v) {
             position = v;

@@ -18,7 +18,9 @@ namespace sag {
         Random();
         
         /**
-         * @brief Returns an instance of the generator
+         * @brief Returns a global instance of the generator.
+         *
+         * @returns Global instance of the generator
          */
         static Random& getGlobal();
 
@@ -27,13 +29,17 @@ namespace sag {
          *
          * @param from The beginning of the range.
          * @param to The end of the range.
+         *
+         * @returns Random number
          */
         T inRange(T from, T to);
         
         /**
-         * @brief Returns a random integer within the provided range.
+         * @brief Returns a random number within the provided range.
          *
          * @param range The Range.
+         *
+         * @returns Random number
          */
         T inRange(const Range<T>& range);
     };

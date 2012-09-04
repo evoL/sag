@@ -23,7 +23,7 @@ namespace sag {
 		 *
 		 * @param x The coordinate on the x-axis
 		 * @param y The coordinate on the y-axis
-		 * @param z (optional) The coordinate on the z-axis. by default set to 0.
+		 * @param z (optional) The coordinate on the z-axis. By default set to 0.
 		 */
 		Vector(T x, T y, T z=0): x(x), y(y), z(z) {}
 
@@ -54,9 +54,8 @@ namespace sag {
 			return *this;
 		}
 
-        //TODO: Check the name of the operator
 		/**
-         * @brief Additive operator
+         * @brief Addition operator
          *
          * @param v The vector to be added.
          *
@@ -67,7 +66,7 @@ namespace sag {
         }
         
 		/**
-		 * @brief Additive operator
+		 * @brief In-place addition operator
 		 *
 		 * @param v The vector to be added.
 		 *
@@ -80,24 +79,24 @@ namespace sag {
 
 			return *this;
 		}
-        //TODO: !!!!!!!!!!!!!!!!!!!!
+
 		/**
-		 * @brief Additive operator
+		 * @brief Subtraction operator
 		 *
-		 * @param v The vector to be added.
+		 * @param v The vector to be subtracted.
 		 *
-		 * @returns A sum of this vector and the passed one.
+		 * @returns A result of subtraction of this vector and the passed one.
 		 */
 		inline Vector<T> operator-(const Vector<T>& v) const {
             return Vector<T>(x - v.x, y - v.y, z - v.z);
         }
         
 		/**
-		 * @brief Additive operator
+		 * @brief In-place subtraction operator
 		 *
-		 * @param v The vector to be added.
+		 * @param v The vector to be subtracted.
 		 *
-		 * @returns A sum of this vector and the passed one.
+		 * @returns A result of subtraction of this vector and the passed one.
 		 */
 		inline Vector<T>& operator-=(const Vector<T>& v) {
 			x -= v.x;
@@ -107,6 +106,13 @@ namespace sag {
 			return *this;
 		}
 
+		/**
+		 * @brief In-place multiplication operator
+		 *
+		 * @param val The scalar the vector should be multiplied by.
+		 *
+		 * @returns A product of this vector and a scalar.
+		 */
 		inline Vector<T>& operator*=(const T val) {
 			x *= val;
 			y *= val;
@@ -115,6 +121,13 @@ namespace sag {
 			return *this;
 		}
 
+		/**
+		 * @brief In-place division operator
+		 *
+		 * @param val The scalar the vector should be divided by.
+		 *
+		 * @returns A quotient of this vector and a scalar.
+		 */
 		inline Vector<T>& operator/=(const T val) {
 			x /= val;
 			y /= val;
@@ -123,6 +136,13 @@ namespace sag {
 			return *this;
 		}
 
+		/**
+		 * @brief Returns coordinate by its index
+		 *
+		 * @param id Requested index
+		 *
+		 * @returns Requested coordinate
+		 */
 		inline const T& operator[](int id) const {
 			switch (id) {
 			case 0:
@@ -138,6 +158,8 @@ namespace sag {
         
 		/**
 		 * @brief Returns the length of the vector
+		 *
+		 * @returns Length of vector
 		 */
 		inline number length() const {
 			return sqrt(x*x + y*y + z*z);
@@ -147,6 +169,8 @@ namespace sag {
 		 * @brief Returns the distance between this and the given vector.
 		 *
 		 * @param v Given vector
+		 *
+		 * @returns Requested distance
 		 */
 		inline number distance(const Vector<T>& v) const {
 			return Vector<T>(v.x-x, v.y-y, v.z-z).length();
@@ -158,6 +182,8 @@ namespace sag {
          * @param x The coordinate on the x-axis
 		 * @param y The coordinate on the y-axis
 		 * @param z (optional) The coordinate on the z-axis. by default set to 0.
+		 *
+		 * @returns Reset vector
          */
 		inline Vector<T>& reset(const T x2, const T y2, const T z2 = 0) {
             x = x2;

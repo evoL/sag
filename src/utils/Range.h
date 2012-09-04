@@ -29,19 +29,25 @@ namespace sag {
         Range(T from, T to): from(from), to(to) {}
         
         /**
-         * @brief Returns the beginning of the range.
+         * @brief Bottom boundary of the range.
+         *
+         * @returns Beginning of the range.
          */
         inline T min() const { return from; }
 
         /**
-         * @brief Returns the end of the range.
+         * @brief Top boundary of the range.
+         *
+         * @returns End of the range.
          */
         inline T max() const { return to; }
         
         /**
-         * @brief Returs true if the range contains the given value.
+         * @brief Checks if the range contains given value.
          *
          * @param num The value to be checked.
+         *
+         * @returns True if the range contains the given value.
          */
         inline bool contains(T num) const { return (num >= from) && (num <= to); }
     private:
