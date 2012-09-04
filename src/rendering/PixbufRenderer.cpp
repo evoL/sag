@@ -24,7 +24,7 @@ namespace sag {
         int imgidx = 0;
         for (auto it = shapeData.begin(); it < shapeData.end(); it++) {
             Color c = color;
-            c.saturation((colorData[idx])/255.0);
+            c.saturation(c.saturation() * ((colorData[idx])/255.0));
             c.lightness((*it)/255.0);
             
             data[imgidx]   = c.red();
