@@ -39,6 +39,7 @@ namespace sag {
 			expectParticles = true;
 			receiving = true;
 			receivedParticleCount = 0;
+			if (receivingThread.joinable()) receivingThread.join();
 			receivingThread = std::thread(&Renderer::receiveParticles, this);
 		}
 	}

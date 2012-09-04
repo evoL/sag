@@ -22,13 +22,11 @@ namespace sag {
 
         // The initial point is always the starting point
         initials[0] = formula->getStartPoint();
-        sendParticle(initials[0]);
 		threads[0] = std::thread(&ThreadedGenerator::iterate, this, initials[0], 0);
         
         // The rest are random
 		for (int i=1; i<particleCount; i++) {
 			initials[i] = bounds.getRandomVector(if3D);
-			sendParticle(initials[i]);
 			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i], i);
 		}
 		
@@ -42,10 +40,13 @@ namespace sag {
 		int offset;
 		if (ttl > 0) offset = ttl / particleCount * n;
         while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
-            if (n != 0 && ttl > 0 && i % ttl == offset)
+            if (n != 0 && ttl > 0 && i % ttl == offset) {
             	p = bounds.getRandomVector(if3D);
-            else
             	p.moveTo( formula->step(p.getPosition()));
+            }
+            else {
+            	p.moveTo( formula->step(p.getPosition()));
+            }
             sendParticle(p);
         }
 	}
