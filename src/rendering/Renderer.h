@@ -16,10 +16,7 @@ namespace sag {
 	public:
         Renderer():
             expectParticles(false),
-            receiving(false),
-            color(255, 0, 0),
-            colorShiftLevel(0.25),
-            blur(true)
+            receiving(false)
         {}
         
         virtual ~Renderer() {}
@@ -42,14 +39,6 @@ namespace sag {
         virtual void render() = 0;
 
         inline int getReceivedParticleCount() { return receivedParticleCount; }
-        
-        void setColor(Color& c) { color = c; }
-        inline const Color& getColor() const { return color; }
-        
-        void setColorShiftLevel(double l) { colorShiftLevel = l; }
-        inline const double getColorShiftLevel() const { return colorShiftLevel; }
-        
-        void setBlur(bool b) { blur = b; }
     
 	protected:
         Bounds<number> bounds;
@@ -60,10 +49,6 @@ namespace sag {
 		volatile bool expectParticles;
 		volatile bool receiving;
 		volatile int receivedParticleCount;
-        
-        Color color;
-        double colorShiftLevel;
-        bool blur;
 	};
 }
 

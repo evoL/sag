@@ -149,7 +149,7 @@ namespace sag {
         appearanceTable(5, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
-        ttlAdjustment(1000, 2, std::numeric_limits<int>::max(), 100, 1000),
+        ttlAdjustment(1000, 2, std::numeric_limits<int>::max(), 10, 100),
         colorShiftAdjustment(0.25, 0, 1, 0.01, 0.1)
     {
         editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));

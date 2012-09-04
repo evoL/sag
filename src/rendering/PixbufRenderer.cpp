@@ -47,7 +47,9 @@ namespace sag {
         img.drawData(data);
         
         if (blur) {
-            img.blur(sqrt(img.getWidth()*img.getHeight()) * 0.1);
+            int radius = sqrt(img.getWidth()*img.getHeight());
+            img.blur(radius * 0.05);
+            img.blur(radius * 0.05);
             img.compositeData(data, Image::COMPOSITE_ADD);
         }
     }
