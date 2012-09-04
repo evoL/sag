@@ -9,9 +9,17 @@
 #include <condition_variable>
 
 namespace sag {
-    template <typename T>
+    /**
+     * @brief Represents normal STL queue adopted to be used with threads.
+     */
+	template <typename T>
 	class ConcurrentQueue {
 	public:
+		/**
+		 * @brief Places an element at the end of the queue
+		 *
+		 * @param elem The element to be placed.
+		 */
 		void push(const T& elem) {
 			std::unique_lock<std::mutex> lock(theMutex);
 			theQueue.push(elem);
@@ -19,11 +27,21 @@ namespace sag {
 			theConditionVariable.notify_one();
 		}
 		
+		/**
+		 * @brief Checks if the queue is empty.
+		 */
 		bool empty() const {
 			std::unique_lock<std::mutex> lock(theMutex);
 			return theQueue.empty();
 		}
 		
+		/**
+		 * @brief Tries to read a value an the beginning of the queue and delete it.
+		 *
+		 * @param poppedValue Variable where the result is to be stored.
+		 *
+		 * @returns True if the operation succeeds.
+		 */
 		bool tryPop(T& poppedValue) {
 			std::unique_lock<std::mutex> lock(theMutex);
 			if (theQueue.empty()) {
@@ -35,6 +53,12 @@ namespace sag {
 			return true;
 		}
 		
+		/**
+		 * @brief Waits until the is a value to be read at the beginning of the queue
+		 *        and deletes it.
+		 *
+		 * @param poppedValue Variable where the result is to be stored.
+		 */
 		void waitAndPop(T& poppedValue) {
 			std::unique_lock<std::mutex> lock(theMutex);
 			while (theQueue.empty())
@@ -44,6 +68,9 @@ namespace sag {
 			theQueue.pop();
 		}
 		
+		/**
+		 * @brief Clears the queue.
+		 */
 		void clear() {
 			std::unique_lock<std::mutex> lock(theMutex);
 			while (!theQueue.empty()) theQueue.pop();

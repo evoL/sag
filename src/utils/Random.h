@@ -12,6 +12,9 @@ namespace sag {
     class Random {
         std::default_random_engine engine;
     public:
+        /**
+         * @brief Default constructor.
+         */
         Random();
         
         /**
