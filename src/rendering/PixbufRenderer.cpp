@@ -1,6 +1,7 @@
 #include "rendering/PixbufRenderer.h"
 
 #include <vector>
+#include <cmath>
 #include "utils/Color.h"
 
 namespace sag {
@@ -44,7 +45,8 @@ namespace sag {
         }
         
         img.drawData(data);
-        img.blur(3);
+        img.blur(sqrt(img.getWidth()*img.getHeight()) * 0.1);
+        img.compositeData(data, Image::COMPOSITE_ADD);
     }
     
     void PixbufRenderer::clear() {
