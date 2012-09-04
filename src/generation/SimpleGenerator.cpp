@@ -22,17 +22,16 @@ namespace sag {
         int i = 0;
         int offset;
         if (ttl > 0) offset = ttl / particleCount;
-        while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
+        while (running && ((iterations == UNLIMITED_ITERATIONS) || (i < iterations))) {
             for (int j=0; j < particleCount; j++) {
 				if (j != 0 && ttl > 0 && i % ttl == j*offset) {
 					initials[j] = bounds.getRandomVector(if3D);
-					initials[j].moveTo( formula->step(initials[j].getPosition()) );
-				} else {
-					initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				}
+				initials[j].moveTo( formula->step(initials[j].getPosition()) );
 				sendParticle(initials[j]);
 				if (!running) break;
 			}
+            i++;
         }
         
         running = false;
