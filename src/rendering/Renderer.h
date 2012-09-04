@@ -17,7 +17,8 @@ namespace sag {
         Renderer():
             expectParticles(false),
             receiving(false),
-            color(255, 120, 0)
+            color(255, 0, 0),
+            colorShiftLevel(0.25)
         {}
         
         virtual ~Renderer() {}
@@ -43,6 +44,9 @@ namespace sag {
         
         void setColor(Color& c) { color = c; }
         inline const Color& getColor() const { return color; }
+        
+        void setColorShiftLevel(double l) { colorShiftLevel = l; }
+        inline const double getColorShiftLevel() const { return colorShiftLevel; }
     
 	protected:
         Bounds<number> bounds;
@@ -55,6 +59,7 @@ namespace sag {
 		volatile int receivedParticleCount;
         
         Color color;
+        double colorShiftLevel;
 	};
 }
 
