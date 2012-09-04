@@ -15,12 +15,14 @@ namespace sag {
             Renderer(),
             positionGrid(512, 512),
             velocityGrid(512, 512),
+            accelerationGrid(512, 512),
             img(512, 512) {}
         
         PixbufRenderer(int w, int h):
             Renderer(),
             positionGrid(w, h),
             velocityGrid(w, h),
+            accelerationGrid(w, h),
             img(w, h) {}
         
         void processParticle(Particle &p);
@@ -34,6 +36,7 @@ namespace sag {
     private:
         Grid positionGrid;
         Grid velocityGrid;
+        Grid accelerationGrid;
         PixbufImage img;
 		
 		void getParticles();

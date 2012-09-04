@@ -7,14 +7,19 @@ namespace sag {
 	void PixbufRenderer::processParticle(Particle& p) {
 		positionGrid.addProjected(p.getPosition(), bounds);
 		velocityGrid.addProjected(p.getPosition(), bounds, p.getVelocity().length());
+        accelerationGrid.addProjected(p.getPosition(), bounds, p.getAcceleration().length());
 	}
 	
 	void PixbufRenderer::render() {
 		receivingMutex.lock();
 		std::vector<int> shapeData = positionGrid.map();
-        std::vector<int> colorData = velocityGrid.map( [](double val, const Grid::Info& info) -> int {
+        std::vector<int> lightData = velocityGrid.map( [](double val, const Grid::Info& info) -> int {
             return 255 - (val - info.minValue) / (info.maxValue - info.minValue) * 255;
         } );
+//        std::vector<int> colorData = accelerationGrid.map( [](double val, const Grid::Info& info) -> int {
+//            return (val - info.minValue) / (info.maxValue - info.minValue) * 255;
+//        } );
+        std::vector<int> colorData = accelerationGrid.map();
 		receivingMutex.unlock();
         
         // Merge the data into one vector
@@ -24,7 +29,9 @@ namespace sag {
         int imgidx = 0;
         for (auto it = shapeData.begin(); it < shapeData.end(); it++) {
             Color c = color;
-            c.saturation(c.saturation() * ((colorData[idx])/255.0));
+            double hue = c.hue() + (colorData[idx]/255.0) * 0.25;
+            c.hue((hue > 1.0) ? (hue - 1) : hue);
+            c.saturation(c.saturation() * ((lightData[idx])/255.0));
             c.lightness((*it)/255.0);
             
             data[imgidx]   = c.red();
@@ -45,6 +52,7 @@ namespace sag {
     void PixbufRenderer::clear() {
         positionGrid.clear();
         velocityGrid.clear();
+        accelerationGrid.clear();
         img.clear();
 		queue.clear();
     }
