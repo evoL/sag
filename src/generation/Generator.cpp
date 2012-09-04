@@ -10,7 +10,7 @@ namespace sag {
         if3D(if3D),
         running(false),
         iterations(iter),
-        TTL(-1),
+        ttl(0),
         renderer(&r)
     {
         formula->prepare();
@@ -50,7 +50,7 @@ namespace sag {
         particleCount = pc;
     }
 
-    void Generator::setTTL(int TTL) {
-    	this->TTL = TTL;
+    void Generator::setTTL(int ttl) {
+    	this->ttl = ttl;
     }
 }

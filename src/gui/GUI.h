@@ -161,6 +161,11 @@ namespace sag {
             Gtk::SpinButton iterationsEntry;
             Gtk::ToggleButton infiniteIterationsButton;
             
+            Gtk::Adjustment ttlAdjustment;
+            Gtk::Label ttlLabel;
+            Gtk::SpinButton ttlEntry;
+            Gtk::ToggleButton immortalParticleButton;
+            
             Gtk::Label colorLabel;
             Gtk::ColorButton colorButton;
             
@@ -183,6 +188,7 @@ namespace sag {
             void onChangeFormula();
             void onChangeParticleCount();
             void onChangeIterations();
+            void onChangeTTL();
             
             void onChangeColor();
             

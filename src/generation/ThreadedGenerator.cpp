@@ -40,10 +40,10 @@ namespace sag {
 	void ThreadedGenerator::iterate(Particle &p, int n) {
 		int i = 1;
 		int offset;
-		if (TTL > 0) offset = TTL / particleCount * n;
+		if (ttl > 0) offset = ttl / particleCount * n;
         while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
-            if (n != 0 && TTL > 0 && i % TTL == offset)
-            	p.moveTo(bounds.getRandomVector(if3D));
+            if (n != 0 && ttl > 0 && i % ttl == offset)
+            	p = bounds.getRandomVector(if3D);
             else
             	p.moveTo( formula->step(p.getPosition()));
             sendParticle(p);

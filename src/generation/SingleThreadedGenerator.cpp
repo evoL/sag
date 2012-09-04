@@ -30,11 +30,11 @@ namespace sag {
 	void SingleThreadedGenerator::iterate(std::vector<Particle> v) {
 		int i = 1;
 		int offset;
-		if (TTL > 0) offset = TTL / particleCount;
+		if (ttl > 0) offset = ttl / particleCount;
         while (running && ((iterations == UNLIMITED_ITERATIONS) || ((i++) < iterations))) {
         	for (int j=0; j < particleCount; j++) {
-        		if (j != 0 && TTL > 0 && i % TTL == j*offset)
-        			v[j].moveTo(bounds.getRandomVector(if3D));
+        		if (j != 0 && ttl > 0 && i % ttl == j*offset)
+        			v[j] = bounds.getRandomVector(if3D);
         		else
         			v[j].moveTo( formula->step(v[j].getPosition()) );
 				sendParticle(v[j]);

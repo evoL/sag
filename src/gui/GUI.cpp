@@ -148,7 +148,8 @@ namespace sag {
         shapeTable(3, 3, false),
         appearanceTable(3, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
-        iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000)
+        iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
+        ttlAdjustment(1000, 10, std::numeric_limits<int>::max(), 100, 1000)
     {
         editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));
         editor.signal_canceled().connect(sigc::mem_fun(*this, &EditorView::onSetCustomFormula));
@@ -246,15 +247,34 @@ namespace sag {
         infiniteIterationsButton.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onChangeIterations));
         appearanceTable.attach(infiniteIterationsButton, 2, 3, 0, 1);
         
+        ///////////////////////////////////////////////////////
+        
+        ttlLabel.set_text("Particle lifetime");
+        ttlLabel.set_alignment(Gtk::ALIGN_LEFT);
+        appearanceTable.attach(ttlLabel, 0, 1, 1, 2);
+        
+        ttlEntry.set_adjustment(ttlAdjustment);
+        ttlEntry.set_numeric(true);
+        ttlEntry.set_sensitive(false);
+        ttlEntry.signal_value_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeTTL));
+        appearanceTable.attach(ttlEntry, 1, 2, 1, 2);
+        
+        immortalParticleButton.set_label("∞");
+        immortalParticleButton.set_active(true);
+        immortalParticleButton.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onChangeTTL));
+        appearanceTable.attach(immortalParticleButton, 2, 3, 1, 2);
+        
+        ///////////////////////////////////////////////////////
+        
         colorLabel.set_text("Color");
         colorLabel.set_alignment(Gtk::ALIGN_LEFT);
-        appearanceTable.attach(colorLabel, 0, 1, 1, 2);
+        appearanceTable.attach(colorLabel, 0, 1, 2, 3);
         
         Gdk::Color color;
         color.set_rgb_p(renderer.getColor().red() / 255.0, renderer.getColor().green() / 255.0, renderer.getColor().blue() / 255.0);
         colorButton.set_color(color);
         colorButton.signal_color_set().connect(sigc::mem_fun(*this, &EditorView::onChangeColor));
-        appearanceTable.attach(colorButton, 2, 3, 1, 2);
+        appearanceTable.attach(colorButton, 2, 3, 2, 3);
         
         ///////////////////////////////////////////////////////
         
@@ -326,6 +346,8 @@ namespace sag {
         int iters = infiniteIterationsButton.get_active() ? Generator::UNLIMITED_ITERATIONS : iterationsEntry.get_value_as_int();
         
         generator = new THREADED_GENERATOR_IMPL(*formula, renderer, iters);
+        generator->setParticleCount(particleCountEntry.get_value_as_int());
+        generator->setTTL(immortalParticleButton.get_active() ? Generator::IMMORTAL_PARTICLES : ttlEntry.get_value_as_int());
     }
     
     void GUI::EditorView::createFormulaModel() {
@@ -422,8 +444,19 @@ namespace sag {
     
     void GUI::EditorView::onChangeIterations() {
     	stopUpdating();
+        iterationsEntry.set_sensitive(!infiniteIterationsButton.get_active());
+        
         if (generator != nullptr) delete generator;
         createGenerator();
+        startUpdating();
+    }
+    
+    void GUI::EditorView::onChangeTTL() {
+        stopUpdating();
+        
+        ttlEntry.set_sensitive(!immortalParticleButton.get_active());
+        generator->setTTL(immortalParticleButton.get_active() ? Generator::IMMORTAL_PARTICLES : ttlEntry.get_value_as_int());
+        
         startUpdating();
     }
     
