@@ -82,7 +82,7 @@ namespace sag {
         std::vector<int> result;
         result.resize(s);
         
-        for (int i = s-1; i>=0; i--) {
+        for (int i = 0; i<s; i++) {
             result[i] = fn(values[i], info);
         }
         

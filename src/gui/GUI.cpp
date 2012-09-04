@@ -391,7 +391,7 @@ namespace sag {
         
         int offset = name.find("Custom");
         Formula *f;
-        if ((offset != std::string::npos) && (offset == 0)) {
+        if ((offset != (int)std::string::npos) && (offset == 0)) {
             // Custom formula
             editFormulaButton.set_sensitive(true);
             editor.setCustomFormula(customFormula);
@@ -591,7 +591,7 @@ namespace sag {
         Gtk::TreeModel::Children children = dstrModel->children();
         
         int count = countEntry.get_value_as_int();
-        if (count < children.size()) {
+        if (count < (int)children.size()) {
             // Delete if too many rows
             
             // Select the rows
@@ -613,7 +613,7 @@ namespace sag {
                 dstrModel->erase(treeit);
             }
             
-        } else if (count > children.size()) {
+        } else if (count > (int)children.size()) {
             // Append necessary rows
             int howMany = count - children.size();
             

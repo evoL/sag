@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <limits>
 #include "utils/types.h"
 #include "utils/Vector.h"
 #include "utils/Bounds.h"
@@ -23,6 +24,9 @@ namespace sag {
     public:
         struct Info {
             double minValue, maxValue, avgValue;
+            Info(): minValue(std::numeric_limits<double>::max()),
+            		maxValue(std::numeric_limits<double>::min()),
+            		avgValue(0) {}
         };
         
         Dimensions size;
