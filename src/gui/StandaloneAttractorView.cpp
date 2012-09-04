@@ -2,6 +2,7 @@
 
 #include <gdkmm/cursor.h>
 #include "utils/Random.h"
+#include "utils/Color.h"
 #include "formulas/all.h"
 
 namespace sag {
@@ -10,6 +11,10 @@ namespace sag {
         formula(nullptr),
         generator(nullptr)
     {
+        Color white(255, 255, 255);
+        renderer->setBlur(false);
+        renderer->setColor(white);
+        
         // Drawing setup
         randomize();
         generator->run();
