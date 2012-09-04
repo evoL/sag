@@ -3,7 +3,7 @@
 
 namespace sag {
     SingleThreadedGenerator::~SingleThreadedGenerator() {
-        thread.join();
+    	if (thread.joinable()) thread.join();
     }
     
 	void SingleThreadedGenerator::run() {
@@ -23,6 +23,7 @@ namespace sag {
 			sendParticle(initials[i]);
 		}
 		
+		if (thread.joinable()) thread.join();
 		thread = std::thread(&SingleThreadedGenerator::iterate, this, initials);
 	}
 	

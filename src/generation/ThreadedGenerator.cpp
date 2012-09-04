@@ -6,7 +6,7 @@
 
 namespace sag {
 	ThreadedGenerator::~ThreadedGenerator() {
-		threadController.join();
+		if (threadController.joinable()) threadController.join();
 	}
 
 	void ThreadedGenerator::run() {
@@ -32,6 +32,7 @@ namespace sag {
 			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i], i);
 		}
 		
+		if (threadController.joinable()) threadController.join();
 		threadController = std::thread(&ThreadedGenerator::controlThreads, this);
 		
 	}
