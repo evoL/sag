@@ -2,6 +2,9 @@
 src/formulas/all.h
 src/formulas/all.cpp
 
+# Docs
+docs/
+
 # CMake
 CMakeCache.txt
 CMakeFiles
