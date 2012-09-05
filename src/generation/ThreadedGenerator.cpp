@@ -37,7 +37,7 @@ namespace sag {
 	
 	void ThreadedGenerator::iterate(Particle &p, int n) {
 		int i = 1;
-		int offset;
+		int offset = 0;
 		if (ttl > 0) offset = ttl / particleCount * n;
         while (running && ((iterations == UNLIMITED_ITERATIONS) || (i < iterations))) {
             if (n != 0 && ttl > 0 && i % ttl == offset) {
