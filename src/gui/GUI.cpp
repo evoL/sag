@@ -615,7 +615,21 @@ namespace sag {
             // Update the parameter
             auto params = formula->getParameters();
             params[index] = value;
-            Formula *f = createFormula(formula->name(), params);
+            
+            auto boxit = formulaBox.get_active();
+            auto boxrow = *boxit;
+            
+            std::string name = boxrow.get_value(formulaColumns.formula);
+            
+            int offset = name.find("Custom");
+            Formula *f;
+            if ((offset != (int)std::string::npos) && (offset == 0)) {
+                f = new UserDefined(params);
+                CustomDistribution dstr(customFormula.distribution);
+                ((UserDefined*) f)->set(customFormula.formulas, customFormula.distribution.size(), dstr, customFormula.name);
+            } else {
+                f = createFormula(formula->name(), params);
+            }
             setFormula(f);
             
             startUpdating();
