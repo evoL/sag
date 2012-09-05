@@ -3,8 +3,8 @@
 namespace sag {
     Grid::Grid(int width, int height):
         size(width, height),
-        calculated(false),
-        antialiased(true)
+        antialiased(true),
+        calculated(false)
     {
         values = new double[width*height];
     }
