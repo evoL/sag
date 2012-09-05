@@ -7,9 +7,28 @@
 #include "formulas/Formula.h"
 
 namespace sag {
+    /**
+     * @brief Array of all names of available formulas
+     */
     const std::vector<std::string> FORMULA_NAMES = {@FORMULA_NAMES_ARRAY@};
 
+    /**
+     * @brief Creates formula basing on its name.
+     *
+     * @param name Formula name
+     *
+     * @returns Pointer to the required formula
+     */
     Formula* createFormula(const std::string& name);
+    
+    /**
+     * @brief Creates formula basing on its name and initializes it with parameters.
+     *
+     * @param name Formula name
+     * @param params Parameters
+     *
+     * @returns Pointer to the required formula
+     */
     Formula* createFormula(const std::string& name, const std::vector<number>& params);
 }
 
