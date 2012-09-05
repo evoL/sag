@@ -21,7 +21,7 @@
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
-        set_title("Pierdut HD 3D");
+        set_title("Pierdut HD 5000");
         
         Gdk::Geometry hints;
         hints.min_width = WIDTH;
