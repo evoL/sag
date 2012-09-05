@@ -522,6 +522,8 @@ namespace sag {
     }
     
     void GUI::EditorView::onExportClick() {
+        bool wasRunning = view.isRunning();
+        
         view.stop();
         
         Gtk::FileChooserDialog dialog(*gui, "Save image", Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -544,7 +546,7 @@ namespace sag {
             renderer.saveImage(dialog.get_filename());
         }
         
-        view.start();
+        if (wasRunning) view.start();
     }
     
     void GUI::EditorView::onProgress() {

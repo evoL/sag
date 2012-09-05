@@ -16,6 +16,8 @@ namespace sag {
         void start();
         void stop();
         
+        inline bool isRunning() { return drawing; }
+        
         Glib::Dispatcher onTick;
     private:
         void redraw();
