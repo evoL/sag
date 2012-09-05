@@ -535,12 +535,15 @@ namespace sag {
     }
     
     void GUI::EditorView::onExportClick() {
+        static Glib::ustring directory = Glib::get_home_dir();
+        
         bool wasRunning = view.isRunning();
         
         view.stop();
         
         Gtk::FileChooserDialog dialog(*gui, "Save image", Gtk::FILE_CHOOSER_ACTION_SAVE);
         dialog.set_transient_for(*gui);
+        dialog.set_current_folder(directory);
         
         dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
         dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
@@ -556,6 +559,7 @@ namespace sag {
         dialog.add_filter(filterAny);
         
         if (dialog.run() == Gtk::RESPONSE_OK) {
+            directory = Glib::path_get_dirname(dialog.get_filename());
             renderer.saveImage(dialog.get_filename());
         }
         
