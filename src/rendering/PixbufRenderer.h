@@ -51,6 +51,8 @@ namespace sag {
         inline const double getColorShiftLevel() const { return colorShiftLevel; }
         
         void setBlur(bool b) { blur = b; }
+        
+        void setAntialias(bool aa);
     private:
         Grid positionGrid;
         Grid velocityGrid;

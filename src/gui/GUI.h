@@ -175,6 +175,7 @@ namespace sag {
             Gtk::HScale colorShiftScale;
             
             Gtk::CheckButton blurCheck;
+            Gtk::CheckButton antialiasCheck;
             
             Gtk::HBox actionsBox;
             Gtk::Button returnButton;
@@ -207,6 +208,7 @@ namespace sag {
             void onChangeColorShift();
 
             void onToggleBlur();
+            void onToggleAntialias();
             
             void onExportClick();
             

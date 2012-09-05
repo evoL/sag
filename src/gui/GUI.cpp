@@ -292,6 +292,11 @@ namespace sag {
         blurCheck.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onToggleBlur));
         appearanceTable.attach(blurCheck, 0, 1, 4, 5);
         
+        antialiasCheck.set_label("Antialiasing");
+        antialiasCheck.set_active(true);
+        antialiasCheck.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onToggleAntialias));
+        appearanceTable.attach(antialiasCheck, 1, 3, 4, 5);
+        
         ///////////////////////////////////////////////////////
         
         progressBox.set_border_width(5);
@@ -517,6 +522,14 @@ namespace sag {
         stopUpdating();
         
         renderer.setBlur(blurCheck.get_active());
+        
+        startUpdating();
+    }
+    
+    void GUI::EditorView::onToggleAntialias() {
+        stopUpdating();
+        
+        renderer.setAntialias(antialiasCheck.get_active());
         
         startUpdating();
     }
