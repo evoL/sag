@@ -74,7 +74,7 @@ namespace sag {
         
         yw = yi = 0;
         
-        for (y = 0; y < height; y++) {
+        for (y = 0; y < (int)height; y++) {
             rsum = gsum = bsum = 0;
             for (i = -radius; i <= radius; i++) {
                 p = (yi + MIN(wm, MAX(i,0))) * 3;
@@ -82,7 +82,7 @@ namespace sag {
                 gsum += buffer[p+1];
                 bsum += buffer[p+2];
             }
-            for (x = 0; x < width; x++) {
+            for (x = 0; x < (int)width; x++) {
                 r[yi] = dv[rsum];
                 g[yi] = dv[gsum];
                 b[yi] = dv[bsum];
@@ -103,7 +103,7 @@ namespace sag {
             yw += width;
         }
         
-        for (x = 0; x < width; x++) {
+        for (x = 0; x < (int)width; x++) {
             rsum = gsum = bsum = 0;
             yp = -radius * width;
             for (i = -radius; i <= radius; i++) {
@@ -116,7 +116,7 @@ namespace sag {
             
             yi = x;
             
-            for (y = 0; y < height; y++) {
+            for (y = 0; y < (int)height; y++) {
                 buffer[yi*3] = dv[rsum];
                 buffer[yi*3 + 1] = dv[gsum];
                 buffer[yi*3 + 2] = dv[bsum];
