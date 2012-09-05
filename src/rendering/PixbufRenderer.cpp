@@ -61,4 +61,8 @@ namespace sag {
         img.clear();
 		queue.clear();
     }
+    
+    void PixbufRenderer::saveImage(std::string filename) {
+        img.toFile(filename);
+    }
 }

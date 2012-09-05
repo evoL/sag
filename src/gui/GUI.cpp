@@ -306,12 +306,20 @@ namespace sag {
         progressBox.pack_end(abortButton, Gtk::PACK_SHRINK);
 
         ///////////////////////////////////////////////////////
-
-        returnButton.set_label("Choose a different attractor");
-        returnButton.set_border_width(5);
+        
+        actionsBox.set_spacing(5);
+        actionsBox.set_border_width(5);
+        panel.pack_end(actionsBox, Gtk::PACK_SHRINK);
+        
+        returnButton.set_label("Choose different attractor");
         returnButton.set_size_request(-1, 80);
         returnButton.signal_clicked().connect(sigc::mem_fun(*gui, &GUI::showChooser));
-        panel.pack_end(returnButton, Gtk::PACK_SHRINK);
+        actionsBox.pack_start(returnButton);
+        
+        exportButton.set_label("Save image");
+        exportButton.set_size_request(-1, 80);
+        exportButton.signal_clicked().connect(sigc::mem_fun(*this, &EditorView::onExportClick));
+        actionsBox.pack_end(exportButton);
         
         ///////////////////////////////////////////////////////
 
@@ -511,6 +519,32 @@ namespace sag {
         renderer.setBlur(blurCheck.get_active());
         
         startUpdating();
+    }
+    
+    void GUI::EditorView::onExportClick() {
+        view.stop();
+        
+        Gtk::FileChooserDialog dialog(*gui, "Save image", Gtk::FILE_CHOOSER_ACTION_SAVE);
+        dialog.set_transient_for(*gui);
+        
+        dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+        dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+        
+        Gtk::FileFilter filter;
+        filter.set_name("PNG (*.png)");
+        filter.add_pattern("*.png");
+        dialog.add_filter(filter);
+        
+        Gtk::FileFilter filterAny;
+        filterAny.set_name("All files");
+        filterAny.add_pattern("*");
+        dialog.add_filter(filterAny);
+        
+        if (dialog.run() == Gtk::RESPONSE_OK) {
+            renderer.saveImage(dialog.get_filename());
+        }
+        
+        view.start();
     }
     
     void GUI::EditorView::onProgress() {
