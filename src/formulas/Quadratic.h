@@ -9,8 +9,6 @@ namespace sag {
         Quadratic(): Formula() {}
         
         Quadratic(const std::vector<number>& parameters): Formula(parameters) {}
-        
-		// Quadratic(std::string xml);
 		
 		~Quadratic() {}
 
