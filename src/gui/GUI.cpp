@@ -94,13 +94,7 @@ namespace sag {
         randomizeButton.set_size_request(-1, 80);
         randomizeButton.set_border_width(5);
         randomizeButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserView::randomizeAttractors));
-        panel.pack_start(randomizeButton, Gtk::PACK_SHRINK);
-        
-        loadButton.set_label("Load from file");
-        loadButton.set_size_request(-1, 80);
-        loadButton.set_border_width(5);
-        loadButton.signal_clicked().connect(sigc::mem_fun(*this, &ChooserView::loadAttractor));
-        panel.pack_start(loadButton, Gtk::PACK_SHRINK);
+        panel.pack_start(randomizeButton);
         
         show_all_children();
     }
@@ -118,13 +112,6 @@ namespace sag {
             (**it).reset();
         }
         table.get_window()->invalidate(true);
-    }
-    
-    void GUI::ChooserView::loadAttractor() {
-        Gtk::MessageDialog dialog(*gui, "Not implemented yet");
-        dialog.set_secondary_text("Please wait for the developers or implement this yourself. :)");
-        
-        dialog.run();
     }
     
     bool GUI::ChooserView::onImageClick(GdkEventButton* evt, StandaloneAttractorView* view) {
@@ -149,7 +136,7 @@ namespace sag {
         appearanceTable(5, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
-        ttlAdjustment(1000, 2, std::numeric_limits<int>::max(), 10, 100),
+        ttlAdjustment(20, 2, std::numeric_limits<int>::max(), 10, 100),
         colorShiftAdjustment(0.25, 0, 1, 0.01, 0.1)
     {
         editor.signal_saved_data().connect(sigc::mem_fun(*this, &EditorView::onUpdateCustomFormula));
@@ -399,6 +386,8 @@ namespace sag {
     }
     
     void GUI::EditorView::onEditFormulaClick() {
+        stopUpdating();
+        editor.setCustomFormula(customFormula);
         editor.show();
     }
     
@@ -650,6 +639,21 @@ namespace sag {
     }
     
     void GUI::FormulaEditor::onSave() {
+        // Validation
+        if (!UserDefined::validate(xEntry.get_text(), countEntry.get_value_as_int())) {
+            Gtk::MessageDialog dialog(*this, "Invalid formula", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+            dialog.set_secondary_text("You have entered an invalid formula in field X. Please correct it.");
+            dialog.run();
+            return;
+        }
+        if (!UserDefined::validate(yEntry.get_text(), countEntry.get_value_as_int())) {
+            Gtk::MessageDialog dialog(*this, "Invalid formula", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+            dialog.set_secondary_text("You have entered an invalid formula in field Y. Please correct it.");
+            dialog.run();
+            return;
+        }
+        
+        // Data export
         CustomFormula data;
         data.name = nameEntry.get_text();
         data.formulas.push_back(xEntry.get_text());
@@ -684,7 +688,8 @@ namespace sag {
             
             // Select the rows
             auto selection = dstrView.get_selection();
-            Gtk::TreePath start( std::to_string( count - 1) );
+            selection->set_mode(Gtk::SELECTION_MULTIPLE);
+            Gtk::TreePath start( std::to_string( count ) );
             Gtk::TreePath end( std::to_string(children.size() - 1) );
             selection->select(start, end);
             
@@ -702,10 +707,8 @@ namespace sag {
             }
             
         } else if (count > (int)children.size()) {
-            // Append necessary rows
-            int howMany = count - children.size();
-            
-            for (int i = 1; i <= howMany; i++) {
+            // Append necessary rows            
+            for (int i = children.size(); i < count; i++) {
                 Gtk::TreeModel::Row row = *(dstrModel->append());
                 row[dstrColumns.index] = i;
                 row[dstrColumns.min] = -2;

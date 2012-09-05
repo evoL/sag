@@ -28,8 +28,8 @@ namespace sag {
         
     protected:
     private:
-        static const int WIDTH = 900;
-        static const int HEIGHT = 600;
+        static const int WIDTH = 940;
+        static const int HEIGHT = 640;
         
         class FormulaEditor : public Gtk::Window {
         public:
@@ -92,11 +92,10 @@ namespace sag {
             Gtk::Table table;
             Gtk::VBox panel;
             Gtk::Label title;
-            Gtk::Button randomizeButton, loadButton;
+            Gtk::Button randomizeButton;
             std::vector<StandaloneAttractorView*> views;
             
             void randomizeAttractors();
-            void loadAttractor();
             bool onImageClick(GdkEventButton* evt, StandaloneAttractorView* view);
         };
         

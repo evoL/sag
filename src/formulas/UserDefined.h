@@ -25,6 +25,8 @@ namespace sag {
 		virtual const ParamDistribution& getDistribution() const;
 
 		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname);
+        
+        static bool validate(std::string formula, int pc);
 
 	protected:
 		class Lexer {
@@ -143,7 +145,7 @@ namespace sag {
 
 		};
         
-        bool validateRPN(std::vector<Parser::Elem>& rpn);
+        static bool validateRPN(std::vector<Parser::Elem>& rpn, int pc);
 
 		int pc;
 		bool _is3D;
