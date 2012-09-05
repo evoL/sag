@@ -155,6 +155,8 @@ namespace sag {
             Gtk::TreeViewColumn parameterColumn;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
             
+            Gtk::Button randomizeButton;
+            
             Gtk::Label iterationsLabel;
             Gtk::Adjustment iterationsAdjustment;
             Gtk::SpinButton iterationsEntry;
@@ -186,6 +188,8 @@ namespace sag {
             void updateParameterModel();
             
             void onEditFormulaClick();
+            
+            void onRandomizeClick();
             
             void onUpdateCustomFormula(CustomFormula& cf);
             void onSetCustomFormula();

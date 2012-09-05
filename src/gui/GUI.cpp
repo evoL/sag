@@ -132,7 +132,7 @@ namespace sag {
         generator(nullptr),
         renderer(HEIGHT, HEIGHT),
         view(renderer),
-        shapeTable(3, 3, false),
+        shapeTable(4, 3, false),
         appearanceTable(5, 3, false),
         particleCountAdjustment(1, 1, std::numeric_limits<int>::max()),
         iterationsAdjustment(1000000, 1, std::numeric_limits<int>::max(), 100, 10000),
@@ -183,6 +183,8 @@ namespace sag {
         editFormulaButton.signal_clicked().connect(sigc::mem_fun(*this, &EditorView::onEditFormulaClick));
         shapeTable.attach(editFormulaButton, 2, 3, 0, 1);
         
+        /////
+        
         particleCountLabel.set_text("Particle count");
         particleCountLabel.set_alignment(Gtk::ALIGN_LEFT);
         shapeTable.attach(particleCountLabel, 0, 1, 1, 2);
@@ -191,6 +193,8 @@ namespace sag {
         particleCountEntry.set_numeric(true);
         particleCountEntry.signal_value_changed().connect(sigc::mem_fun(*this, &EditorView::onChangeParticleCount));
         shapeTable.attach(particleCountEntry, 1, 3, 1, 2);
+        
+        /////
         
         parameterViewWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
         parameterViewWindow.set_size_request(-1, 110);
@@ -211,6 +215,12 @@ namespace sag {
         parameterRenderer.signal_edited().connect(sigc::mem_fun(*this, &EditorView::onParameterEditFinish));
         
         parameterViewWindow.add(parameterView);
+        
+        /////
+        
+        randomizeButton.set_label("Randomize");
+        randomizeButton.signal_clicked().connect(sigc::mem_fun(*this, &EditorView::onRandomizeClick));
+        shapeTable.attach(randomizeButton, 0, 3, 3, 4);
         
         //////////////////////////////////////////////////////
         
@@ -389,6 +399,15 @@ namespace sag {
         stopUpdating();
         editor.setCustomFormula(customFormula);
         editor.show();
+    }
+    
+    void GUI::EditorView::onRandomizeClick() {
+        stopUpdating();
+        formula->randomize();
+        updateParameterModel();
+        if (generator != nullptr) delete generator;
+        createGenerator();
+        startUpdating();
     }
     
     void GUI::EditorView::onUpdateCustomFormula(CustomFormula& cf) {
