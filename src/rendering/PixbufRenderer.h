@@ -42,6 +42,8 @@ namespace sag {
             return img.getPixbuf();
         }
         
+        void saveImage(std::string filename);
+        
         void setColor(Color& c) { color = c; }
         inline const Color& getColor() const { return color; }
         

@@ -90,7 +90,7 @@ namespace sag {
 
 			RPN.push_back(parser.getRPN());
 
-			if (!validateRPN(RPN.back())) {
+			if (!validateRPN(RPN.back(), pc)) {
 				RPN.clear();
 				return false;
 			}
@@ -100,8 +100,21 @@ namespace sag {
 		this->formulas = formulas;
 		return true;
 	}
+    
+    bool UserDefined::validate(std::string formula, int pc) {
+        Lexer lexer;
+        Parser parser;
 
-	bool UserDefined::validateRPN(std::vector<Parser::Elem>& rpn) {
+        if (!lexer.tokenize(formula)) return false;
+
+        auto tokens = lexer.getTokens();
+        if (!parser.parse(tokens)) return false;
+        
+        auto rpn = parser.getRPN();
+        return validateRPN(rpn, pc);
+    }
+
+	bool UserDefined::validateRPN(std::vector<Parser::Elem>& rpn, int pc) {
 		Range<int> range(0, pc-1);
 		for (std::vector<Parser::Elem>::iterator it = rpn.begin(); it < rpn.end(); it++) {
 			if (it->type == Parser::PARAMETER && !range.contains(it->val.i)) return false;

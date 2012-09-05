@@ -28,8 +28,8 @@ namespace sag {
         
     protected:
     private:
-        static const int WIDTH = 900;
-        static const int HEIGHT = 600;
+        static const int WIDTH = 940;
+        static const int HEIGHT = 640;
         
         class FormulaEditor : public Gtk::Window {
         public:
@@ -92,11 +92,10 @@ namespace sag {
             Gtk::Table table;
             Gtk::VBox panel;
             Gtk::Label title;
-            Gtk::Button randomizeButton, loadButton;
+            Gtk::Button randomizeButton;
             std::vector<StandaloneAttractorView*> views;
             
             void randomizeAttractors();
-            void loadAttractor();
             bool onImageClick(GdkEventButton* evt, StandaloneAttractorView* view);
         };
         
@@ -136,7 +135,7 @@ namespace sag {
             AttractorEditor view;
             Gtk::VBox panel;
             Gtk::Label title;
-            Gtk::Button returnButton;
+
             Gtk::Expander shapeExpander, appearanceExpander;
             Gtk::Table shapeTable, appearanceTable;
             
@@ -155,6 +154,8 @@ namespace sag {
             Gtk::CellRendererSpin parameterRenderer;
             Gtk::TreeViewColumn parameterColumn;
             Glib::RefPtr<Gtk::ListStore> parameterModel;
+            
+            Gtk::Button randomizeButton;
             
             Gtk::Label iterationsLabel;
             Gtk::Adjustment iterationsAdjustment;
@@ -175,11 +176,15 @@ namespace sag {
             
             Gtk::CheckButton blurCheck;
             
+            Gtk::HBox actionsBox;
+            Gtk::Button returnButton;
+            Gtk::Button exportButton;
+            
             Gtk::HBox progressBox;
             Gtk::ProgressBar progress;
             Gtk::Button abortButton;
 
-            void setFormula(Formula* Ref);
+            void setFormula(Formula* f);
             
             void createGenerator();
             void createFormulaModel();
@@ -187,6 +192,8 @@ namespace sag {
             void updateParameterModel();
             
             void onEditFormulaClick();
+            
+            void onRandomizeClick();
             
             void onUpdateCustomFormula(CustomFormula& cf);
             void onSetCustomFormula();
@@ -200,6 +207,8 @@ namespace sag {
             void onChangeColorShift();
 
             void onToggleBlur();
+            
+            void onExportClick();
             
             void onProgress();
             void onAbortClick();
