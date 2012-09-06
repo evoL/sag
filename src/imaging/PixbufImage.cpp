@@ -31,27 +31,7 @@ namespace sag {
         }
     }
     
-    void PixbufImage::resize(unsigned int w, unsigned int h) {
-        // TODO: perform an actual resize
-        
-        pixbuf.reset();
-        delete[] buffer;
-        
-        width = w;
-        height = h;
-        
-        int size = w * h * 3;
-        
-        buffer = new unsigned char[size];
-        for (int i=size-1; i>=0; --i) buffer[i] = 0;
-        
-        stride = width * 3 * sizeof(unsigned char);
-        
-        pixbuf = Gdk::Pixbuf::create_from_data(const_cast<const unsigned char*>(buffer), Gdk::COLORSPACE_RGB, false, 8, width, height, stride);
-    }
-    
-    // Adapted from Mario Klingemann's Superfast Blur
-    // http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html
+    // Box blur
     void PixbufImage::blur(int radius) {
         if (radius<1) return;
         

@@ -8,14 +8,34 @@
 #include <glibmm/dispatcher.h>
 
 namespace sag {
+    /**
+     * @brief Displays an attractor and refreshes it quite often.
+     */
     class AttractorEditor : public AttractorView {
-    public:        
+    public:
+        /**
+         * @brief Constructs the object.
+         *
+         * @param r The renderer.
+         */
         AttractorEditor(PixbufRenderer &r);
-        virtual ~AttractorEditor() {}
+        virtual ~AttractorEditor() {} ///< The destructor.
         
+        /**
+         * @brief Starts refreshing the view.
+         */
         void start();
+        
+        /**
+         * @brief Stops refreshing the view.
+         */
         void stop();
         
+        /**
+         * @brief Checks whether the view is refreshing.
+         *
+         * @returns True or false.
+         */
         inline bool isRunning() { return drawing; }
         
         Glib::Dispatcher onTick;

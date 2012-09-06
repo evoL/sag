@@ -8,12 +8,12 @@
 
 namespace sag {
     /**
-     * @brief Array of all names of available formulas
+     * @brief Array of available formulas' names
      */
     const std::vector<std::string> FORMULA_NAMES = {@FORMULA_NAMES_ARRAY@};
 
     /**
-     * @brief Creates formula basing on its name.
+     * @brief Creates formula by name.
      *
      * @param name Formula name
      *
@@ -22,7 +22,7 @@ namespace sag {
     Formula* createFormula(const std::string& name);
     
     /**
-     * @brief Creates formula basing on its name and initializes it with parameters.
+     * @brief Creates formula by name and initializes it with parameters.
      *
      * @param name Formula name
      * @param params Parameters

@@ -6,6 +6,9 @@
 #include "utils/Grid.h"
 
 namespace sag {
+    /**
+     * @brief Represents an Image using a Gdk::Pixbuf.
+     */
     class PixbufImage : public Image {        
         unsigned char *buffer;
         Glib::RefPtr<Gdk::Pixbuf> pixbuf;
@@ -18,7 +21,6 @@ namespace sag {
         virtual void toFile(std::string filename);
         
         virtual void clear();
-        virtual void resize(unsigned int w, unsigned int h);
         
         virtual void blur(int radius);
         
@@ -28,6 +30,11 @@ namespace sag {
         
         virtual void setPixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
         
+        /**
+         * @brief Returns the pixbuf.
+         *
+         * @returns A Glib::RefPtr to the pixbuf.
+         */
         const Glib::RefPtr<Gdk::Pixbuf> getPixbuf() { return pixbuf; }
     };
 }

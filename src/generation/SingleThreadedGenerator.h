@@ -8,6 +8,9 @@
 #include "utils/Particle.h"
 
 namespace sag {
+    /**
+     * @brief A Generator that works on a separate thread.
+     */
 	class SingleThreadedGenerator : public Generator {
 	public:
         SingleThreadedGenerator(Formula& f, Renderer& r, int iter, bool if3D=false): Generator(f, r, iter, if3D) {}

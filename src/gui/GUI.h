@@ -11,6 +11,9 @@
 #include "rendering/PixbufRenderer.h"
 
 namespace sag {
+    /**
+     * @brief The whole graphical user interface to the program.
+     */
     class GUI : public Gtk::Window {
     public:
         struct CustomFormula {
