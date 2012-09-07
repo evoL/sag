@@ -11,6 +11,9 @@
 #include "rendering/PixbufRenderer.h"
 
 namespace sag {
+    /**
+     * @brief The whole graphical user interface to the program.
+     */
     class GUI : public Gtk::Window {
     public:
         struct CustomFormula {
@@ -175,6 +178,7 @@ namespace sag {
             Gtk::HScale colorShiftScale;
             
             Gtk::CheckButton blurCheck;
+            Gtk::CheckButton antialiasCheck;
             
             Gtk::HBox actionsBox;
             Gtk::Button returnButton;
@@ -207,6 +211,7 @@ namespace sag {
             void onChangeColorShift();
 
             void onToggleBlur();
+            void onToggleAntialias();
             
             void onExportClick();
             

@@ -181,7 +181,7 @@ namespace sag {
          *
          * @param x The coordinate on the x-axis
 		 * @param y The coordinate on the y-axis
-		 * @param z (optional) The coordinate on the z-axis. by default set to 0.
+		 * @param z (optional) The coordinate on the z-axis. By default set to 0.
 		 *
 		 * @returns Reset vector
          */

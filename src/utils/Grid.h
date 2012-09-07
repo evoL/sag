@@ -116,9 +116,17 @@ namespace sag {
          */
         inline const Info& getInfo() const { return info; }
         
+        /**
+         * @brief Specifies if antialiasing should be used
+         *
+         * @param aa True if antialiasing should be enabled, false otherwise.
+         */
+        void setAntialias(bool aa) { antialiased = aa; }
+        
     private:
         double *values;
         
+        bool antialiased;
         bool calculated;
         Info info;
         

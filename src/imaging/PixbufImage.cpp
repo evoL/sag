@@ -31,27 +31,7 @@ namespace sag {
         }
     }
     
-    void PixbufImage::resize(unsigned int w, unsigned int h) {
-        // TODO: perform an actual resize
-        
-        pixbuf.reset();
-        delete[] buffer;
-        
-        width = w;
-        height = h;
-        
-        int size = w * h * 3;
-        
-        buffer = new unsigned char[size];
-        for (int i=size-1; i>=0; --i) buffer[i] = 0;
-        
-        stride = width * 3 * sizeof(unsigned char);
-        
-        pixbuf = Gdk::Pixbuf::create_from_data(const_cast<const unsigned char*>(buffer), Gdk::COLORSPACE_RGB, false, 8, width, height, stride);
-    }
-    
-    // Adapted from Mario Klingemann's Superfast Blur
-    // http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html
+    // Box blur
     void PixbufImage::blur(int radius) {
         if (radius<1) return;
         
@@ -74,7 +54,7 @@ namespace sag {
         
         yw = yi = 0;
         
-        for (y = 0; y < height; y++) {
+        for (y = 0; y < (int)height; y++) {
             rsum = gsum = bsum = 0;
             for (i = -radius; i <= radius; i++) {
                 p = (yi + MIN(wm, MAX(i,0))) * 3;
@@ -82,7 +62,7 @@ namespace sag {
                 gsum += buffer[p+1];
                 bsum += buffer[p+2];
             }
-            for (x = 0; x < width; x++) {
+            for (x = 0; x < (int)width; x++) {
                 r[yi] = dv[rsum];
                 g[yi] = dv[gsum];
                 b[yi] = dv[bsum];
@@ -103,7 +83,7 @@ namespace sag {
             yw += width;
         }
         
-        for (x = 0; x < width; x++) {
+        for (x = 0; x < (int)width; x++) {
             rsum = gsum = bsum = 0;
             yp = -radius * width;
             for (i = -radius; i <= radius; i++) {
@@ -116,7 +96,7 @@ namespace sag {
             
             yi = x;
             
-            for (y = 0; y < height; y++) {
+            for (y = 0; y < (int)height; y++) {
                 buffer[yi*3] = dv[rsum];
                 buffer[yi*3 + 1] = dv[gsum];
                 buffer[yi*3 + 2] = dv[bsum];

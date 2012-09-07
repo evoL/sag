@@ -21,7 +21,7 @@
 
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
-        set_title("Pierdut HD 3D");
+        set_title("Pierdut HD 5000");
         
         Gdk::Geometry hints;
         hints.min_width = WIDTH;
@@ -292,6 +292,11 @@ namespace sag {
         blurCheck.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onToggleBlur));
         appearanceTable.attach(blurCheck, 0, 1, 4, 5);
         
+        antialiasCheck.set_label("Antialiasing");
+        antialiasCheck.set_active(true);
+        antialiasCheck.signal_toggled().connect(sigc::mem_fun(*this, &EditorView::onToggleAntialias));
+        appearanceTable.attach(antialiasCheck, 1, 3, 4, 5);
+        
         ///////////////////////////////////////////////////////
         
         progressBox.set_border_width(5);
@@ -521,11 +526,24 @@ namespace sag {
         startUpdating();
     }
     
+    void GUI::EditorView::onToggleAntialias() {
+        stopUpdating();
+        
+        renderer.setAntialias(antialiasCheck.get_active());
+        
+        startUpdating();
+    }
+    
     void GUI::EditorView::onExportClick() {
+        static Glib::ustring directory = Glib::get_home_dir();
+        
+        bool wasRunning = view.isRunning();
+        
         view.stop();
         
         Gtk::FileChooserDialog dialog(*gui, "Save image", Gtk::FILE_CHOOSER_ACTION_SAVE);
         dialog.set_transient_for(*gui);
+        dialog.set_current_folder(directory);
         
         dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
         dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
@@ -541,10 +559,11 @@ namespace sag {
         dialog.add_filter(filterAny);
         
         if (dialog.run() == Gtk::RESPONSE_OK) {
+            directory = Glib::path_get_dirname(dialog.get_filename());
             renderer.saveImage(dialog.get_filename());
         }
         
-        view.start();
+        if (wasRunning) view.start();
     }
     
     void GUI::EditorView::onProgress() {
@@ -600,7 +619,21 @@ namespace sag {
             // Update the parameter
             auto params = formula->getParameters();
             params[index] = value;
-            Formula *f = createFormula(formula->name(), params);
+            
+            auto boxit = formulaBox.get_active();
+            auto boxrow = *boxit;
+            
+            std::string name = boxrow.get_value(formulaColumns.formula);
+            
+            int offset = name.find("Custom");
+            Formula *f;
+            if ((offset != (int)std::string::npos) && (offset == 0)) {
+                f = new UserDefined(params);
+                CustomDistribution dstr(customFormula.distribution);
+                ((UserDefined*) f)->set(customFormula.formulas, customFormula.distribution.size(), dstr, customFormula.name);
+            } else {
+                f = createFormula(formula->name(), params);
+            }
             setFormula(f);
             
             startUpdating();

@@ -6,8 +6,14 @@
 #include "rendering/PixbufRenderer.h"
 
 namespace sag {
+    /**
+     * @brief Displays an attractor.
+     */
     class AttractorView : public Gtk::DrawingArea {
     public:
+        /**
+         * @brief The events the AttractorView can respond to.
+         */
         enum Events {
             NO_EVENT          = 0,
             HOVER_EVENT       = 1 << 0,
@@ -17,11 +23,27 @@ namespace sag {
             ALL_EVENTS        = 15
         };
         
+        /**
+         * @brief Constructs an AttractorView using the specified renderer.
+         *
+         * @param r The PixbufRenderer to use.
+         * @param evts Events that the view should respond to.
+         */
         AttractorView(PixbufRenderer& r, Events evts = NO_EVENT);
         virtual ~AttractorView() {}
         
+        /**
+         * @brief Sets whether the view is hovered by the mouse.
+         *
+         * @param hovered True or false.
+         */
         inline void setHovered(bool hovered) { isMouseOver = hovered; }
         
+        /**
+         * @brief Gets the renderer.
+         *
+         * @returns The PixbufRenderer.
+         */
         inline PixbufRenderer& getRenderer() { return *renderer; }
     protected:
         PixbufRenderer *renderer;

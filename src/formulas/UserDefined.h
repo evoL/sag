@@ -7,6 +7,9 @@
 #include "generation/CustomDistribution.h"
 
 namespace sag {
+    /**
+     * @brief A special kind of Formula that allows the user to use their own formula.
+     */
 	class UserDefined : public Formula {
 	public:
 		UserDefined(): Formula(), pc(0), _is3D(false), isSet(false) {}
@@ -24,11 +27,31 @@ namespace sag {
 		virtual inline int paramCount() const;
 		virtual const ParamDistribution& getDistribution() const;
 
+        /**
+         * @brief Sets the formula as specified by the user.
+         *
+         * @param formulas Formulas for every coordinate.
+         * @param paramCount How many parameters are there.
+         * @param distribution The parameter distribution.
+         * @param fname The formula name.
+         *
+         * @returns True, if the provided data is valid.
+         */
 		bool set(std::vector<std::string> formulas, int paramCount, CustomDistribution& distribution, std::string fname);
         
+        /**
+         * @brief Validates a single formula.
+         *
+         * @param formula The formula.
+         * @param pc The formula's parameter count.
+         */
         static bool validate(std::string formula, int pc);
 
 	protected:
+        
+        /**
+         * @brief The Lexer.
+         */
 		class Lexer {
 		public:
 			enum Tokens {
@@ -58,8 +81,20 @@ namespace sag {
 				number n;
 			};
 
+            /**
+             * @brief Splits the formula into tokens.
+             *
+             * @param in The formula.
+             *
+             * @returns True, if there were no errors.
+             */
 			bool tokenize(std::string in);
 
+            /**
+             * @brief Returns the tokens.
+             *
+             * @returns A vector of tokens.
+             */
 			std::vector<Token> getTokens();
 
 		private:
@@ -70,6 +105,9 @@ namespace sag {
 			static constexpr number E = 2.71828182846;
 		};
 
+        /**
+         * @brief The Parser
+         */
 		class Parser {
 		public:
 			typedef double (*unary_function)(double);
@@ -100,8 +138,20 @@ namespace sag {
 				Value val;
 			};
 
+            /**
+             * @brief Parses the tokens into Reverse Polish Notation.
+             *
+             * @param tokens A std::vector of Tokens
+             *
+             * @returns True, if there were no errors
+             */
 			bool parse(std::vector<Lexer::Token>& tokens);
 
+            /**
+             * @brief Returns the Reverse Polish Notation
+             *
+             * @returns The RPN.
+             */
 			std::vector<Elem> getRPN();
 
 		private:

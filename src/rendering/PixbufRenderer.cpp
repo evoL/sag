@@ -65,4 +65,10 @@ namespace sag {
     void PixbufRenderer::saveImage(std::string filename) {
         img.toFile(filename);
     }
+    
+    void PixbufRenderer::setAntialias(bool aa) {
+        positionGrid.setAntialias(aa);
+        velocityGrid.setAntialias(aa);
+        accelerationGrid.setAntialias(aa);
+    }
 }

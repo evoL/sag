@@ -27,7 +27,7 @@ namespace sag {
 	
 	void SingleThreadedGenerator::iterate(std::vector<Particle> v) {
 		int i = 0;
-		int offset;
+		int offset = 0;
 		if (ttl > 0) offset = ttl / particleCount;
         while (running && ((iterations == UNLIMITED_ITERATIONS) || (i < iterations))) {
         	for (int j=0; j < particleCount; j++) {

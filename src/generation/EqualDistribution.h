@@ -6,9 +6,24 @@
 #include "utils/types.h"
 
 namespace sag {
+    /**
+     * @brief A ParamDistribution where every parameter has the same bounds.
+     */
     class EqualDistribution : public ParamDistribution {
     public:
+        /**
+         * @brief Constructs the distribution using a Range.
+         *
+         * @param range A range.
+         */
         EqualDistribution(Range<number>& range): range(range) {}
+        
+        /**
+         * @brief Constructs the distribution with its bounds specified.
+         *
+         * @number from The lower bound.
+         * @number to The upper bound.
+         */
         EqualDistribution(number from, number to): range(from, to) {}
         
         virtual ~EqualDistribution() {}

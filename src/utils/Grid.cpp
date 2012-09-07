@@ -3,6 +3,7 @@
 namespace sag {
     Grid::Grid(int width, int height):
         size(width, height),
+        antialiased(true),
         calculated(false)
     {
         values = new double[width*height];
@@ -45,20 +46,24 @@ namespace sag {
         int ix = (int) x;
         int iy = (int) y;
         
-        // linear filtering
-        float xfrac = x - ix;
-        float yfrac = y - iy;
-        float ixfrac = 1 - xfrac;
-        float iyfrac = 1 - yfrac;
-        
-        if (size.contains(ix, iy))
-            values[index(ix, iy)]     += ixfrac * iyfrac * value;
-        if (size.contains(ix+1, iy))
-            values[index(ix+1, iy)]   +=  xfrac * iyfrac * value;
-        if (size.contains(ix, iy+1))
-            values[index(ix, iy+1)]   += ixfrac *  yfrac * value;
-        if (size.contains(ix+1, iy+1))
-            values[index(ix+1, iy+1)] +=  xfrac *  yfrac * value;
+        if (antialiased) {
+            // linear filtering
+            float xfrac = x - ix;
+            float yfrac = y - iy;
+            float ixfrac = 1 - xfrac;
+            float iyfrac = 1 - yfrac;
+            
+            if (size.contains(ix, iy))
+                values[index(ix, iy)]     += ixfrac * iyfrac * value;
+            if (size.contains(ix+1, iy))
+                values[index(ix+1, iy)]   +=  xfrac * iyfrac * value;
+            if (size.contains(ix, iy+1))
+                values[index(ix, iy+1)]   += ixfrac *  yfrac * value;
+            if (size.contains(ix+1, iy+1))
+                values[index(ix+1, iy+1)] +=  xfrac *  yfrac * value;
+        } else {
+            if (size.contains(ix, iy)) values[index(x,y)] += value;
+        }
         
         calculated = false;
         return *this;
