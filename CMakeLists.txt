@@ -16,7 +16,7 @@ function(add_macro str)
 endfunction()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    find_package(Boost 1.50 REQUIRED COMPONENTS thread chrono)
+    find_package(Boost 1.50 REQUIRED COMPONENTS system thread chrono)
     add_macro("HAS_BOOST")
     add_macro("THREAD_NAMESPACE=boost")
 else()

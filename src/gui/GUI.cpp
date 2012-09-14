@@ -19,6 +19,10 @@
 
 #endif
 
+#ifdef HAS_BOOST
+#include <boost/lexical_cast.hpp>
+#endif
+
 namespace sag {
     GUI::GUI(): chooser(this), editor(this) {
         set_title("Pierdut HD 5000");
@@ -775,8 +779,13 @@ namespace sag {
             // Select the rows
             auto selection = dstrView.get_selection();
             selection->set_mode(Gtk::SELECTION_MULTIPLE);
+#ifdef HAS_BOOST
+            Gtk::TreePath start( boost::lexical_cast<std::string>( count ) );
+            Gtk::TreePath end(boost::lexical_cast<std::string>(children.size() - 1) );
+#else            
             Gtk::TreePath start( std::to_string( count ) );
             Gtk::TreePath end( std::to_string(children.size() - 1) );
+#endif            
             selection->select(start, end);
             
             // Make references from selection
