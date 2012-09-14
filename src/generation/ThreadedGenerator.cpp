@@ -22,16 +22,16 @@ namespace sag {
 
         // The initial point is always the starting point
         initials[0] = formula->getStartPoint();
-		threads[0] = std::thread(&ThreadedGenerator::iterate, this, initials[0], 0);
+		threads[0] = THREAD_NAMESPACE::thread(&ThreadedGenerator::iterate, this, initials[0], 0);
         
         // The rest are random
 		for (int i=1; i<particleCount; i++) {
 			initials[i] = bounds.getRandomVector(if3D);
-			threads[i] = std::thread(&ThreadedGenerator::iterate, this, initials[i], i);
+			threads[i] = THREAD_NAMESPACE::thread(&ThreadedGenerator::iterate, this, initials[i], i);
 		}
 		
 		if (threadController.joinable()) threadController.join();
-		threadController = std::thread(&ThreadedGenerator::controlThreads, this);
+		threadController = THREAD_NAMESPACE::thread(&ThreadedGenerator::controlThreads, this);
 		
 	}
 	

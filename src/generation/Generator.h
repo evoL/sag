@@ -6,7 +6,6 @@
 #include "utils/Particle.h"
 #include "formulas/Formula.h"
 #include "rendering/Renderer.h"
-#include <atomic>
 
 namespace sag {
     /**

@@ -4,9 +4,16 @@
 #ifndef CONCURRENT_QUEUE_H
 #define CONCURRENT_QUEUE_H
 
-#include <mutex>
 #include <queue>
-#include <condition_variable>
+
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/thread/locks.hpp>
+#  include <boost/thread/mutex.hpp>
+#  include <boost/thread/condition_variable.hpp>
+#else
+#  include <mutex>
+#  include <condition_variable>
+#endif
 
 namespace sag {
 	/**
@@ -26,7 +33,7 @@ namespace sag {
 		 * @param newValue The element to be placed.
 		 */
 		void push(T newValue) {
-			std::lock_guard<std::mutex> lk(mut);
+			THREAD_NAMESPACE::lock_guard<THREAD_NAMESPACE::mutex> lk(mut);
 			dataQueue.push(std::move(newValue));
 			dataCond.notify_one();
 		}
@@ -37,7 +44,7 @@ namespace sag {
 		 * @param value Variable where the result is to be stored.
 		 */
 		void waitAndPop(T& value) {
-			std::unique_lock<std::mutex> lk(mut);
+			THREAD_NAMESPACE::unique_lock<THREAD_NAMESPACE::mutex> lk(mut);
 			dataCond.wait(lk, [this]{ return !dataQueue.empty(); });
 			value = std::move(dataQueue.front());
 			dataQueue.pop();
@@ -51,7 +58,7 @@ namespace sag {
 		 * @returns True if the operation succeeds.
 		 */
 		bool tryPop(T& value) {
-			std::lock_guard<std::mutex> lk(mut);
+			THREAD_NAMESPACE::lock_guard<THREAD_NAMESPACE::mutex> lk(mut);
 			if (dataQueue.empty()) return false;
 			value = std::move(dataQueue.front());
 			dataQueue.pop();
@@ -64,7 +71,7 @@ namespace sag {
 		 * @returns True if queue is empty
 		 */
 		bool empty() const {
-			std::lock_guard<std::mutex> lk(mut);
+			THREAD_NAMESPACE::lock_guard<THREAD_NAMESPACE::mutex> lk(mut);
 			return dataQueue.empty();
 		}
 		
@@ -72,15 +79,15 @@ namespace sag {
 		 * @brief Clears queue.
 		 */
 		void clear() {
-			std::lock_guard<std::mutex> lk(mut);
+			THREAD_NAMESPACE::lock_guard<THREAD_NAMESPACE::mutex> lk(mut);
 			while (!dataQueue.empty())
 				dataQueue.pop();
 		}
 
 	private:
-		mutable std::mutex mut;
+		mutable THREAD_NAMESPACE::mutex mut;
 		std::queue<T> dataQueue;
-		std::condition_variable dataCond;
+		THREAD_NAMESPACE::condition_variable dataCond;
 	};
 
 }

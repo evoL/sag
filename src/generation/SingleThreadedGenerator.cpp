@@ -22,7 +22,7 @@ namespace sag {
 		}
 		
 		if (thread.joinable()) thread.join();
-		thread = std::thread(&SingleThreadedGenerator::iterate, this, initials);
+		thread = THREAD_NAMESPACE::thread(&SingleThreadedGenerator::iterate, this, initials);
 	}
 	
 	void SingleThreadedGenerator::iterate(std::vector<Particle> v) {

@@ -5,7 +5,12 @@
 
 #include "generation/Generator.h"
 #include <vector>
-#include <thread>
+
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/thread.hpp>
+#else
+#  include <thread>
+#endif
 
 namespace sag {
     /**
@@ -19,8 +24,8 @@ namespace sag {
 		void run();
 	
 	private:
-		std::vector<std::thread> threads;
-		std::thread threadController;
+		std::vector<THREAD_NAMESPACE::thread> threads;
+		THREAD_NAMESPACE::thread threadController;
 
 		void iterate(Particle &p, int n);
 		

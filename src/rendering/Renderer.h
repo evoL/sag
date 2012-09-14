@@ -1,10 +1,14 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <queue>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/thread.hpp>
+#else
+#  include <thread>
+#  include <mutex>
+#  include <condition_variable>
+#endif
+
 #include "utils/types.h"
 #include "utils/Bounds.h"
 #include "utils/Particle.h"
@@ -106,9 +110,9 @@ namespace sag {
 	protected:
         Bounds<number> bounds;
 		ConcurrentQueue<Particle> queue;
-		std::thread receivingThread;
-		mutable std::mutex receivingMutex;
-        std::condition_variable waitingCV;
+		THREAD_NAMESPACE::thread receivingThread;
+		mutable THREAD_NAMESPACE::mutex receivingMutex;
+        THREAD_NAMESPACE::condition_variable waitingCV;
 		volatile bool expectParticles;
 		volatile bool receiving;
 		volatile int receivedParticleCount;

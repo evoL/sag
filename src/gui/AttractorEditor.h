@@ -3,9 +3,13 @@
 
 #include "gui/AttractorView.h"
 #include "rendering/PixbufRenderer.h"
-#include <thread>
-#include <atomic>
 #include <glibmm/dispatcher.h>
+
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/thread.hpp>
+#else
+#  include <thread>
+#endif
 
 namespace sag {
     /**
@@ -43,8 +47,8 @@ namespace sag {
         void redraw();
         void invalidate();
 
-        std::thread refresher;
-        std::atomic<bool> drawing;
+        THREAD_NAMESPACE::thread refresher;
+        bool drawing;
     };
 }
 

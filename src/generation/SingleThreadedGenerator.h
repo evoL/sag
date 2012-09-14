@@ -2,10 +2,15 @@
 #define SAG_SINGLE_THREADED_GENERATOR_H
 
 #include "generation/Generator.h"
-#include <vector>
-#include <thread>
-#include <string>
 #include "utils/Particle.h"
+#include <vector>
+#include <string>
+
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/thread.hpp>
+#else
+#  include <thread>
+#endif
 
 namespace sag {
     /**
@@ -21,7 +26,7 @@ namespace sag {
 		void run();
         
 	private:
-        std::thread thread;
+        THREAD_NAMESPACE::thread thread;
         
 		void iterate(std::vector<Particle> v);
 	};

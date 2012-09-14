@@ -1,6 +1,10 @@
 #include "gui/AttractorEditor.h"
 
-#include <chrono>
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/chrono.hpp>
+#else
+#  include <chrono>
+#endif
 
 namespace sag {
     AttractorEditor::AttractorEditor(PixbufRenderer &r):
@@ -14,7 +18,7 @@ namespace sag {
         if (drawing) return;
         
         drawing = true;
-        refresher = std::thread(&AttractorEditor::redraw, this);
+        refresher = THREAD_NAMESPACE::thread(&AttractorEditor::redraw, this);
     }
     
     void AttractorEditor::stop() {
@@ -28,7 +32,7 @@ namespace sag {
         while (drawing) {
             renderer->render();
             onTick();
-            std::this_thread::sleep_for(std::chrono::milliseconds(16));
+            THREAD_NAMESPACE::this_thread::sleep_for(THREAD_NAMESPACE::chrono::milliseconds(16));
         }
     }
     

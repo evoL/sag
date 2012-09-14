@@ -1,6 +1,10 @@
 #include "rendering/Renderer.h"
-#include <chrono>
-#include <thread>
+
+#if defined(HAS_BOOST) && THREAD_NAMESPACE == boost
+#  include <boost/chrono.hpp>
+#else
+#  include <chrono>
+#endif
 
 namespace sag {
 	void Renderer::enqueueParticle(const Particle& p) {
@@ -13,8 +17,8 @@ namespace sag {
     
     void Renderer::wait() {
     	if (receiving) {
-			std::mutex waitingMutex;
-			std::unique_lock<std::mutex> waitingLock(waitingMutex);
+			THREAD_NAMESPACE::mutex waitingMutex;
+			THREAD_NAMESPACE::unique_lock<THREAD_NAMESPACE::mutex> waitingLock(waitingMutex);
 			waitingCV.wait(waitingLock);
     	}
 
@@ -40,7 +44,7 @@ namespace sag {
 			receiving = true;
 			receivedParticleCount = 0;
 			if (receivingThread.joinable()) receivingThread.join();
-			receivingThread = std::thread(&Renderer::receiveParticles, this);
+			receivingThread = THREAD_NAMESPACE::thread(&Renderer::receiveParticles, this);
 		}
 	}
 	
@@ -53,7 +57,7 @@ namespace sag {
 				receivedParticleCount++;
 				receivingMutex.unlock();
 			} else {
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				THREAD_NAMESPACE::this_thread::sleep_for(THREAD_NAMESPACE::chrono::milliseconds(1));
 			}
 		}
 	}

@@ -7,13 +7,31 @@ set (CMAKE_BUILD_TYPE Release)
 
 include("preprocessing.cmake")
 
+function(add_macro str)
+    if(${MSVC})
+        add_definitions("/D${str}")
+    else()
+        add_definitions("-D${str}")
+    endif()
+endfunction()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    find_package(Boost 1.50 REQUIRED COMPONENTS thread chrono)
+    add_macro("HAS_BOOST")
+    add_macro("THREAD_NAMESPACE=boost")
+else()
+    add_macro("THREAD_NAMESPACE=std")
+endif()
+
 find_package(GTK2 2.20 REQUIRED gtk gtkmm)
 
 set (INCLUDES
     ${GTK2_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 )
 set (LIBRARIES
     ${GTK2_LIBRARIES}
+    ${Boost_LIBRARIES}
 )
 
 add_definitions("-std=c++0x")
