@@ -22,8 +22,11 @@ install_manifest.txt
 *.build/
 *.xcodeproj
 
-# Binaries
+# Package
 bin/
+etc/
+lib/
+share/
 
 # Image
 *.png
